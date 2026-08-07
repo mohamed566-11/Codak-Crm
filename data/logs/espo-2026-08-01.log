@@ -1,0 +1,52 @@
+[2026-08-01 12:48:02] ERROR: (2002) Uncaught Exception PDOException: "SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\PDO\MysqlPDOFactory.php line 73 
+[object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/PDO/MysqlPDOFactory.php:73)
+[2026-08-01 12:48:05] ERROR: (2002) Uncaught Exception PDOException: "SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\PDO\MysqlPDOFactory.php line 73 
+[object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/PDO/MysqlPDOFactory.php:73)
+[2026-08-01 12:48:20] ERROR: (2002) Uncaught Exception PDOException: "SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\PDO\MysqlPDOFactory.php line 73 
+[object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/PDO/MysqlPDOFactory.php:73)
+[2026-08-01 12:48:42] ERROR: (2002) Uncaught Exception PDOException: "SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\PDO\MysqlPDOFactory.php line 73 
+[object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/PDO/MysqlPDOFactory.php:73)
+[2026-08-01 12:48:57] ERROR: (2002) Uncaught Exception PDOException: "SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\PDO\MysqlPDOFactory.php line 73 
+[object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/PDO/MysqlPDOFactory.php:73)
+[2026-08-01 12:51:59] ERROR: (2002) Uncaught Exception PDOException: "SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\PDO\MysqlPDOFactory.php line 73 
+[object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/PDO/MysqlPDOFactory.php:73)
+[2026-08-01 12:52:33] ERROR: (2002) Uncaught Exception PDOException: "SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\PDO\MysqlPDOFactory.php line 73 
+[object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/PDO/MysqlPDOFactory.php:73)
+[2026-08-01 13:31:08] ERROR: (0) Uncaught Exception RuntimeException: "Entity ID is not set." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\BaseEntity.php line 124 
+[object] (RuntimeException(code: 0): Entity ID is not set. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/BaseEntity.php:124)
+[2026-08-01 13:31:27] ERROR: (0) Uncaught Exception RuntimeException: "Entity ID is not set." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\BaseEntity.php line 124 
+[object] (RuntimeException(code: 0): Entity ID is not set. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/BaseEntity.php:124)
+[2026-08-01 13:31:45] ERROR: (0) Uncaught Exception RuntimeException: "Entity ID is not set." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\BaseEntity.php line 124 
+[object] (RuntimeException(code: 0): Entity ID is not set. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/BaseEntity.php:124)
+[2026-08-01 13:31:58] ERROR: (0) Uncaught Exception RuntimeException: "Entity ID is not set." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\BaseEntity.php line 124 
+[object] (RuntimeException(code: 0): Entity ID is not set. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/BaseEntity.php:124)
+[2026-08-01 13:32:02] ERROR: (0) Uncaught Exception RuntimeException: "Entity ID is not set." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\BaseEntity.php line 124 
+[object] (RuntimeException(code: 0): Entity ID is not set. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/BaseEntity.php:124)
+[2026-08-01 13:32:13] ERROR: (0) Uncaught Exception RuntimeException: "Entity ID is not set." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\BaseEntity.php line 124 
+[object] (RuntimeException(code: 0): Entity ID is not set. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/BaseEntity.php:124)
+[2026-08-01 13:44:01] ERROR: (0) Uncaught Exception RuntimeException: "Could not load 'Espo\Modules\Crm\Classes\Acl\Task\LinkCheckers\ParentLinkChecker' service." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\Core\Container.php line 353 
+[object] (RuntimeException(code: 0): Could not load 'Espo\Modules\Crm\Classes\Acl\Task\LinkCheckers\ParentLinkChecker' service. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/Core/Container.php:353)
+[2026-08-01 13:44:25] ERROR: (0) Uncaught Exception RuntimeException: "User must be fetched before ACL check." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\Core\Acl\Table\DefaultTable.php line 110 
+[object] (RuntimeException(code: 0): User must be fetched before ACL check. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/Core/Acl/Table/DefaultTable.php:110)
+[2026-08-01 13:48:15] WARNING: E_WARNING: rename(data\tmp\tmp2904.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)
+[2026-08-01 13:51:48] ERROR: (0) Uncaught Exception ReflectionException: "Property Espo\Core\Acl\ScopeData::$read does not exist" at D:\laragon\www\EspoCRM-10.0.3\scratch\test_meeting_acl_live.php line 23 
+[object] (ReflectionException(code: 0): Property Espo\Core\Acl\ScopeData::$read does not exist at D:/laragon/www/EspoCRM-10.0.3/scratch/test_meeting_acl_live.php:23)
+[2026-08-01 13:52:01] ERROR: (0) Uncaught Exception ReflectionException: "Property Espo\Core\Acl\ScopeData::$read does not exist" at D:\laragon\www\EspoCRM-10.0.3\scratch\test_meeting_acl_live.php line 28 
+[object] (ReflectionException(code: 0): Property Espo\Core\Acl\ScopeData::$read does not exist at D:/laragon/www/EspoCRM-10.0.3/scratch/test_meeting_acl_live.php:28)
+[2026-08-01 13:53:14] WARNING: E_WARNING: rename(data\tmp\tmpBBDF.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-08-01 14:02:14] WARNING: E_WARNING: rename(data\tmp\tmpF950.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-08-01 14:04:36] ERROR: (0) Uncaught Exception Error: "Typed property Espo\Core\Portal\Acl\DefaultOwnershipChecker::$metadataProvider must not be accessed before initialization" at D:\laragon\www\EspoCRM-10.0.3\application\Espo\Core\Portal\Acl\DefaultOwnershipChecker.php line 80 
+[object] (Error(code: 0): Typed property Espo\Core\Portal\Acl\DefaultOwnershipChecker::$metadataProvider must not be accessed before initialization at D:/laragon/www/EspoCRM-10.0.3/application/Espo/Core/Portal/Acl/DefaultOwnershipChecker.php:80)
+[2026-08-01 14:05:14] WARNING: E_WARNING: rename(data\tmp\tmpB858.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-08-01 14:24:31] WARNING: E_WARNING: rename(data\tmp\tmp6031.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-08-01 14:32:01] ERROR: (0) Uncaught Exception Error: "Call to undefined method Espo\Core\Utils\ThemeManager::getParam()" at C:\Users\Dell\.gemini\antigravity-ide\brain\f2f76273-041e-4c18-a4af-da99a8c80afc\scratch\test_category2_verification.php line 19 
+[object] (Error(code: 0): Call to undefined method Espo\Core\Utils\ThemeManager::getParam() at C:/Users/Dell/.gemini/antigravity-ide/brain/f2f76273-041e-4c18-a4af-da99a8c80afc/scratch/test_category2_verification.php:19)
+[2026-08-01 14:50:20] WARNING: E_WARNING: rename(data\tmp\tmp121.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-08-01 14:50:32] WARNING: E_WARNING: rename(data\tmp\tmp2E24.tmp,data/cache/application/classmapEntities.php): Access is denied (code: 5)
+[2026-08-01 14:50:32] WARNING: E_WARNING: rename(data\tmp\tmp2E45.tmp,data/cache/application/classmapEntities.php): Access is denied (code: 5)
+[2026-08-01 14:53:40] ERROR: (0) Uncaught Exception RuntimeException: "Could not load 'templateManager' service." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\Core\Container.php line 353 
+[object] (RuntimeException(code: 0): Could not load 'templateManager' service. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/Core/Container.php:353)
+[2026-08-01 15:07:43] WARNING: E_WARNING: rename(data\tmp\tmpEB4F.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-08-01 15:17:31] ERROR: (0) Uncaught Exception RuntimeException: "Repository 'Preferences' is not RDB." at D:\laragon\www\EspoCRM-10.0.3\application\Espo\ORM\EntityManager.php line 361 
+[object] (RuntimeException(code: 0): Repository 'Preferences' is not RDB. at D:/laragon/www/EspoCRM-10.0.3/application/Espo/ORM/EntityManager.php:361)
+[2026-08-01 15:21:08] WARNING: E_WARNING: rename(data\tmp\tmp35C1.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)

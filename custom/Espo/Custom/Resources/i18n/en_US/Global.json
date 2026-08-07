@@ -1,0 +1,10 @@
+{
+    "scopeNames": {
+        "HtmlPreview": "HTML Preview",
+        "AnalyticsDashboard": "Analytics Dashboard"
+    },
+    "scopeNamesPlural": {
+        "HtmlPreview": "HTML Preview",
+        "AnalyticsDashboard": "Analytics Dashboard"
+    }
+}

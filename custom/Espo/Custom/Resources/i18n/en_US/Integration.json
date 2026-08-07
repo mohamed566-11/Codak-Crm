@@ -1,0 +1,5 @@
+{
+    "help": {
+        "Google": "**Obtain OAuth 2.0 credentials from the Google Developers Console.**\n\nVisit [Google Developers Console](https://console.developers.google.com/project) to obtain OAuth 2.0 credentials such as a Client ID and Client Secret that are known to both Google and CodakCRM application."
+    }
+}

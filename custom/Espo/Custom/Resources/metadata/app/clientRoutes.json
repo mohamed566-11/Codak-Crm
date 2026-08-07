@@ -1,0 +1,14 @@
+{
+    "HtmlPreview": {
+        "params": {
+            "controller": "custom:controllers/html-preview",
+            "action": "index"
+        }
+    },
+    "AnalyticsDashboard": {
+        "params": {
+            "controller": "custom:controllers/analytics-dashboard",
+            "action": "index"
+        }
+    }
+}

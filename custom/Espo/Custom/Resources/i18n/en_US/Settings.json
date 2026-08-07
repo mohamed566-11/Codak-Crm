@@ -1,0 +1,14 @@
+{
+    "labels": {
+        "ldapCreateEspoUser": "Create User in CodakCRM"
+    },
+    "options": {
+        "adminNotificationsNewVersion": "Show notification when new CodakCRM version is available"
+    },
+    "tooltips": {
+        "siteUrl": "A URL of this CodakCRM instance. You need to change it if you move to another domain.",
+        "ldapCreateEspoUser": "This option allows CodakCRM to create a user from the LDAP.",
+        "ldapUserLoginFilter": "The filter which allows to restrict users who able to use CodakCRM.",
+        "b2cMode": "By default CodakCRM is adapted for B2B. You can switch it to B2C."
+    }
+}

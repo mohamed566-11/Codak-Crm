@@ -1,0 +1,5 @@
+{
+    "messages": {
+        "ldapUserInEspoNotFound": "User is not found in CodakCRM. Contact your administrator to create the user."
+    }
+}

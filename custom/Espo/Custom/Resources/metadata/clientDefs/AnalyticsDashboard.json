@@ -1,0 +1,4 @@
+{
+    "controller": "custom:controllers/analytics-dashboard",
+    "iconClass": "fas fa-chart-bar"
+}

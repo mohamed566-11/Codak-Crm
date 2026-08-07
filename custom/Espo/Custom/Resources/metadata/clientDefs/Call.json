@@ -1,0 +1,7 @@
+{
+    "recordViews": {
+        "detail": "custom:views/call/record/detail",
+        "edit": "custom:views/call/record/edit",
+        "list": "custom:views/call/record/list"
+    }
+}

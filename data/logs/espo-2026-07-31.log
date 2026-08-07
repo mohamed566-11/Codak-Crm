@@ -1,0 +1,6 @@
+[2026-07-31 20:04:07] ERROR: (0) Uncaught Exception RuntimeException: "Route collector cache file directory `data/cache/application` is not writable" at D:\laragon\www\EspoCRM-10.0.3\vendor\slim\slim\Slim\Routing\RouteCollector.php line 146 
+[object] (RuntimeException(code: 0): Route collector cache file directory `data/cache/application` is not writable at D:/laragon/www/EspoCRM-10.0.3/vendor/slim/slim/Slim/Routing/RouteCollector.php:146)
+[2026-07-31 20:04:07] ERROR: (0) Uncaught Exception RuntimeException: "Route collector cache file directory `data/cache/application` is not writable" at D:\laragon\www\EspoCRM-10.0.3\vendor\slim\slim\Slim\Routing\RouteCollector.php line 146 
+[object] (RuntimeException(code: 0): Route collector cache file directory `data/cache/application` is not writable at D:/laragon/www/EspoCRM-10.0.3/vendor/slim/slim/Slim/Routing/RouteCollector.php:146)
+[2026-07-31 20:04:12] WARNING: E_WARNING: rename(data\tmp\tmpFF8A.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)
+[2026-07-31 20:17:15] WARNING: E_WARNING: rename(data\tmp\tmpF006.tmp,data/cache/application/routes.php): Access is denied (code: 5)

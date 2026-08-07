@@ -1,0 +1,15 @@
+{
+    "fields": {
+        "name": {
+            "required": null
+        },
+        "convertedAt": {
+            "visible": null
+        }
+    },
+    "panels": {
+        "convertedTo": {
+            "visible": null
+        }
+    }
+}

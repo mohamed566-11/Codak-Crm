@@ -1,0 +1,36 @@
+/* CodakCRM — Custom Brand Theme & Color Palette */
+
+:root {
+    --codak-primary: #005a70;
+    --codak-primary-hover: #004557;
+    --codak-accent: #007c9b;
+    --codak-bg-light: #f4f7f9;
+}
+
+/* Primary Button Styling */
+.btn-primary,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--codak-primary) !important;
+    border-color: var(--codak-primary) !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--codak-primary-hover) !important;
+    border-color: var(--codak-primary-hover) !important;
+}
+
+/* Active Navigation Item Styling */
+#navbar .tabs > li.active > a,
+#navbar .tabs > li.active > a:hover,
+#navbar .tabs > li.active > a:focus {
+    border-left-color: var(--codak-primary) !important;
+    color: var(--codak-primary) !important;
+    font-weight: 600;
+}
+
+/* Accent Links */
+a, a:hover, a:focus {
+    color: var(--codak-primary);
+}

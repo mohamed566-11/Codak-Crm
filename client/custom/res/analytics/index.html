@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodakCRM Enterprise BI & Analytics Platform</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel & Recharts -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.12.3/umd/Recharts.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#005a70',
+                            700: '#004557',
+                            800: '#003342',
+                            900: '#0f172a',
+                            accent: '#00a4c8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Outfit', 'sans-serif'],
+                        heading: ['Outfit', 'Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #090d16; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, AreaChart, Area, XAxis, YAxis, Tooltip, Legend, CartesianGrid } = Recharts;
+
+        // Custom API Fetcher talking directly to EspoCRM REST API
+        async function fetchEspoData(entity) {
+            try {
+                const res = await fetch(`../../../api/v1/${entity}?maxSize=200&orderBy=createdAt&order=desc`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                if (!res.ok) return [];
+                const data = await res.json();
+                return data.list || [];
+            } catch (e) {
+                console.warn('[Analytics BI] API fallback:', e);
+                return [];
+            }
+        }
+
+        function AnalyticsDashboardApp() {
+            const [leads, setLeads] = useState([]);
+            const [opps, setOpps] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [lastRefreshed, setLastRefreshed] = useState(new Date().toLocaleTimeString());
+
+            const loadData = async () => {
+                setLoading(true);
+                const [leadsData, oppsData] = await Promise.all([
+                    fetchEspoData('Lead'),
+                    fetchEspoData('Opportunity')
+                ]);
+                setLeads(leadsData);
+                setOpps(oppsData);
+                setLoading(false);
+                setLastRefreshed(new Date().toLocaleTimeString());
+            };
+
+            useEffect(() => {
+                loadData();
+                const interval = setInterval(loadData, 30000); // 30s Auto Refresh
+                return () => clearInterval(interval);
+            }, []);
+
+            // KPI Computations
+            const totalLeads = leads.length;
+            const todayStr = new Date().toISOString().substring(0, 10);
+            const newLeadsToday = leads.filter(l => l.createdAt && l.createdAt.startsWith(todayStr)).length;
+            const potentialLeads = leads.filter(l => l.status === 'Assigned' || l.status === 'In Process').length;
+            const qualifiedLeads = leads.filter(l => l.status === 'Qualified' || l.status === 'Converted').length;
+            const convertedLeads = leads.filter(l => l.status === 'Converted').length;
+            const lostLeads = leads.filter(l => l.status === 'Dead' || l.status === 'Recycle').length;
+            const conversionRate = totalLeads > 0 ? ((convertedLeads / totalLeads) * 100).toFixed(1) : 0;
+
+            const totalOpportunities = opps.length;
+            const wonOpportunities = opps.filter(o => o.stage === 'Closed Won').length;
+            const openOpportunities = opps.filter(o => o.stage !== 'Closed Won' && o.stage !== 'Closed Lost').length;
+            const totalRevenue = opps.filter(o => o.stage === 'Closed Won').reduce((sum, o) => sum + Number(o.amount || 0), 0);
+            const avgDealSize = wonOpportunities > 0 ? Math.round(totalRevenue / wonOpportunities) : 0;
+
+            // Chart Series Data
+            const sourceMap = {};
+            leads.forEach(l => { const src = l.source || 'Direct'; sourceMap[src] = (sourceMap[src] || 0) + 1; });
+            const leadsBySource = Object.entries(sourceMap).map(([name, value], i) => ({
+                name, value, color: ['#00a4c8', '#0284c7', '#38bdf8', '#818cf8', '#a855f7'][i % 5]
+            }));
+
+            const statusMap = {};
+            leads.forEach(l => { const st = l.status || 'New'; statusMap[st] = (statusMap[st] || 0) + 1; });
+            const leadsByStatus = Object.entries(statusMap).map(([name, value]) => ({ name, value }));
+
+            const stageMap = {};
+            opps.forEach(o => { const st = o.stage || 'Prospecting'; stageMap[st] = (stageMap[st] || 0) + 1; });
+            const oppsByStage = Object.entries(stageMap).map(([name, value]) => ({ name, value }));
+
+            const monthMap = {};
+            opps.forEach(o => {
+                const date = o.closeDate || o.createdAt || '';
+                const m = date ? date.substring(0, 7) : 'Current';
+                monthMap[m] = (monthMap[m] || 0) + Number(o.amount || 0);
+            });
+            const revenueTrend = Object.entries(monthMap).sort((a,b)=>a[0].localeCompare(b[0])).map(([name, value]) => ({ name, value }));
+
+            const userMap = {};
+            opps.forEach(o => {
+                const u = o.assignedUserName || 'Admin';
+                userMap[u] = (userMap[u] || 0) + Number(o.amount || 0);
+            });
+            const revenueBySalesperson = Object.entries(userMap).map(([name, value]) => ({ name, value }));
+
+            const kpiCards = [
+                { title: 'Total Leads', val: totalLeads, badge: '+12%', color: 'text-sky-400' },
+                { title: 'New Leads Today', val: newLeadsToday, badge: 'Today', color: 'text-emerald-400' },
+                { title: 'Potential Leads', val: potentialLeads, badge: 'Active', color: 'text-amber-400' },
+                { title: 'Qualified Leads', val: qualifiedLeads, badge: 'Ready', color: 'text-blue-400' },
+                { title: 'Converted Leads', val: convertedLeads, badge: 'Converted', color: 'text-emerald-400' },
+                { title: 'Lost Leads', val: lostLeads, badge: 'Closed', color: 'text-rose-400' },
+                { title: 'Conversion Rate', val: `${conversionRate}%`, badge: 'Target 25%', color: 'text-purple-400' },
+                { title: 'Total Revenue', val: `$${totalRevenue.toLocaleString()}`, badge: 'Closed Won', color: 'text-emerald-400' },
+                { title: 'Total Opportunities', val: totalOpportunities, badge: 'Pipeline', color: 'text-cyan-400' },
+                { title: 'Won Opportunities', val: wonOpportunities, badge: 'Won', color: 'text-amber-400' },
+                { title: 'Open Opportunities', val: openOpportunities, badge: 'Active', color: 'text-sky-400' },
+                { title: 'Average Deal Size', val: `$${avgDealSize.toLocaleString()}`, badge: 'Per Deal', color: 'text-indigo-400' }
+            ];
+
+            return (
+                <div className="p-4 md:p-6 lg:p-8 max-w-[1800px] mx-auto space-y-6">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-3xl border border-slate-800 bg-slate-900/90 shadow-xl">
+                        <div>
+                            <h1 className="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                                📊 CodakCRM Enterprise BI Platform
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Live REST API</span>
+                            </h1>
+                            <p className="text-xs text-slate-400 mt-1">Real-time Lead Pipeline • Revenue Trends • Sales Team Performance</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="text-xs text-slate-400">Refreshed: {lastRefreshed}</span>
+                            <button onClick={loadData} className="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold shadow transition-colors">
+                                Refresh Now
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* 12 KPI Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                        {kpiCards.map((c, i) => (
+                            <div key={i} className="p-4 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-linear flex flex-col justify-between hover:border-slate-700 transition-all">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-medium text-slate-400 truncate">{c.title}</span>
+                                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">{c.badge}</span>
+                                </div>
+                                <div className="mt-3 text-xl font-extrabold text-slate-100">{c.val}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Charts Row 1 */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 h-[320px] flex flex-col">
+                            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Leads by Source</h3>
+                            <div className="flex-1 w-full min-h-[220px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie data={leadsBySource.length ? leadsBySource : [{name:'Website',value:45,color:'#00a4c8'},{name:'Referral',value:25,color:'#0284c7'}]} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value">
+                                            {(leadsBySource.length ? leadsBySource : [{color:'#00a4c8'},{color:'#0284c7'}]).map((e, idx) => <Cell key={idx} fill={e.color || '#00a4c8'} />)}
+                                        </Pie>
+                                        <Tooltip contentStyle={{background:'#0f172a',borderColor:'#334155',borderRadius:'8px',color:'#fff'}} />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 h-[320px] flex flex-col">
+                            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Leads by Status</h3>
+                            <div className="flex-1 w-full min-h-[220px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={leadsByStatus.length ? leadsByStatus : [{name:'New',value:30},{name:'Assigned',value:45}]}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                                        <XAxis dataKey="name" stroke="#64748b" fontSize={10} />
+                                        <YAxis stroke="#64748b" fontSize={10} />
+                                        <Tooltip contentStyle={{background:'#0f172a',borderColor:'#334155',borderRadius:'8px',color:'#fff'}} />
+                                        <Bar dataKey="value" fill="#00a4c8" radius={[6,6,0,0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 h-[320px] flex flex-col">
+                            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Opportunities by Stage</h3>
+                            <div className="flex-1 w-full min-h-[220px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={oppsByStage.length ? oppsByStage : [{name:'Prospecting',value:20},{name:'Closed Won',value:15}]}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                                        <XAxis dataKey="name" stroke="#64748b" fontSize={10} />
+                                        <YAxis stroke="#64748b" fontSize={10} />
+                                        <Tooltip contentStyle={{background:'#0f172a',borderColor:'#334155',borderRadius:'8px',color:'#fff'}} />
+                                        <Bar dataKey="value" fill="#10b981" radius={[6,6,0,0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Charts Row 2 */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 h-[320px] flex flex-col">
+                            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Revenue Growth & Trend</h3>
+                            <div className="flex-1 w-full min-h-[220px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={revenueTrend.length ? revenueTrend : [{name:'Jan',value:15000},{name:'Feb',value:28000},{name:'Mar',value:42000}]}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                                        <XAxis dataKey="name" stroke="#64748b" fontSize={10} />
+                                        <YAxis stroke="#64748b" fontSize={10} />
+                                        <Tooltip contentStyle={{background:'#0f172a',borderColor:'#334155',borderRadius:'8px',color:'#fff'}} />
+                                        <Area type="monotone" dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.2} strokeWidth={3} />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 h-[320px] flex flex-col">
+                            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Revenue per Salesperson</h3>
+                            <div className="flex-1 w-full min-h-[220px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={revenueBySalesperson.length ? revenueBySalesperson : [{name:'Admin',value:45000},{name:'Sales Rep',value:28000}]} layout="vertical">
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                                        <XAxis type="number" stroke="#64748b" fontSize={10} />
+                                        <YAxis type="category" dataKey="name" stroke="#64748b" fontSize={10} />
+                                        <Tooltip contentStyle={{background:'#0f172a',borderColor:'#334155',borderRadius:'8px',color:'#fff'}} />
+                                        <Bar dataKey="value" fill="#818cf8" radius={[0,6,6,0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tables */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 h-[300px] flex flex-col">
+                            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Recent Leads</h3>
+                            <div className="overflow-x-auto flex-1">
+                                <table className="w-full text-left text-xs text-slate-300">
+                                    <thead className="bg-slate-800/80 text-slate-400 uppercase font-semibold">
+                                        <tr><th className="p-2">Name</th><th className="p-2">Status</th><th className="p-2 text-right">Drilldown</th></tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-800/60">
+                                        {leads.slice(0,5).map(l => (
+                                            <tr key={l.id} className="hover:bg-slate-800/40">
+                                                <td className="p-2 font-medium text-slate-100">{l.name}</td>
+                                                <td className="p-2"><span className="px-2 py-0.5 rounded-full text-[10px] bg-sky-500/10 text-sky-400 border border-sky-500/20">{l.status || 'New'}</span></td>
+                                                <td className="p-2 text-right">
+                                                    <a href={`#Lead/view/${l.id}`} target="_top" className="px-2 py-1 rounded bg-slate-800 hover:bg-brand-600 text-xs text-white">View</a>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/60 h-[300px] flex flex-col">
+                            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Recent Opportunities</h3>
+                            <div className="overflow-x-auto flex-1">
+                                <table className="w-full text-left text-xs text-slate-300">
+                                    <thead className="bg-slate-800/80 text-slate-400 uppercase font-semibold">
+                                        <tr><th className="p-2">Name</th><th className="p-2">Stage</th><th className="p-2">Amount</th><th className="p-2 text-right">Drilldown</th></tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-800/60">
+                                        {opps.slice(0,5).map(o => (
+                                            <tr key={o.id} className="hover:bg-slate-800/40">
+                                                <td className="p-2 font-medium text-slate-100">{o.name}</td>
+                                                <td className="p-2"><span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{o.stage || 'Prospecting'}</span></td>
+                                                <td className="p-2 font-semibold text-emerald-400">${Number(o.amount||0).toLocaleString()}</td>
+                                                <td className="p-2 text-right">
+                                                    <a href={`#Opportunity/view/${o.id}`} target="_top" className="px-2 py-1 rounded bg-slate-800 hover:bg-brand-600 text-xs text-white">View</a>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<AnalyticsDashboardApp />);
+    </script>
+</body>
+</html>

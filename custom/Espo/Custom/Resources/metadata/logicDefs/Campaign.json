@@ -1,0 +1,16 @@
+{
+    "fields": {
+        "targetLists": { "visible": null },
+        "excludingTargetLists": { "visible": null },
+        "contactsTemplate": { "visible": null },
+        "leadsTemplate": { "visible": null },
+        "accountsTemplate": { "visible": null },
+        "usersTemplate": { "visible": null },
+        "mailMergeOnlyWithAddress": { "visible": null }
+    },
+    "panels": {
+        "massEmails": { "visible": null },
+        "trackingUrls": { "visible": null },
+        "mailMerge": { "visible": null }
+    }
+}

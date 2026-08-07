@@ -1,0 +1,3 @@
+[2026-07-21 20:05:44] WARNING: E_WARNING: rename(data\tmp\tmpF658.tmp,data/cache/application/ormMetadata.php): Access is denied (code: 5)
+[2026-07-21 20:05:44] WARNING: E_WARNING: rename(data\tmp\tmpF726.tmp,data/cache/application/classmapRepositories.php): Access is denied (code: 5)
+[2026-07-21 20:05:45] WARNING: E_WARNING: rename(data\tmp\tmpFB37.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)

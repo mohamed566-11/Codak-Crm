@@ -1,0 +1,14 @@
+{
+    "favicon": "client/custom/img/favicon.ico",
+    "faviconAlternate": "client/custom/img/favicon.ico",
+    "appleTouchIcon": "client/custom/img/favicon-196.png",
+    "logo33": "client/custom/img/logo-33.png",
+    "logo37": "client/custom/img/logo-37.png",
+    "logo39": "client/custom/img/logo-39.png",
+    "cssList": [
+        "__APPEND__",
+        "client/custom/css/custom-logo.css",
+        "client/custom/css/custom-brand.css",
+        "client/custom/css/custom-ui-animations.css"
+    ]
+}

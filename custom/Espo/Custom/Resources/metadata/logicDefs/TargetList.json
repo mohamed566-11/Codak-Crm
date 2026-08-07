@@ -1,0 +1,10 @@
+{
+    "fields": {
+        "entryCount": {
+            "visible": null
+        },
+        "optedOutCount": {
+            "visible": null
+        }
+    }
+}

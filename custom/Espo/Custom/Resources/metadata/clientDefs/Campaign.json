@@ -1,0 +1,7 @@
+{
+    "recordViews": {
+        "detail": "custom:views/campaign/record/detail",
+        "edit": "custom:views/campaign/record/edit",
+        "list": "custom:views/campaign/record/list"
+    }
+}

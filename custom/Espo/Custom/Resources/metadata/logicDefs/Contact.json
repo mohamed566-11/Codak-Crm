@@ -1,0 +1,10 @@
+{
+    "fields": {
+        "title": {
+            "visible": null
+        },
+        "portalUser": {
+            "visible": null
+        }
+    }
+}
