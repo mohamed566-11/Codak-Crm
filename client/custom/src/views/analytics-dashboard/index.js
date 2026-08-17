@@ -12,7 +12,7 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
                     <div>
                         <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                             <h2 style="margin: 0; font-size: 24px; font-weight: 800; color: #0f172a; tracking: -0.02em; display: flex; align-items: center; gap: 10px;">
-                                <span>CodakCRM  BI Platform</span>
+                                <span>CodakCRM BI Platform</span>
                             </h2>
                             <span style="font-size: 11px; font-weight: 700; padding: 4px 14px; background: #e0f2fe; color: #005a70; border-radius: 20px; border: 1px solid #bae6fd; display: inline-flex; align-items: center; gap: 6px;">
                                 <span style="width: 7px; height: 7px; border-radius: 50%; background: #00a4c8; display: inline-block; animation: pulse 1.5s infinite;"></span>
@@ -263,6 +263,7 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
                     display: inline-block;
                     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
                     box-shadow: 0 2px 8px rgba(0, 164, 200, 0.2);
+                    cursor: pointer;
                 }
                 .table-action-btn:hover {
                     background: #005a70;
@@ -288,7 +289,8 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             'click .filter-pill': 'onFilterPillClick',
             'input #analytics-search-input': 'onSearchInput',
             'click #btn-clear-category-filter': 'clearCategoryFilter',
-            'click .interactive-bar-item': 'onBarItemClick'
+            'click .interactive-bar-item': 'onBarItemClick',
+            'click .btn-view-record': 'onViewRecordClick'
         },
 
         rawLeads: [],
@@ -297,6 +299,25 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
         afterRender: function () {
             Dep.prototype.afterRender.call(this);
             this.loadMetrics();
+        },
+
+        onViewRecordClick: function (e) {
+            e.preventDefault();
+            var $target = $(e.currentTarget);
+            var scope = $target.data('scope');
+            var id = $target.data('id');
+
+            if (scope && id) {
+                var route = scope + '/view/' + id;
+                if (window.Backbone && window.Backbone.history) {
+                    window.Backbone.history.navigate(route, { trigger: true });
+                } else if (this.getRouter && this.getRouter()) {
+                    this.getRouter().navigate(route, { trigger: true });
+                } else {
+                    window.location.hash = '#' + route;
+                    window.location.reload();
+                }
+            }
         },
 
         onFilterPillClick: function (e) {
@@ -484,7 +505,7 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
                         <td style="padding: 14px 12px; font-weight: 700; color: #0f172a;">${l.name || 'N/A'}</td>
                         <td style="padding: 14px 12px;"><span style="padding: 4px 12px; border-radius: 14px; background: #e0f2fe; color: #005a70; font-size: 11px; font-weight: 800;">${l.status || 'New'}</span></td>
                         <td style="padding: 14px 12px; color: #64748b; font-weight: 500;">${l.source || 'Direct'}</td>
-                        <td style="padding: 14px 12px; text-align: right;"><a href="#Lead/view/${l.id}" class="table-action-btn">View</a></td>
+                        <td style="padding: 14px 12px; text-align: right;"><a href="#Lead/view/${l.id}" data-scope="Lead" data-id="${l.id}" class="table-action-btn btn-view-record">View</a></td>
                     </tr>
                 `;
             });
@@ -498,7 +519,7 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
                         <td style="padding: 14px 12px; font-weight: 700; color: #0f172a;">${o.name || 'N/A'}</td>
                         <td style="padding: 14px 12px;"><span style="padding: 4px 12px; border-radius: 14px; background: #ccfbf1; color: #0f766e; font-size: 11px; font-weight: 800;">${o.stage || 'Prospecting'}</span></td>
                         <td style="padding: 14px 12px; font-weight: 800; color: #059669;">$${Number(o.amount || 0).toLocaleString()}</td>
-                        <td style="padding: 14px 12px; text-align: right;"><a href="#Opportunity/view/${o.id}" class="table-action-btn" style="background:#005a70;">View</a></td>
+                        <td style="padding: 14px 12px; text-align: right;"><a href="#Opportunity/view/${o.id}" data-scope="Opportunity" data-id="${o.id}" class="table-action-btn btn-view-record" style="background:#005a70;">View</a></td>
                     </tr>
                 `;
             });

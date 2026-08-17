@@ -453,6 +453,52 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
 
 ---
 
+### ❌ المشكلة 6: تغير الـ URL في المتصفح دون فتح صفحة السجل عند النقر على أزرار الجدول (Backbone SPA Router Dispatch Issue)
+- **السبب العلمي:** الاعتماد فقط على تغيير الـ Hash بواسطة `window.location.hash = ...` داخل تطبيق Backbone SPA يتسبب في تغيير نص العنوان في الشريط العلوي للمتصفح دون إرسال إشارة لمحرّك `Backbone.history` لفتح الشاشة وتنفيذ الـ View.
+- **الحل:** استدعاء محرك التوجيه الحي لـ Backbone صراحة بدون كتابة رمز الـ `#` في بداية المسار:
+  ```javascript
+  onViewRecordClick: function (e) {
+      e.preventDefault();
+      var $target = $(e.currentTarget);
+      var scope = $target.data('scope');
+      var id = $target.data('id');
+
+      if (scope && id) {
+          var route = scope + '/view/' + id;
+          if (window.Backbone && window.Backbone.history) {
+              window.Backbone.history.navigate(route, { trigger: true });
+          } else {
+              window.location.hash = '#' + route;
+              window.location.reload();
+          }
+      }
+  }
+  ```
+
+---
+
+### ❌ المشكلة 7: ظهور شاشة بيضاء بدون محتوى عند التوجه لصفحة التفاصيل (Incomplete ClientDefs Metadata Schema)
+- **السبب العلمي:** عند إنشاء ملف `clientDefs` مخصص في الطبقة الرابعة تحت `custom/Espo/Custom/Resources/metadata/clientDefs/{Entity}.json` وتضمين خصائص فرعية فقط دون إدراج المعالج الرئيسي `"controller": "controllers/record"`، يقوم محرك Metadata في EspoCRM بإلغاء المعالج الأصلي، مما يجعل التوجه للمسار يُظهر شاشة بيضاء فارغة.
+- **الحل:** تضمين المعالج الرئيسي `"controller": "controllers/record"` دائماً في أي ملف `clientDefs` مخصص:
+  ```json
+  {
+      "controller": "controllers/record",
+      "modelDefaultsPreparator": "crm:handlers/opportunity/defaults-preparator",
+      "views": {
+          "detail": "crm:views/opportunity/detail"
+      },
+      "recordViews": {
+          "edit": "crm:views/opportunity/record/edit",
+          "editSmall": "crm:views/opportunity/record/edit-small",
+          "list": "crm:views/opportunity/record/list",
+          "kanban": "crm:views/opportunity/record/kanban"
+      }
+  }
+  ```
+
+---
+
+
 ## ⚡ أوامر التفعيل الفوري (Deployment & Rebuild)
 
 بعد إنشاء أو تعديل هذه الملفات، يتم تفعيلها فورياً بتشغيل الأوامر:

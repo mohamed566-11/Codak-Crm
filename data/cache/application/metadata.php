@@ -9326,11 +9326,10 @@ return [
         'detail' => 'crm:views/opportunity/detail'
       ],
       'recordViews' => [
-        'edit' => 'custom:views/opportunity/record/edit',
+        'edit' => 'crm:views/opportunity/record/edit',
         'editSmall' => 'crm:views/opportunity/record/edit-small',
-        'list' => 'custom:views/opportunity/record/list',
-        'kanban' => 'crm:views/opportunity/record/kanban',
-        'detail' => 'custom:views/opportunity/record/detail'
+        'list' => 'crm:views/opportunity/record/list',
+        'kanban' => 'crm:views/opportunity/record/kanban'
       ],
       'sidePanels' => [
         'detail' => [

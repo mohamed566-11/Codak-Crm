@@ -1,0 +1,35 @@
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:23] WARNING: E_WARNING: file_put_contents(data/cache/application/slim-routes.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:23] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(D:\laragon\www\EspoCRM-10.0.3\data\cache\application\autoload.php): Failed to open stream: No such file or directory
+[2026-08-17 11:40:24] WARNING: E_WARNING: include(): Failed opening 'data/cache/application/autoload.php' for inclusion (include_path='D:\laragon\www\EspoCRM-10.0.3')
+[2026-08-17 11:40:31] WARNING: E_WARNING: rename(data\tmp\tmp21C1.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)
+[2026-08-17 11:40:31] WARNING: E_WARNING: rename(data\tmp\tmp21BF.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)
+[2026-08-17 11:40:31] WARNING: E_WARNING: rename(data\tmp\tmp21C1.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)
+[2026-08-17 11:43:06] ERROR: (0) Uncaught Exception Error: "Cannot access protected property Espo\Modules\Crm\Entities\Opportunity::$id" at C:\Users\Dell\.gemini\antigravity-ide\brain\f2f76273-041e-4c18-a4af-da99a8c80afc\scratch\test_opportunity_db_query.php line 12 
+[object] (Error(code: 0): Cannot access protected property Espo\Modules\Crm\Entities\Opportunity::$id at C:/Users/Dell/.gemini/antigravity-ide/brain/f2f76273-041e-4c18-a4af-da99a8c80afc/scratch/test_opportunity_db_query.php:12)
+[2026-08-17 11:50:10] WARNING: E_WARNING: rename(data\tmp\tmpF92A.tmp,data/cache/application/objMetadata.php): Access is denied (code: 5)
+[2026-08-17 11:50:11] WARNING: E_WARNING: rename(data\tmp\tmpF98A.tmp,data/cache/application/metadata.php): Access is denied (code: 5)
+[2026-08-17 11:50:11] WARNING: E_WARNING: rename(data\tmp\tmpF98B.tmp,data/cache/application/metadata.php): Access is denied (code: 5)
+[2026-08-17 11:50:11] WARNING: E_WARNING: rename(data\tmp\tmpF98A.tmp,data/cache/application/metadata.php): Access is denied (code: 5)
+[2026-08-17 11:50:11] WARNING: E_WARNING: unlink(data\cache\application\objMetadata.php): Resource temporarily unavailable
+[2026-08-17 11:50:11] WARNING: E_WARNING: rename(data\tmp\tmpFC7C.tmp,data/cache/application/entityAcl.php): Access is denied (code: 5)
+[2026-08-17 11:50:11] WARNING: E_WARNING: rename(data\tmp\tmpFC7C.tmp,data/cache/application/entityAcl.php): Access is denied (code: 5)
+[2026-08-17 11:50:12] WARNING: E_WARNING: rename(data\tmp\tmpFFB3.tmp,data/cache/application/ormMetadata.php): Access is denied (code: 5)
+[2026-08-17 11:50:12] WARNING: E_WARNING: rename(data\tmp\tmpFFB3.tmp,data/cache/application/ormMetadata.php): Access is denied (code: 5)
+[2026-08-17 11:59:59] WARNING: E_WARNING: rename(data\tmp\tmpF5E8.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)
+[2026-08-17 12:00:04] WARNING: E_WARNING: mkdir(): File exists
