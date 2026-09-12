@@ -10,6 +10,16 @@ define('custom:views/contact/record/edit', ['views/record/edit'], function (Dep)
             Dep.prototype.afterRender.call(this);
             this.handleTitleFieldVisibility();
             this.handlePortalUserFieldVisibility();
+            this.enhanceFormLayout();
+        },
+
+        enhanceFormLayout: function () {
+            this.$el.find('.panel').addClass('animate-fade-up');
+            this.$el.find('.panel-heading').css({
+                'font-size': '14px',
+                'font-weight': '800',
+                'color': '#005a70'
+            });
         },
 
         handleTitleFieldVisibility: function () {

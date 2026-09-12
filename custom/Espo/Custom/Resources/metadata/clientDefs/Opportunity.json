@@ -1,13 +1,14 @@
 {
     "controller": "controllers/record",
+    "iconClass": "fas fa-briefcase",
     "modelDefaultsPreparator": "crm:handlers/opportunity/defaults-preparator",
     "views": {
-        "detail": "crm:views/opportunity/detail"
+        "detail": "custom:views/opportunity/detail"
     },
     "recordViews": {
         "edit": "crm:views/opportunity/record/edit",
         "editSmall": "crm:views/opportunity/record/edit-small",
         "list": "crm:views/opportunity/record/list",
-        "kanban": "crm:views/opportunity/record/kanban"
+        "kanban": "custom:views/opportunity/record/kanban"
     }
 }

@@ -4,5 +4,6 @@
     "acl": false,
     "customizable": false,
     "iconClass": "fas fa-chart-line",
-    "icon": "chart-line"
+    "icon": "chart-line",
+    "color": "#00a4c8"
 }

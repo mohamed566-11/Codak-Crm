@@ -1,0 +1,12 @@
+[2026-09-08 16:01:23] WARNING: E_WARNING: rename(data\tmp\tmp876E.tmp,data/cache/application/pipelines.php): Access is denied (code: 5)
+[2026-09-08 19:04:13] WARNING: E_WARNING: rename(data\tmp\tmpED93.tmp,data/cache/application/objMetadata.php): Access is denied (code: 5)
+[2026-09-08 19:04:14] WARNING: E_WARNING: rename(data\tmp\tmpEF52.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-09-08 19:04:14] WARNING: E_WARNING: file_put_contents(data/cache/application/slim-routes.php): Failed to open stream: No such file or directory
+[2026-09-08 19:04:14] WARNING: E_WARNING: file_put_contents(data/cache/application/slim-routes.php): Failed to open stream: No such file or directory
+[2026-09-08 19:04:14] WARNING: E_WARNING: file_put_contents(data/cache/application/slim-routes.php): Failed to open stream: No such file or directory
+[2026-09-08 19:04:14] WARNING: E_WARNING: file_put_contents(data/cache/application/slim-routes.php): Failed to open stream: No such file or directory
+[2026-09-08 19:04:16] WARNING: E_WARNING: rename(data\tmp\tmpF734.tmp,data/cache/application/ormMetadata.php): Access is denied (code: 5)
+[2026-09-08 19:04:18] WARNING: E_WARNING: rename(data\tmp\tmp1CC.tmp,data/cache/application/classmapEntities.php): Access is denied (code: 5)
+[2026-09-08 19:04:22] WARNING: E_WARNING: rename(data\tmp\tmpF4A.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)
+[2026-09-08 19:04:22] WARNING: E_WARNING: rename(data\tmp\tmp1138.tmp,data/cache/application/classmapServices.php): Access is denied (code: 5)
+[2026-09-08 19:04:22] WARNING: E_WARNING: mkdir(): File exists

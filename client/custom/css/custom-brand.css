@@ -1,36 +1,654 @@
-/* CodakCRM — Custom Brand Theme & Color Palette */
+/* CodakCRM — Custom Brand Theme & Stable Design System */
+@import url('./custom-ui-animations.css');
 
 :root {
     --codak-primary: #005a70;
     --codak-primary-hover: #004557;
-    --codak-accent: #007c9b;
+    --codak-accent: #00a4c8;
+    --codak-accent-glow: rgba(0, 164, 200, 0.35);
     --codak-bg-light: #f4f7f9;
+    --codak-card-bg: #ffffff;
+    --codak-border-radius: 14px;
+    --codak-card-shadow: 0 8px 24px -4px rgba(0, 45, 60, 0.06);
 }
 
-/* Primary Button Styling */
+/* ==========================================================================
+   1. GLOBAL FORM INPUTS, SELECTS, & TEXTAREAS STYLING
+   ========================================================================== */
+
+.form-control,
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select,
+textarea,
+.select2-container .select2-choice {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #0f172a;
+    font-family: var(--codak-font-sans, sans-serif);
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    background-color: #ffffff;
+    border-color: #00a4c8;
+    box-shadow: 0 0 0 3px rgba(0, 164, 200, 0.18);
+    outline: none;
+}
+
+.control-label,
+.field-label,
+label,
+.form-group>label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+span.required,
+.required-sign,
+label.required::after {
+    color: #e11d48;
+    font-weight: 800;
+    margin-left: 4px;
+}
+
+/* ==========================================================================
+   2. INPUT GROUP CONTROLS FIX
+   ========================================================================== */
+
+.input-group {
+    position: relative;
+}
+
+.input-group>.form-control:first-child,
+.input-group>input:first-child,
+.input-group>select:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group-btn>.btn:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* ==========================================================================
+   3. STABLE SEARCH BAR & FILTER DROPDOWN
+   ========================================================================== */
+
+.search-container {
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.search-container .input-group {
+    position: relative;
+}
+
+/* Ensure Dropdown Menu Opens Cleanly */
+.dropdown-menu,
+.search-container .dropdown-menu {
+    border-radius: 12px !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 10px 28px -4px rgba(0, 45, 60, 0.15) !important;
+    padding: 6px !important;
+    z-index: 1050 !important;
+}
+
+.dropdown-menu>li>a,
+.search-container .dropdown-menu>li>a {
+    border-radius: 8px !important;
+    padding: 7px 12px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+}
+
+.dropdown-menu>li>a:hover,
+.search-container .dropdown-menu>li>a:hover {
+    background-color: #e0f2fe !important;
+    color: #0284c7 !important;
+}
+
+/* View Mode Switcher */
+.display-mode-switcher,
+.view-mode-switcher {
+    border-radius: 10px;
+    padding: 2px;
+}
+
+.display-mode-switcher .btn.active,
+.view-mode-switcher .btn.active {
+    background: #005a70 !important;
+    color: #ffffff !important;
+    border-radius: 6px;
+}
+
+/* ==========================================================================
+   4. LIST HEADERS, PAGINATION, & DATA GRID (TABLES)
+   ========================================================================== */
+
+/* Top Action Toolbar & Pagination Alignment */
+.list-buttons-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 0 !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+    clear: both;
+}
+
+/* Glassmorphism Pagination Badge */
+.list-buttons-container .pagination,
+.btn-group.pagination {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(203, 213, 225, 0.9) !important;
+    border-radius: 24px !important;
+    padding: 3px 8px !important;
+    box-shadow: 0 4px 16px -2px rgba(0, 45, 60, 0.08) !important;
+    float: none !important;
+    margin: 0 !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+.btn-group.pagination .btn-group {
+    float: none !important;
+    display: inline-block !important;
+}
+
+.btn-group.pagination .pagination-btn-middle {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    padding: 4px 12px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    border-radius: 14px !important;
+}
+
+.btn-group.pagination .pagination-btn-middle:hover {
+    color: #00a4c8 !important;
+    background-color: #f1f5f9 !important;
+}
+
+.btn-group.pagination .pagination-btn {
+    border: none !important;
+    background: transparent !important;
+    color: #005a70 !important;
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    font-size: 11px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: none !important;
+}
+
+.btn-group.pagination .pagination-btn:hover {
+    background-color: #005a70 !important;
+    color: #ffffff !important;
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 90, 112, 0.25) !important;
+}
+
+.btn-group.pagination .pagination-btn.disabled {
+    opacity: 0.3 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    background: transparent !important;
+    color: #64748b !important;
+    box-shadow: none !important;
+}
+
+/* Table Container Card */
+div.list {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 6px 24px -4px rgba(15, 23, 42, 0.06) !important;
+    margin-bottom: 24px !important;
+}
+
+/* Subpanel Tables Integration */
+.subpanel div.list,
+.panel div.list {
+    border-color: #e2e8f0 !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+    border-radius: 10px !important;
+}
+
+/* Table Structure */
+div.list>table,
+div.list>table.table {
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: #ffffff !important;
+}
+
+/* Gradient Table Header */
+div.list>table thead th,
+div.list>table thead td,
+th.field-header-cell,
+th.checkbox-cell {
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    color: #1e293b !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    padding: 13px 18px !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+
+/* Sort Header Alignment & Icon Spacing */
+th.field-header-cell {
+    position: relative;
+}
+
+th.field-header-cell a,
+th.field-header-cell a.sort {
+    color: #1e293b !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: color 0.15s ease !important;
+}
+
+th.field-header-cell a:hover {
+    color: #005a70 !important;
+}
+
+th.field-header-cell .fas,
+th.field-header-cell .far,
+th.field-header-cell .fa-chevron-down,
+th.field-header-cell .fa-chevron-up {
+    color: #00a4c8 !important;
+    font-size: 11px !important;
+    margin-left: 4px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* Table Body Rows & Glowing Micro-Animations */
+div.list>table tbody tr,
+tr.list-row {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-left: 4px solid transparent !important;
+}
+
+div.list>table tbody tr:hover,
+tr.list-row:hover {
+    background: linear-gradient(90deg, rgba(0, 164, 200, 0.05) 0%, #ffffff 100%) !important;
+    border-left: 4px solid #00a4c8 !important;
+    box-shadow: inset 2px 0 8px -2px rgba(0, 164, 200, 0.25) !important;
+}
+
+div.list>table tbody td {
+    padding: 13px 18px !important;
+    font-size: 13px !important;
+    color: #1e293b !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    vertical-align: middle !important;
+}
+
+div.list>table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Smart Badges for Emails & Phones */
+td.cell[data-name="email"] a,
+td.cell[data-name="email"] {
+    color: #0284c7 !important;
+    font-weight: 600 !important;
+}
+
+td.cell[data-name="phone"] {
+    font-family: var(--codak-font-sans, sans-serif) !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+}
+
+/* Checkbox Cells */
+th.checkbox-cell,
+td.cell-checkbox,
+.select-all-container {
+    width: 44px !important;
+    text-align: center !important;
+}
+
+input[type="checkbox"].form-checkbox,
+table input[type="checkbox"] {
+    width: 17px !important;
+    height: 17px !important;
+    accent-color: #005a70 !important;
+    cursor: pointer !important;
+    border-radius: 4px !important;
+    vertical-align: middle !important;
+}
+
+/* Entity Primary Name Links */
+div.list>table tbody td.cell[data-name="name"] a,
+div.list>table tbody td a.link,
+div.list>table tbody td a[data-action="select"] {
+    font-family: var(--codak-font-heading, sans-serif) !important;
+    font-weight: 700 !important;
+    color: #005a70 !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease, transform 0.15s ease !important;
+    display: inline-block !important;
+}
+
+div.list>table tbody td.cell[data-name="name"] a:hover,
+div.list>table tbody td a.link:hover,
+div.list>table tbody td a[data-action="select"]:hover {
+    color: #00a4c8 !important;
+    transform: translateX(3px);
+}
+
+/* Row Action Buttons & Dropdowns */
+div.list>table tbody td.cell-buttons,
+div.list>table tbody td .btn-group {
+    white-space: nowrap !important;
+}
+
+div.list>table tbody td .btn-link,
+div.list>table tbody td .btn-default.btn-sm {
+    color: #64748b !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    transition: all 0.15s ease !important;
+}
+
+div.list>table tbody td .btn-link:hover,
+div.list>table tbody td .btn-default.btn-sm:hover {
+    color: #005a70 !important;
+    background-color: #e2e8f0 !important;
+}
+
+/* Styled Empty State */
+.no-data {
+    padding: 40px 20px !important;
+    text-align: center !important;
+    color: #64748b !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    background: #ffffff !important;
+    border: 1px dashed #cbd5e1 !important;
+    border-radius: 14px !important;
+    margin: 20px 0 !important;
+}
+
+/* ==========================================================================
+   5. STATUS BADGES
+   ========================================================================== */
+
+.cell[data-name="status"] .label,
+.cell[data-name="stage"] .label,
+.label-status,
+.label-stage,
+td.cell .label {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 11px;
+}
+
+.label-success,
+.cell[data-name="status"] .label-success,
+.cell[data-name="stage"] .label-success {
+    background-color: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+
+.label-info,
+.label-default,
+.cell[data-name="status"] .label-default,
+.cell[data-name="stage"] .label-info {
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+}
+
+.label-danger,
+.cell[data-name="status"] .label-danger,
+.cell[data-name="stage"] .label-danger {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.label-warning,
+.cell[data-name="status"] .label-warning,
+.cell[data-name="stage"] .label-warning {
+    background-color: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+/* ==========================================================================
+   6. CARDS, PANELS, & BUTTONS
+   ========================================================================== */
+
+.panel,
+.panel-default,
+.record .panel {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--codak-border-radius);
+    box-shadow: var(--codak-card-shadow);
+    margin-bottom: 20px;
+}
+
+.panel-default>.panel-heading,
+.record .panel-heading {
+    background: #ffffff;
+    border-bottom: 1px solid #edf2f7;
+    padding: 12px 18px;
+    font-family: var(--codak-font-heading, sans-serif);
+    font-weight: 800;
+    color: #005a70;
+    font-size: 14px;
+}
+
 .btn-primary,
 .btn-primary:focus,
 .btn-primary:active {
-    background-color: var(--codak-primary) !important;
-    border-color: var(--codak-primary) !important;
+    background-color: #005a70 !important;
+    border-color: #005a70 !important;
     color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
 }
 
 .btn-primary:hover {
-    background-color: var(--codak-primary-hover) !important;
-    border-color: var(--codak-primary-hover) !important;
+    background-color: #004557 !important;
+    border-color: #004557 !important;
 }
 
-/* Active Navigation Item Styling */
-#navbar .tabs > li.active > a,
-#navbar .tabs > li.active > a:hover,
-#navbar .tabs > li.active > a:focus {
-    border-left-color: var(--codak-primary) !important;
-    color: var(--codak-primary) !important;
-    font-weight: 600;
+.btn-default,
+.btn-secondary {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
 }
 
-/* Accent Links */
-a, a:hover, a:focus {
-    color: var(--codak-primary);
+/* ==========================================================================
+   7. VIBRANT COLORFUL SIDEBAR ICONS
+   ========================================================================== */
+
+#navbar .tabs>li>a {
+    position: relative;
+    padding-left: 18px !important;
+    border-left: 4px solid transparent !important;
+    font-weight: 500;
+}
+
+#navbar .tabs>li>a:hover {
+    background: rgba(0, 164, 200, 0.08) !important;
+    color: var(--codak-accent) !important;
+}
+
+#navbar .tabs>li.active>a,
+#navbar .tabs>li.active>a:hover,
+#navbar .tabs>li.active>a:focus {
+    border-left: 4px solid #00a4c8 !important;
+    background: linear-gradient(90deg, rgba(0, 164, 200, 0.15) 0%, transparent 100%) !important;
+    color: #005a70 !important;
+    font-weight: 700 !important;
+}
+
+#navbar .tabs li .short-label > span,
+#navbar .tabs li .short-label i,
+#navbar .tabs li a i {
+    font-size: 15px !important;
+    transition: transform 0.25s ease, color 0.25s ease !important;
+    display: inline-block !important;
+}
+
+#navbar .tabs li a:hover .short-label > span,
+#navbar .tabs li.active a .short-label > span {
+    transform: scale(1.25) !important;
+}
+
+/* 1. Home - Vibrant Cyan */
+#navbar .tabs li[data-name="Home"] .short-label > span,
+#navbar .tabs li.tab-Home .short-label > span {
+    color: #00a4c8 !important;
+}
+
+/* 2. Accounts - Warm Gold / Amber */
+#navbar .tabs li[data-name="Account"] .short-label > span,
+#navbar .tabs li.tab-Account .short-label > span {
+    color: #f59e0b !important;
+}
+
+/* 3. Contacts - Royal Electric Blue */
+#navbar .tabs li[data-name="Contact"] .short-label > span,
+#navbar .tabs li.tab-Contact .short-label > span {
+    color: #3b82f6 !important;
+}
+
+/* 4. Leads - Vibrant Purple */
+#navbar .tabs li[data-name="Lead"] .short-label > span,
+#navbar .tabs li.tab-Lead .short-label > span {
+    color: #a855f7 !important;
+}
+
+/* 5. Opportunities - Emerald Green */
+#navbar .tabs li[data-name="Opportunity"] .short-label > span,
+#navbar .tabs li.tab-Opportunity .short-label > span {
+    color: #10b981 !important;
+}
+
+/* 6. Analytics Dashboard - Vibrant Bright Cyan */
+#navbar .tabs li[data-name="AnalyticsDashboard"] .short-label > span,
+#navbar .tabs li.tab-AnalyticsDashboard .short-label > span {
+    color: #00a4c8 !important;
+}
+
+/* 7. Emails - Vibrant Coral Red */
+#navbar .tabs li[data-name="Email"] .short-label > span,
+#navbar .tabs li.tab-Email .short-label > span {
+    color: #ef4444 !important;
+}
+
+/* 8. Meetings - Bright Cyan Teal */
+#navbar .tabs li[data-name="Meeting"] .short-label > span,
+#navbar .tabs li.tab-Meeting .short-label > span {
+    color: #06b6d4 !important;
+}
+
+/* 9. Calls - Bright Lime Green */
+#navbar .tabs li[data-name="Call"] .short-label > span,
+#navbar .tabs li.tab-Call .short-label > span {
+    color: #22c55e !important;
+}
+
+/* 10. Tasks - Tangerine Orange */
+#navbar .tabs li[data-name="Task"] .short-label > span,
+#navbar .tabs li.tab-Task .short-label > span {
+    color: #f97316 !important;
+}
+
+/* 11. Calendar - Indigo Blue */
+#navbar .tabs li[data-name="Calendar"] .short-label > span,
+#navbar .tabs li.tab-Calendar .short-label > span {
+    color: #6366f1 !important;
+}
+
+/* 12. Cases - Rose Pink */
+#navbar .tabs li[data-name="Case"] .short-label > span,
+#navbar .tabs li.tab-Case .short-label > span {
+    color: #ec4899 !important;
+}
+
+/* 13. Knowledge Base - Amethyst Purple */
+#navbar .tabs li[data-name="KnowledgeBaseArticle"] .short-label > span,
+#navbar .tabs li[data-name="KnowledgeBase"] .short-label > span,
+#navbar .tabs li.tab-KnowledgeBaseArticle .short-label > span {
+    color: #8b5cf6 !important;
+}
+
+/* 14. Campaigns - Fuchsia Magenta */
+#navbar .tabs li[data-name="Campaign"] .short-label > span,
+#navbar .tabs li.tab-Campaign .short-label > span {
+    color: #d946ef !important;
+}
+
+/* 15. Target Lists - Turquoise */
+#navbar .tabs li[data-name="TargetList"] .short-label > span,
+#navbar .tabs li.tab-TargetList .short-label > span {
+    color: #14b8a6 !important;
+}
+
+/* 16. Documents - Sky Blue */
+#navbar .tabs li[data-name="Document"] .short-label > span,
+#navbar .tabs li.tab-Document .short-label > span {
+    color: #38bdf8 !important;
+}
+
+.page-header h3,
+.page-header h2,
+.header-title,
+.breadcrumb {
+    font-family: var(--codak-font-heading, sans-serif) !important;
+    font-weight: 800 !important;
+    color: #005a70 !important;
 }

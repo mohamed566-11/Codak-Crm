@@ -1,6 +1,6 @@
 <?php
 return [
-  'useCache' => true,
+  'useCache' => false,
   'jobMaxPortion' => 15,
   'jobRunInParallel' => false,
   'jobPoolConcurrencyNumber' => 8,
@@ -324,7 +324,7 @@ return [
     0 => 'youtube.com',
     1 => 'google.com'
   ],
-  'microtime' => 1786968074.660303,
+  'microtime' => 1788924031.111617,
   'siteUrl' => 'http://localhost/EspoCRM-10.0.3',
   'fullTextSearchMinLength' => 4
 ];

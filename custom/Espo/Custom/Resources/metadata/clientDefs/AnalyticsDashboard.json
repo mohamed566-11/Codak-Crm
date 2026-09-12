@@ -1,4 +1,5 @@
 {
     "controller": "custom:controllers/analytics-dashboard",
-    "iconClass": "fas fa-chart-bar"
+    "iconClass": "fas fa-chart-line",
+    "color": "#00a4c8"
 }

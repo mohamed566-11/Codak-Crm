@@ -1,7 +1,4 @@
 {
-    "recordViews": {
-        "detail": "custom:views/task/record/detail",
-        "edit": "custom:views/task/record/edit",
-        "list": "custom:views/task/record/list"
-    }
+    "iconClass": "fas fa-list-check",
+    "color": "#f97316"
 }

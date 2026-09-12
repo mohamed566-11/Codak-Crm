@@ -1,4 +1,5 @@
 {
+    "iconClass": "fas fa-address-book",
     "recordViews": {
         "detail": "custom:views/contact/record/detail",
         "edit": "custom:views/contact/record/edit",

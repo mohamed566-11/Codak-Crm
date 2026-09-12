@@ -1,4 +1,5 @@
 {
+    "iconClass": "fas fa-user-tag",
     "recordViews": {
         "detail": "custom:views/lead/record/detail",
         "edit": "custom:views/lead/record/edit",

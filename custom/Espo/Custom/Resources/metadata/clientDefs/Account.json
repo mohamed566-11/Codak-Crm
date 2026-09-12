@@ -1,4 +1,5 @@
 {
+    "iconClass": "fas fa-building",
     "recordViews": {
         "detail": "custom:views/account/record/detail",
         "edit": "custom:views/account/record/edit",

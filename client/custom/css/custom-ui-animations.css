@@ -46,3 +46,175 @@
     background-color: #ffffff;
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
 }
+
+/* ==========================================================================
+   ADVANCED SIDEBAR & NAVIGATION ANIMATIONS
+   ========================================================================== */
+
+/* Sidebar Navigation Items Transitions */
+#navbar .tabs>li,
+.navbar-nav>li,
+.sidebar-item {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease !important;
+}
+
+#navbar .tabs>li>a,
+.navbar-nav>li>a {
+    position: relative;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow: hidden;
+}
+
+/* Hover Shimmer & Slide Effect on Sidebar Items */
+#navbar .tabs>li>a:hover,
+.navbar-nav>li>a:hover {
+    transform: translateX(4px);
+    background: rgba(0, 164, 200, 0.08) !important;
+    color: var(--codak-accent) !important;
+}
+
+/* Sidebar Hover Ripple Light Effect */
+#navbar .tabs>li>a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.5s ease-in-out;
+}
+
+#navbar .tabs>li>a:hover::before {
+    left: 100%;
+}
+
+/* Active Sidebar Tab Animated Left Border & Pulse */
+#navbar .tabs>li.active>a,
+#navbar .tabs>li.active>a:hover {
+    border-left: 4px solid var(--codak-accent) !important;
+    background: linear-gradient(90deg, rgba(0, 90, 112, 0.15) 0%, transparent 100%) !important;
+    animation: sidebarPulse 3s ease-in-out infinite;
+}
+
+@keyframes sidebarPulse {
+
+    0%,
+    100% {
+        box-shadow: inset 3px 0 10px -2px rgba(0, 164, 200, 0.3);
+    }
+
+    50% {
+        box-shadow: inset 3px 0 18px 0px rgba(0, 164, 200, 0.6);
+    }
+}
+
+/* Icon Micro-Animation on Navigation Hover */
+#navbar .tabs>li>a:hover .fas,
+#navbar .tabs>li>a:hover .far,
+#navbar .tabs>li>a:hover .glyphicon,
+#navbar .tabs>li>a:hover i {
+    animation: iconBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--codak-accent) !important;
+}
+
+@keyframes iconBounce {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25) rotate(-5deg);
+    }
+
+    100% {
+        transform: scale(1.1) rotate(0deg);
+    }
+}
+
+
+/* ==========================================================================
+   TEXT ANIMATIONS & TYPOGRAPHY REVEAL EFFECTS
+   ========================================================================== */
+
+/* 1. Shimmer Gradient Text Animation */
+.animate-shimmer-text,
+.page-header h2,
+.header-title {
+    background: linear-gradient(120deg, #005a70 0%, #00a4c8 40%, #007c9b 70%, #005a70 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShimmer 5s linear infinite;
+    font-family: var(--codak-font-heading);
+    font-weight: 700;
+}
+
+@keyframes textShimmer {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* 2. Typewriter Effect for Titles / Subtitles */
+.animate-typewriter {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid var(--codak-accent);
+    animation: typing 3.5s steps(40, end), blinkCursor 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blinkCursor {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: var(--codak-accent);
+    }
+}
+
+/* 3. Staggered Fade-Up Reveal Animation */
+.animate-fade-up,
+.panel,
+.dashlet,
+.record-grid-container {
+    animation: fadeUpReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeUpReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Smooth Interactive Card Hover Lift */
+.dashlet:hover,
+.panel-default:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--codak-card-hover-shadow) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}

@@ -1,7 +1,4 @@
 {
-    "recordViews": {
-        "detail": "custom:views/call/record/detail",
-        "edit": "custom:views/call/record/edit",
-        "list": "custom:views/call/record/list"
-    }
+    "iconClass": "fas fa-phone-volume",
+    "color": "#22c55e"
 }
