@@ -66,7 +66,6 @@
 /* Hover Shimmer & Slide Effect on Sidebar Items */
 #navbar .tabs>li>a:hover,
 .navbar-nav>li>a:hover {
-    transform: translateX(4px);
     background: rgba(0, 164, 200, 0.08) !important;
     color: var(--codak-accent) !important;
 }
@@ -202,6 +201,7 @@
         opacity: 0;
         transform: translateY(12px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);

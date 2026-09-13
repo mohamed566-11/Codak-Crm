@@ -34251,7 +34251,7 @@ return [
       'stylesheet' => 'client/css/espo/dark.css',
       'stylesheetIframe' => 'client/css/espo/dark-iframe.css',
       'stylesheetIframeFallback' => 'client/css/espo/hazyblue-iframe.css',
-      'logo' => 'client/custom/img/logo.jpeg',
+      'logo' => 'client/custom/img/logo.png',
       'textColor' => '#dedede',
       'chartGridColor' => '#646060',
       'chartTickColor' => '#575454',
@@ -34286,7 +34286,7 @@ return [
     'Espo' => [
       'stylesheet' => 'client/css/espo/espo.css',
       'stylesheetIframe' => 'client/css/espo/espo-iframe.css',
-      'logo' => 'client/custom/img/logo.jpeg',
+      'logo' => 'client/custom/img/logo.png',
       'params' => [
         'navbar' => [
           'type' => 'enum',
@@ -34344,7 +34344,7 @@ return [
     'EspoRtl' => [
       'stylesheet' => 'client/css/espo/espo-rtl.css',
       'stylesheetIframe' => 'client/css/espo/espo-rtl-iframe.css',
-      'logo' => 'client/custom/img/logo.jpeg',
+      'logo' => 'client/custom/img/logo.png',
       'params' => [
         'navbar' => [
           'type' => 'enum',
@@ -34420,7 +34420,7 @@ return [
       ]
     ],
     'Light' => [
-      'logo' => 'client/custom/img/logo.jpeg',
+      'logo' => 'client/custom/img/logo.png',
       'stylesheet' => 'client/css/espo/light.css',
       'stylesheetIframe' => 'client/css/espo/light-iframe.css',
       'textColor' => '#0f0f0f',
