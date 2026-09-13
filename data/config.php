@@ -13,6 +13,8 @@ return [
   'recordsPerPageSelect' => 10,
   'recordsPerPageKanban' => 5,
   'applicationName' => 'CodakCRM',
+  'applicationDescription' => 'Codak CRM Application.',
+  'adminPanelIframeDisabled' => true,
   'logoSrc' => 'client/img/logo.jpeg',
   'timeZone' => 'UTC',
   'dateFormat' => 'DD.MM.YYYY',
@@ -324,7 +326,7 @@ return [
     0 => 'youtube.com',
     1 => 'google.com'
   ],
-  'microtime' => 1788924031.111617,
+  'microtime' => 1789268999.633244,
   'siteUrl' => 'http://localhost/EspoCRM-10.0.3',
   'fullTextSearchMinLength' => 4
 ];

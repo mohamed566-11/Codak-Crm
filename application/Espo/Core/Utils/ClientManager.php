@@ -58,11 +58,11 @@ class ClientManager
     private string $favicon = 'client/img/favicon.svg';
     private string $basePath = '';
     private string $apiUrl = 'api/v1';
-    private string $applicationId = 'espocrm';
+    private string $applicationId = 'codakcrm';
 
     private string $nonce;
 
-    private const APP_DESCRIPTION = "EspoCRM – Open Source CRM application.";
+    private const APP_DESCRIPTION = "Codak CRM Application.";
 
     public function __construct(
         private Config $config,

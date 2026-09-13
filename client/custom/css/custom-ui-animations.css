@@ -191,30 +191,47 @@
     }
 }
 
-/* 3. Staggered Fade-Up Reveal Animation */
+/* 3. Staggered Entrance & Reveal Animation (Safe Component Scope) */
 .animate-fade-up,
-.panel,
 .dashlet,
-.record-grid-container {
-    animation: fadeUpReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+.panel-dashlet,
+.admin-search-container {
+    animation: fadeUpEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes fadeUpReveal {
-    from {
+@keyframes fadeUpEntrance {
+    0% {
         opacity: 0;
-        transform: translateY(20px) scale(0.98);
+        transform: translateY(12px);
     }
-
-    to {
+    100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
-/* Smooth Interactive Card Hover Lift */
+/* Smooth Interactive Card Hover Lift (Widget & Dashlet Scope) */
 .dashlet:hover,
-.panel-default:hover {
-    transform: translateY(-3px);
+.panel-dashlet:hover,
+.admin-content-section:hover {
+    transform: translateY(-3px) !important;
     box-shadow: var(--codak-card-hover-shadow) !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Table Row Smooth Hover Animation */
+.table tr.item-row {
+    transition: background-color 0.2s ease !important;
+}
+
+.table tr.item-row:hover {
+    background-color: rgba(0, 164, 200, 0.05) !important;
+}
+
+/* Hard Security Guarantee: Prevent Sticky Headers in Role/Edit tables from displaying when hidden */
+.sticky-header-scope.hidden,
+.sticky-header-field.hidden,
+div.hidden.sticky-head {
+    display: none !important;
+    visibility: hidden !important;
 }

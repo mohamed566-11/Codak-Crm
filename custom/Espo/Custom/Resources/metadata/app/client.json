@@ -10,5 +10,9 @@
         "client/custom/css/custom-logo.css",
         "client/custom/css/custom-brand.css",
         "client/custom/css/custom-ui-animations.css"
+    ],
+    "scriptList": [
+        "__APPEND__",
+        "client/custom/src/codak-footer.js"
     ]
 }

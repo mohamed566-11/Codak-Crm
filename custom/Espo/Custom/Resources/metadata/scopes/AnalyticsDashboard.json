@@ -1,7 +1,9 @@
 {
     "object": false,
     "tab": true,
-    "acl": false,
+    "acl": "boolean",
+    "aclFieldLevelDisabled": true,
+    "module": "Custom",
     "customizable": false,
     "iconClass": "fas fa-chart-line",
     "icon": "chart-line",
