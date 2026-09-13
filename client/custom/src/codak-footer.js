@@ -1,6 +1,7 @@
 (function () {
     'use strict';
     var isApplying = false;
+    var scheduledFrame = null;
 
     function applyCodakFooter() {
         if (isApplying) return;
@@ -13,7 +14,9 @@
                 // 1. Hide legacy EspoCRM credit text
                 var credits = footer.querySelectorAll('.credit, p.credit, a[href*="espocrm.com"]');
                 credits.forEach(function (el) {
-                    el.style.setProperty('display', 'none', 'important');
+                    if (el.style.display !== 'none') {
+                        el.style.setProperty('display', 'none', 'important');
+                    }
                 });
 
                 // 2. Inject Dazzling Codak CRM Footer if not already present
@@ -51,6 +54,21 @@
         }
     }
 
+    function scheduleApply() {
+        if (scheduledFrame) return;
+        if (typeof window.requestAnimationFrame === 'function') {
+            scheduledFrame = window.requestAnimationFrame(function () {
+                scheduledFrame = null;
+                applyCodakFooter();
+            });
+        } else {
+            scheduledFrame = setTimeout(function () {
+                scheduledFrame = null;
+                applyCodakFooter();
+            }, 100);
+        }
+    }
+
     // Run immediately
     applyCodakFooter();
 
@@ -60,10 +78,10 @@
     }
     window.addEventListener('load', applyCodakFooter);
 
-    // Observe SPA DOM mutations
+    // Observe SPA DOM mutations with frame throttling
     try {
         var observer = new MutationObserver(function () {
-            applyCodakFooter();
+            scheduleApply();
         });
         observer.observe(document.body, {
             childList: true,
@@ -72,6 +90,7 @@
             characterData: false
         });
     } catch (e) {
-        setInterval(applyCodakFooter, 1000);
+        setInterval(scheduleApply, 1000);
     }
 })();
+

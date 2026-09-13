@@ -1,0 +1,3 @@
+[2026-09-13 18:17:06] WARNING: E_WARNING: rename(data\tmp\tmp598E.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-09-13 18:18:03] WARNING: E_WARNING: rename(data\tmp\tmp3BD8.tmp,data/cache/application/routes.php): Access is denied (code: 5)
+[2026-09-13 18:18:04] WARNING: E_WARNING: rename(data\tmp\tmp3D13.tmp,data/cache/application/classmapControllers.php): Access is denied (code: 5)

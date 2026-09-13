@@ -1,6 +1,6 @@
 <?php
 return [
-  'useCache' => false,
+  'useCache' => true,
   'jobMaxPortion' => 15,
   'jobRunInParallel' => false,
   'jobPoolConcurrencyNumber' => 8,
@@ -15,7 +15,7 @@ return [
   'applicationName' => 'CodakCRM',
   'applicationDescription' => 'Codak CRM Application.',
   'adminPanelIframeDisabled' => true,
-  'logoSrc' => 'client/img/logo.jpeg',
+  'logoSrc' => 'client/custom/img/logo.png',
   'timeZone' => 'UTC',
   'dateFormat' => 'DD.MM.YYYY',
   'timeFormat' => 'HH:mm',
@@ -326,7 +326,7 @@ return [
     0 => 'youtube.com',
     1 => 'google.com'
   ],
-  'microtime' => 1789322234.799889,
+  'microtime' => 1789323635.760631,
   'siteUrl' => 'http://localhost/EspoCRM-10.0.3',
   'fullTextSearchMinLength' => 4
 ];

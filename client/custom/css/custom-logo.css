@@ -93,6 +93,29 @@ body:not(.has-navbar) footer {
     text-align: center !important;
 }
 
+/* STRICT FOOTER ISOLATION: Hide custom footer everywhere EXCEPT main page footer (#footer) */
+.modal .el-hany-footer-container,
+.modal-dialog .el-hany-footer-container,
+.modal-content .el-hany-footer-container,
+.modal-footer .el-hany-footer-container,
+.modal-body .el-hany-footer-container,
+.panel-body .el-hany-footer-container,
+.record .el-hany-footer-container,
+.export-container .el-hany-footer-container,
+#main .el-hany-footer-container,
+#content .el-hany-footer-container,
+div:not(#footer) > .el-hany-footer-container,
+form .el-hany-footer-container {
+    display: none !important;
+}
+
+/* Display ONLY inside the primary page footer */
+#footer .el-hany-footer-container,
+body > footer .el-hany-footer-container,
+body.login-body footer .el-hany-footer-container {
+    display: flex !important;
+}
+
 /* Main Unified Pill Bar - 20% Smaller */
 .codak-unified-footer {
     display: inline-flex !important;
