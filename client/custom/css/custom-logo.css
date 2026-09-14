@@ -189,17 +189,23 @@ body.login-body footer .el-hany-footer-container {
     box-shadow: none !important;
 }
 
-/* Brand Title */
-.codak-footer-title {
-    font-size: 11px !important;
+/* Brand Title Link — 40% Larger Prominence */
+.codak-footer-title,
+a.codak-footer-title {
+    font-size: 15.5px !important;
     font-weight: 800 !important;
     color: #005a70 !important;
     letter-spacing: -0.01em !important;
     transition: color 0.25s ease !important;
+    text-decoration: none !important;
 }
 
+.codak-footer-title:hover,
+.codak-footer-title:focus,
+a.codak-footer-title:hover,
 .codak-unified-footer:hover .codak-footer-title {
     color: #007c9b !important;
+    text-decoration: none !important;
 }
 
 /* Separator Dot */

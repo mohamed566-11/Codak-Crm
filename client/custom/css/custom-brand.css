@@ -87,9 +87,154 @@ label.required::after {
 }
 
 /* ==========================================================================
-   3. STABLE SEARCH BAR & FILTER DROPDOWN
+   3. STACKING CONTEXT ARCHITECTURE & DROPDOWN ENGINE
    ========================================================================== */
 
+/*
+   CSS STACKING CONTEXT — COMPLETE TRIGGER LIST
+   Any of the following on an ANCESTOR of a .dropdown-menu will trap the
+   menu inside that context regardless of z-index value:
+
+   transform: (anything other than none)        ← most common culprit
+   filter: (anything other than none)
+   backdrop-filter: (anything other than none)
+   perspective: (any value)
+   clip-path: (any value)
+   mask / mask-image: (any value)
+   mix-blend-mode: (anything other than normal)
+   opacity: (< 1)                               ← easy to forget
+   isolation: isolate
+   contain: paint | layout | content | strict | size
+   will-change: (any of the above properties)
+   position: fixed                              ← always creates one
+   position: sticky                             ← creates one
+   z-index ≠ auto on ANY positioned element    ← most subtle & common!
+
+   The last one is why blanket z-index:1 on .record .panel is dangerous:
+   every panel becomes its own stacking context, so a dropdown in panel N
+   gets painted below panel N+1 in the DOM.
+
+   SAFE z-index LADDER — inverted design (content small, shell large):
+   Content lives at 10–30 so the navbar (1035) always sits above it.
+   Modals stay above the navbar at 1065+.
+
+   --z-content:         10   (regular page content baseline)
+   --z-page-header:     20   (page-header action shell — above content, below navbar)
+   --z-panel-open:      25   (panel with an active menu inside)
+   --z-dropdown-open:   30   (the open .btn-group — above page-header)
+   --z-dropdown-menu: 1000   (floating menu — above navbar collapse but below modals)
+   --z-navbar:        1035   (navbar shell — must beat all page content)
+   --z-modal-backdrop:1065   (above navbar, below modal)
+   --z-modal:         1070
+   --z-popover:       1080
+   --z-tooltip:       1090
+
+   Why this works:
+   • .page-header was 1050 → above EspoCRM's navbar (~1030) → admin menu was trapped
+     under the page-header stacking context.
+   • Now page-header is 20, navbar is 1035 → navbar always on top of content.
+   • .dropdown-menu is 1000 → renders inside the navbar stacking context correctly,
+     and above any page-content stacking context (max 30).
+   • Modals at 1065 still cover the navbar (1035). ✓
+*/
+
+:root {
+    --z-content:          10;
+    --z-page-header:      20;
+    --z-panel-open:       25;
+    --z-dropdown-open:    30;
+    --z-dropdown-menu:  1000;
+    --z-navbar:         1035;
+    --z-modal-backdrop: 1065;
+    --z-modal:          1070;
+    --z-popover:        1080;
+    --z-tooltip:        1090;
+}
+
+/* Navbar shell — explicitly above all page content */
+#navbar,
+.navbar,
+.navbar-fixed-top,
+.navbar-static-top {
+    position: relative;
+    z-index: var(--z-navbar) !important;
+}
+
+/* FIX: navbar collapse containers must not clip the dropdown menu */
+#navbar .navbar-collapse,
+#navbar .navbar-right,
+#navbar .menu-container,
+#navbar .navbar-header {
+    overflow: visible !important;
+}
+
+/* Page-header shells — above page content (20), below navbar (1035) */
+.detail .page-header,
+.edit .page-header,
+.page-header-column-2,
+.header-buttons,
+.action-buttons-container {
+    position: relative !important;
+    z-index: var(--z-page-header) !important;
+}
+
+/* Record panels — position:relative for stacking, NO explicit z-index.
+   A blanket z-index here would make every panel its own stacking context,
+   causing dropdowns in panel N to be buried under panel N+1 in the DOM. */
+.record,
+.detail .record,
+.edit .record,
+.record .panel {
+    position: relative !important;
+    /* z-index intentionally omitted — see ladder note above */
+}
+
+/* Elevate a panel only when its content is actually active */
+.record .panel:focus-within {
+    z-index: var(--z-panel-open) !important;
+}
+/* :has() progressive enhancement — Chromium 105+ / Firefox 121+ */
+.record .panel:has(.open) {
+    z-index: var(--z-panel-open) !important;
+}
+
+/* Open .btn-group — 30, above page-header (20), safely below navbar (1035)
+   so clicking a menu item that opens a modal doesn't leave the menu on top */
+.btn-group.open,
+.dropdown.open {
+    position: relative !important;
+    z-index: var(--z-dropdown-open) !important;
+}
+
+/* Form cells with active pickers */
+.field.open,
+.cell.open,
+.input-group.open,
+.form-group.open,
+.field-control.open,
+.cell:focus-within,
+.field:focus-within,
+.form-group:focus-within {
+    position: relative !important;
+    z-index: var(--z-dropdown-open) !important;
+}
+
+/* Modal z-index ladder — must beat navbar (1035) */
+.modal-backdrop,
+.modal-backdrop.in {
+    z-index: var(--z-modal-backdrop) !important;
+}
+.modal {
+    z-index: var(--z-modal) !important;
+}
+.popover {
+    z-index: var(--z-popover) !important;
+}
+.tooltip {
+    z-index: var(--z-tooltip) !important;
+}
+
+/* Search container baseline */
 .search-container {
     margin-bottom: 18px;
     position: relative;
@@ -99,30 +244,64 @@ label.required::after {
     position: relative;
 }
 
-/* Ensure Dropdown Menu Opens Cleanly */
+/* ==========================================================================
+   UNIVERSAL DROPDOWN CANVAS
+   z-index: 1000 — above all page content (max 30) and navbar collapse layers,
+   but still within the navbar stacking context so it renders correctly there.
+   Do NOT override transform/filter/will-change — would break Popper.js and
+   EspoCRM's JS-based repositioning near screen edges.
+   ========================================================================== */
 .dropdown-menu,
-.search-container .dropdown-menu {
+.search-container .dropdown-menu,
+.cell-buttons .dropdown-menu,
+.selectize-dropdown,
+.bootstrap-select .dropdown-menu,
+.typeahead.dropdown-menu,
+.autocomplete-dropdown,
+.header-buttons .dropdown-menu,
+.page-header-column-2 .dropdown-menu,
+.detail-button-container .dropdown-menu,
+.navbar-right .dropdown-menu,
+#navbar .dropdown-menu {
     border-radius: 12px !important;
     border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
     background-color: #ffffff !important;
-    box-shadow: 0 10px 28px -4px rgba(0, 45, 60, 0.15) !important;
+    box-shadow: 0 14px 36px -4px rgba(0, 45, 60, 0.22), 0 4px 14px rgba(0, 0, 0, 0.08) !important;
     padding: 6px !important;
-    z-index: 1050 !important;
+    z-index: var(--z-dropdown-menu) !important;
+    position: absolute !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    /* transform / filter / will-change intentionally NOT overridden here */
 }
 
-.dropdown-menu>li>a,
-.search-container .dropdown-menu>li>a {
+/* Dropdown Menu Items Styling */
+.dropdown-menu > li > a,
+.search-container .dropdown-menu > li > a,
+.cell-buttons .dropdown-menu > li > a,
+.selectize-dropdown .option,
+.dropdown-item {
     border-radius: 8px !important;
-    padding: 7px 12px !important;
-    font-weight: 700 !important;
-    color: #475569 !important;
+    padding: 8px 14px !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
     font-size: 13px !important;
+    display: block !important;
+    background-color: transparent !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
 }
 
-.dropdown-menu>li>a:hover,
-.search-container .dropdown-menu>li>a:hover {
-    background-color: #e0f2fe !important;
-    color: #0284c7 !important;
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.search-container .dropdown-menu > li > a:hover,
+.cell-buttons .dropdown-menu > li > a:hover,
+.selectize-dropdown .option.active,
+.dropdown-item:hover {
+    background-color: #f0f7f9 !important;
+    color: #005a70 !important;
+    text-decoration: none !important;
 }
 
 /* View Mode Switcher */
@@ -143,7 +322,9 @@ label.required::after {
    4. LIST HEADERS, PAGINATION, & DATA GRID (TABLES)
    ========================================================================== */
 
-/* Top Action Toolbar & Pagination Alignment */
+/* Top Action Toolbar — NO z-index here: would create a stacking context that
+   traps .btn-group.open (z-index:30) below .btn-group.pagination (z-index:101),
+   causing the dropdown to render behind the pagination pill. */
 .list-buttons-container {
     display: flex !important;
     align-items: center !important;
@@ -152,9 +333,12 @@ label.required::after {
     margin-bottom: 12px !important;
     width: 100% !important;
     clear: both;
+    position: relative !important;
+    /* z-index intentionally omitted — see stacking ladder in section 3 */
 }
 
-/* Glassmorphism Pagination Badge */
+/* Pagination Badge Container — NO z-index: it doesn't need its own stacking
+   context. Visual styling only. */
 .list-buttons-container .pagination,
 .btn-group.pagination {
     display: inline-flex !important;
@@ -167,7 +351,79 @@ label.required::after {
     box-shadow: 0 4px 16px -2px rgba(0, 45, 60, 0.08) !important;
     float: none !important;
     margin: 0 !important;
-    backdrop-filter: blur(8px) !important;
+    position: relative !important;
+    /* z-index intentionally omitted — was causing pagination to render above dropdown */
+}
+
+/* ==========================================================================
+   TOOLTIP & POPOVER STACKING
+   z-index values are defined by the ladder vars in section 3:
+   --z-tooltip: 1090 and --z-popover: 1080.
+   The rules below are applied there. Only visual styling here.
+   ========================================================================== */
+
+.tooltip.in,
+.tooltip.show,
+.popover.in,
+.popover.show {
+    opacity: 1 !important;
+}
+
+/* Solid Opaque Dark Tooltip Box — Eliminates 0.9 opacity background text bleeding */
+.tooltip-inner {
+    background-color: #0f172a !important;
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    font-family: var(--codak-font-sans, 'Inter', sans-serif) !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid #334155 !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+}
+
+/* Tooltip Arrow Alignments */
+.tooltip.top .tooltip-arrow,
+.tooltip.top-left .tooltip-arrow,
+.tooltip.top-right .tooltip-arrow {
+    border-top-color: #0f172a !important;
+}
+.tooltip.bottom .tooltip-arrow,
+.tooltip.bottom-left .tooltip-arrow,
+.tooltip.bottom-right .tooltip-arrow {
+    border-bottom-color: #0f172a !important;
+}
+.tooltip.left .tooltip-arrow {
+    border-left-color: #0f172a !important;
+}
+.tooltip.right .tooltip-arrow {
+    border-right-color: #0f172a !important;
+}
+
+/* Popover Opaque Box */
+.popover {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 14px 36px -4px rgba(0, 45, 60, 0.22) !important;
+    padding: 4px !important;
+}
+
+.popover-title {
+    background-color: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.popover-content {
+    color: #334155 !important;
+    font-size: 13px !important;
 }
 
 .btn-group.pagination .btn-group {
@@ -552,18 +808,24 @@ td.cell .label {
     font-weight: 500;
 }
 
-#navbar .tabs>li>a:hover {
+#navbar .tabs>li>a:hover,
+#navbar .tabs>li.active>a:hover {
     background: rgba(0, 164, 200, 0.08) !important;
     color: var(--codak-accent) !important;
 }
 
 #navbar .tabs>li.active>a,
-#navbar .tabs>li.active>a:hover,
-#navbar .tabs>li.active>a:focus {
+#navbar .tabs>li.active>a:focus,
+body:has(#analytics-content) #navbar .tabs>li:has(a[href*="AnalyticsDashboard"])>a {
     border-left: 4px solid #00a4c8 !important;
     background: linear-gradient(90deg, rgba(0, 164, 200, 0.15) 0%, transparent 100%) !important;
     color: #005a70 !important;
     font-weight: 700 !important;
+}
+
+body:has(#analytics-content) #navbar .tabs>li:has(a[href*="AnalyticsDashboard"]) {
+    border-left: 4px solid #00a4c8 !important;
+    background: linear-gradient(90deg, rgba(0, 164, 200, 0.15) 0%, transparent 100%) !important;
 }
 
 #navbar .tabs li .short-label>span,
@@ -611,7 +873,10 @@ td.cell .label {
 
 /* 6. Analytics Dashboard - Vibrant Bright Cyan */
 #navbar .tabs li[data-name="AnalyticsDashboard"] .short-label>span,
-#navbar .tabs li.tab-AnalyticsDashboard .short-label>span {
+#navbar .tabs li.tab-AnalyticsDashboard .short-label>span,
+#navbar .tabs li:has(a[href*="AnalyticsDashboard"]) .short-label>span,
+#navbar .tabs li a[href*="AnalyticsDashboard"] .short-label>span,
+#navbar .tabs li a[href*="AnalyticsDashboard"] i {
     color: #00a4c8 !important;
 }
 
@@ -689,6 +954,7 @@ td.cell .label {
    8. FLOATING MODALS & GLASSMORPHISM DIALOG SYSTEM
    ========================================================================== */
 
+/* Modal backdrop — z-index set in the stacking ladder above (section 3) */
 .modal-backdrop.in {
     opacity: 0.55 !important;
     backdrop-filter: blur(8px) !important;
@@ -700,21 +966,40 @@ td.cell .label {
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
+/*
+   MODAL CONTENT — two stacking-context traps removed:
+   1. overflow:hidden was clipping date-pickers and dropdowns inside the modal.
+   2. animation: ...forwards with a transform in the «to» frame freezes a
+      stacking context permanently after the animation ends (browsers keep the
+      context alive as long as the composited layer exists).
+   Fix: animate opacity only on .modal-content; keep the scale/translate on
+   .modal-dialog (which is already a context because modal itself is positioned).
+*/
 .modal-content {
     border-radius: 18px !important;
     border: 1.5px solid rgba(0, 164, 200, 0.28) !important;
     box-shadow: 0 24px 60px -8px rgba(0, 45, 60, 0.22), 0 8px 24px rgba(0, 0, 0, 0.08) !important;
-    overflow: hidden !important;
+    /* overflow:hidden removed — was clipping inner pickers & dropdowns */
     background: #ffffff !important;
-    animation: modalPopIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    /* opacity-only animation: no transform → no permanent stacking context */
+    animation: modalFadeIn 0.3s ease forwards !important;
 }
 
-@keyframes modalPopIn {
+/* The pop-in scale lives on .modal-dialog which is already a context */
+.modal-dialog {
+    animation: modalSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
     from {
         opacity: 0;
         transform: scale(0.93) translateY(-16px);
     }
-
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -811,8 +1096,9 @@ td.cell .label {
 }
 
 .kanban-card:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 10px 24px -4px rgba(0, 70, 90, 0.16) !important;
+    /* No transform — kanban cards may contain dropdown menus */
+    box-shadow: 0 10px 28px -4px rgba(0, 70, 90, 0.18),
+                0 3px 8px rgba(0, 164, 200, 0.1) !important;
     border-left-color: #005a70 !important;
 }
 
@@ -1082,19 +1368,30 @@ body.login-body .container-centering,
    16. GRIDSTACK DASHBOARD & INTERACTIVE DASHLET CARDS (.dashlet)
    ========================================================================== */
 
+/*
+   DASHLET — three stacking-context traps removed:
+   1. overflow:hidden was clipping the «...» dropdown menu at the card edge.
+   2. transform:translateY(-4px) on :hover created a stacking context exactly
+      when the user hovers to reach the «...» button — guaranteed to trap the menu.
+   3. animation:fadeUpEntrance...forwards in custom-ui-animations.css freezes
+      a transform-based stacking context permanently (fixed there).
+   Lift effect is now pure box-shadow + border-color — same visual, zero context.
+*/
 .dashlet {
     background: #ffffff !important;
     border: 1px solid #cbd5e1 !important;
     border-radius: 16px !important;
     box-shadow: 0 6px 20px -4px rgba(0, 45, 60, 0.06) !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    overflow: hidden !important;
+    transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    /* overflow:hidden removed — was clipping dashlet dropdown menus */
 }
 
 .dashlet:hover {
-    transform: translateY(-4px) !important;
-    box-shadow: 0 14px 32px -6px rgba(0, 45, 60, 0.14) !important;
-    border-color: rgba(0, 164, 200, 0.4) !important;
+    /* No transform — use shadow depth instead to simulate lift */
+    box-shadow: 0 14px 40px -6px rgba(0, 45, 60, 0.16),
+                0 4px 12px -2px rgba(0, 164, 200, 0.12) !important;
+    border-color: rgba(0, 164, 200, 0.45) !important;
 }
 
 .dashlet .panel-heading {
@@ -1138,11 +1435,12 @@ body.login-body .container-centering,
     border: 1px solid #e2e8f0 !important;
     border-radius: 12px !important;
     box-shadow: 0 4px 12px rgba(0, 45, 60, 0.04) !important;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .table-admin-panel tr.admin-content-row:hover {
-    transform: translateY(-3px) !important;
+    /* No transform — would create a stacking context on the row */
     box-shadow: 0 10px 24px -4px rgba(0, 164, 200, 0.16) !important;
     border-color: rgba(0, 164, 200, 0.35) !important;
 }
@@ -1277,18 +1575,26 @@ body.login-body .container-centering,
 
 /* ==========================================================================
    21. DETAIL & EDIT VIEW FLOATING ACTION TOOLBAR (.detail-button-container)
+
+   CRITICAL: backdrop-filter creates a new CSS stacking context which traps
+   any .dropdown-menu inside it — making dropdowns appear to bleed through
+   content below. We achieve the same frosted-glass look via a ::before
+   pseudo-element so the element itself stays stacking-context-free.
    ========================================================================== */
 
 .detail-button-container {
-    background: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
+    /* z-index: var(--z-page-header) = 20 — must stay BELOW navbar (1035).
+       Previous value was 1050 which was above the navbar, causing the admin
+       dropdown to render behind this bar. */
+    position: relative !important;
+    z-index: var(--z-page-header) !important;
+    background: #ffffff !important;
     border: 1px solid rgba(203, 213, 225, 0.8) !important;
     border-radius: 16px !important;
     padding: 10px 18px !important;
     margin-bottom: 20px !important;
-    box-shadow: 0 8px 24px -4px rgba(0, 45, 60, 0.08) !important;
-    transition: all 0.25s ease !important;
+    box-shadow: 0 8px 28px -4px rgba(0, 45, 60, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease !important;
 }
 
 .detail-button-container .action[data-action="previous"],
@@ -1450,24 +1756,24 @@ body.login-body .container-centering,
    26. TABLE ROW ACTION DROPDOWNS & MICRO-ANIMATIONS (.cell-buttons)
    ========================================================================== */
 
-.cell-buttons .dropdown-menu {
-    border-radius: 12px !important;
-    border: 1px solid #cbd5e1 !important;
-    box-shadow: 0 12px 32px -4px rgba(0, 45, 60, 0.16) !important;
-    padding: 6px !important;
-}
-
+/* cell-buttons inherits the universal dropdown canvas rules above.
+   Padding-inline-start slide gives the tactile left-shift without creating
+   a stacking context (transform would). */
 .cell-buttons .dropdown-menu>li>a {
     border-radius: 8px !important;
-    padding: 6px 12px !important;
+    padding-block: 6px !important;
+    padding-inline-start: 12px !important;
+    padding-inline-end: 12px !important;
     font-weight: 700 !important;
     font-size: 12.5px !important;
     color: #334155 !important;
-    transition: all 0.15s ease !important;
+    transition: background-color 0.15s ease,
+                color 0.15s ease,
+                padding-inline-start 0.15s ease !important;
 }
 
 .cell-buttons .dropdown-menu>li>a:hover {
     background-color: #005a70 !important;
     color: #ffffff !important;
-    transform: translateX(3px) !important;
+    padding-inline-start: 18px !important;
 }

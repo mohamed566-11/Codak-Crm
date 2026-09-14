@@ -138,12 +138,19 @@ footer .credit,
 
 ---
 
-### 4. [client/res/templates/site/footer.tpl](file:///d:/laragon/www/EspoCRM-9.3.8/client/res/templates/site/footer.tpl)
+### 4. [client/res/templates/site/footer.tpl](file:///d:/laragon/www/EspoCRM-10.0.3/client/res/templates/site/footer.tpl)
 ```html
 <div class="el-hany-footer-container">
-    <p class="el-hany-copyright">
-        &copy; 2026 <span class="el-hany-brand">El Hany</span>
-    </p>
+    <div class="codak-unified-footer">
+        <div class="codak-footer-left">
+            <div class="codak-footer-logo-box">
+                <img src="client/custom/img/logo-39.png" class="codak-footer-brand-logo" alt="Codak Logo">
+            </div>
+            <a class="codak-footer-title" href="https://codak.net/" target="_blank" rel="noopener" title="Visit Codak Official Site">Codak</a>
+            <span class="codak-footer-sep"><i class="fas fa-circle codak-dot-icon"></i></span>
+            <span class="codak-footer-copy">&copy; 2026 All Rights Reserved</span>
+        </div>
+    </div>
 </div>
 ```
 

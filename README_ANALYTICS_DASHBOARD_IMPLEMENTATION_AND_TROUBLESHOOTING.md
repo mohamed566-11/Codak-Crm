@@ -2153,5 +2153,46 @@ php command.php rebuild
   3. **إلغاء الصيغ الاسية للهواتف (Tab Prefix Trick `"\t+11566..."`):** استخدام بادئة Tab داخل النص المعلم لضمان طباعة أرقام الهواتف كنص خالص في إكسل وتجنب `1.1566E+10`.
   4. **تبسيط التواريخ (`YYYY-MM-DD`):** قص التواريخ لصيغة قصيرة مقروءة تتناسب مع عرض خلايا إكسل الافتراضي وتمنع ظهور `##########`.
 
+---
+
+### ❌ المشكلة 20: ظهور شريط التمرير الأفقي الزائد في أسفل القائمة الجانبية (Sidebar Horizontal Scrollbar Removal)
+- **السبب العلمي:** وجود خاصية `transform: translateX(4px);` على محدد عناصر القائمة عند التمرير `#navbar .tabs>li>a:hover` داخل ملف التنسيقات [client/custom/css/custom-ui-animations.css](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/css/custom-ui-animations.css). هذا التزحزح بمقدار 4 بكسل لليمين تسبب في زيادة عرض التبويب عن حاوية الشريط الجانبي الفعلي، مما أدى لظهور شريط سحب أفقي سُفلي مزعج.
+- **الحل:** المسح الدقيق والجراحي للخاصية `transform: translateX(4px);` فقط مع الإبقاء على كافة المؤثرات الضوئية والتألق التفاعلي والخلفيات المتدرجة دون تمطيط العرض أفقياً، ثم تنظيف وتجديد التخزين المؤقت:
+  ```powershell
+  php command.php clear-cache
+  php command.php rebuild
+  php command.php update-app-timestamp
+  ```
+
+---
+
+### ❌ المشكلة 21: ظهور حقوق وحواشي إسبو القديمة وتعارضها مع العلامة التجارية لـ Codak (Legacy Footer Suppression & SPA Dynamic Injection)
+- **السبب العلمي:** في تطبيقات الصفحة الواحدة (SPA)، يتغير المحتوى ويتجدد الهيكل بدون إعادة تحميل الصفحة، مما يجعل تعديلات الـ DOM الثابتة تفقد فاعليتها وتستعيد عناصر الحقوق القديمة `.credit` ورابط EspoCRM.
+- **الحل:** بناء المحرك التفاعلي [client/custom/src/codak-footer.js](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/src/codak-footer.js) باستخدام `MutationObserver` لمراقبة تغيرات الـ DOM مع تقنية `requestAnimationFrame` لمنع التباطؤ، ومحو العناصر القديمة ديناميكياً وحقن الهيدر الموحد `.codak-unified-footer` بشعار `client/custom/img/logo-39.png` وعنوان `Codak` كرابط تشعبي للموقع الرسمي `https://codak.net/` مع إزالة عناصر التشتيت الجانبية وحفظ حقوق عام 2026.
+
+---
+
+### ❌ المشكلة 22: خطورة تسريب بيانات التكوين الحساسة والإعدادات المحلية إلى مستودع التتبع (Git Tracked Configuration Leaks)
+- **السبب العلمي:** تتبع ملفات `data/config.php` و `data/state.php` عبر Git يعرض بيانات اتصال قاعدة البيانات والمفتاح السري للتسريب عند نقل الكود بين البيئات المحلية والإنتاجية.
+- **الحل:** تحديث ملف [.gitignore](file:///d:/laragon/www/EspoCRM-10.0.3/.gitignore) وإضافة `data/config.php` و `data/state.php` لمنع تتبعهما مع الإبقاء على تتبع المجلدات المخصصة Tier-4 فقط.
+
+---
+
+### ❌ المشكلة 23: الحاجة لأداة معاينة مباشرة وتعديل لـ HTML داخل النظام دون مغادرة الشاشة (HtmlPreview Scope & Real-Time Live Renderer)
+- **السبب العلمي:** غياب شاشة مخصصة لمعاينة وتصميم الأكواد والقوالب التفاعلية مباشرة داخل بيئة العمل.
+- **الحل:** بناء نطاق الخدمة `HtmlPreview` في [custom/Espo/Custom/Resources/metadata/scopes/HtmlPreview.json](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/scopes/HtmlPreview.json) وإضافة المسار `#HtmlPreview` في `clientRoutes.json` وبناء الواجهة التفاعلية مقسومة للشاشتين [client/custom/src/views/html-preview/index.js](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/src/views/html-preview/index.js) والتي تتيح محرراً ذكياً للأكواد مع نماذج جاهزة (Cards, Buttons, Tables) ومعاينة فورية في الجانب الأيمن.
+
+---
+
+### ❌ المشكلة 24: هجرة قواعد التحقق للسيرفر عبر خطافات PHP المخصصة (Backend Validation Hooks Architecture)
+- **السبب العلمي:** الاعتماد على قواعد Frontend فقط أو قواعد logicDefs القديمة يجعل النظام عرضة لتجاوز البيانات غير المكتملة عبر الـ API.
+- **الحل:** توثيق وبناء 8 كلاسات تعثر وتحقق سيرفرية تحت النطاق `Espo\Custom\Hooks\` لتأكيد سلامة البيانات، مثل `RequireNameIfContactInfoEmpty` لكيان `Lead` والتي تضمن عدم ترك اسم الليد فارغاً إذا كانت بيانات الاتصال الأخرى فارغة، وإطلاق استثناء `BadRequest` دقيق.
+
+---
+
+### ❌ المشكلة 25: إعادة هيكلة وتطوير المانيفست الموحد للدليل والبلان الشاملة (`README_STOCK_AND_FINANCE_MASTER_PLAN.md`)
+- **السبب العلمي:** الحاجة لملف توثيقي شامل ومرجعي يربط كود النظام الفعلي وهيكليته الحالية بخطة بناء موديلي المخزون والمالية التجميعية.
+- **الحل:** إنشاء وتحديث المانيفست الموحد [README_STOCK_AND_FINANCE_MASTER_PLAN.md](file:///d:/laragon/www/EspoCRM-10.0.3/README_STOCK_AND_FINANCE_MASTER_PLAN.md) متضمناً كافة أصول النظام الحالي، التبويبات المخصصة، الـ Scopes، الـ Client Routes، الـ Hooks، قواعد الـ Architecture الـ 12، ومواصفات المراحل 1 إلى 6 ومصفوفات الصلاحيات واختبارات القبول الحسابي.
+
 
 

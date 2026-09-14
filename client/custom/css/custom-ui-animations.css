@@ -87,8 +87,7 @@
 }
 
 /* Active Sidebar Tab Animated Left Border & Pulse */
-#navbar .tabs>li.active>a,
-#navbar .tabs>li.active>a:hover {
+#navbar .tabs>li.active>a {
     border-left: 4px solid var(--codak-accent) !important;
     background: linear-gradient(90deg, rgba(0, 90, 112, 0.15) 0%, transparent 100%) !important;
     animation: sidebarPulse 3s ease-in-out infinite;
@@ -188,33 +187,38 @@
     }
 }
 
-/* 3. Staggered Entrance & Reveal Animation (Safe Component Scope) */
+/* 3. Staggered Entrance & Reveal Animation (Safe Component Scope)
+   NOTE: animation fill-mode:forwards with a transform in the final keyframe
+   creates a permanent stacking context on the element for as long as it lives
+   in the DOM. This trapped dashlet/panel dropdowns.
+   Fix: animate opacity only — no transform in keyframes — so no context is created.
+   Elements that need a physical "slide up" can use a separate wrapper. */
 .animate-fade-up,
-.dashlet,
-.panel-dashlet,
 .admin-search-container {
-    animation: fadeUpEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeInOnly 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes fadeUpEntrance {
-    0% {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* .dashlet and .panel-dashlet entrance: opacity fade, no transform —
+   dashlets must not carry a stacking context (they contain «...» dropdowns) */
+.dashlet,
+.panel-dashlet {
+    animation: fadeInOnly 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Smooth Interactive Card Hover Lift (Widget & Dashlet Scope) */
-.dashlet:hover,
-.panel-dashlet:hover,
+@keyframes fadeInOnly {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Smooth Interactive Card Hover Lift (Widget & Dashlet Scope)
+   IMPORTANT: No transform on .dashlet or .panel-dashlet — they contain
+   dropdown menus. Transform creates a stacking context that clips those menus.
+   Use shadow depth + border-color for the lift illusion instead.
+   (The actual hover rule lives in custom-brand.css section 16; this block
+    is intentionally left to shadow-only to avoid conflicts.) */
 .admin-content-section:hover {
-    transform: translateY(-3px) !important;
     box-shadow: var(--codak-card-hover-shadow) !important;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 /* Table Row Smooth Hover Animation */
