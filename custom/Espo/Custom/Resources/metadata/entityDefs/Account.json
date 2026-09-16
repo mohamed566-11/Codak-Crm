@@ -1,0 +1,16 @@
+{
+    "links": {
+        "cLeads": {
+            "type": "hasMany",
+            "foreign": "cAccount",
+            "entity": "Lead",
+            "audited": false,
+            "isCustom": true
+        }
+    },
+    "fields": {
+        "cLeads": {
+            "type": "linkMultiple"
+        }
+    }
+}

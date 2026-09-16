@@ -18,7 +18,7 @@
 
 /* ==========================================================================
    HTML LIVE PREVIEW TOOL STYLING
-   ========================================================================== */
+   ======================================================================== */
 .html-editor-panel .panel-body {
     padding: 12px !important;
 }
@@ -206,8 +206,13 @@
 }
 
 @keyframes fadeInOnly {
-    0%   { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 /* Smooth Interactive Card Hover Lift (Widget & Dashlet Scope)

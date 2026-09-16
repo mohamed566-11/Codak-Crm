@@ -8190,6 +8190,10 @@ return (object) [
         ],
         'cases' => (object) [
           'layout' => 'listForAccount'
+        ],
+        'leads' => (object) [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'filterList' => [
@@ -9116,6 +9120,10 @@ return (object) [
         ],
         'calls' => (object) [
           'createHandler' => 'handlers/create-related/set-parent'
+        ],
+        'account' => (object) [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'filterList' => [
@@ -21359,6 +21367,9 @@ return (object) [
           'readOnly' => true,
           'utility' => true
         ],
+        'cLeads' => (object) [
+          'type' => 'linkMultiple'
+        ],
         'emailAddressIsOptedOut' => (object) [
           'type' => 'bool',
           'notStorable' => true,
@@ -21565,6 +21576,13 @@ return (object) [
           'type' => 'hasOne',
           'entity' => 'Lead',
           'foreign' => 'createdAccount'
+        ],
+        'cLeads' => (object) [
+          'type' => 'hasMany',
+          'foreign' => 'cAccount',
+          'entity' => 'Lead',
+          'audited' => false,
+          'isCustom' => true
         ]
       ],
       'collection' => (object) [
@@ -25033,6 +25051,9 @@ return (object) [
           'layoutAvailabilityList' => [],
           'directAccessDisabled' => true
         ],
+        'cAccount' => (object) [
+          'type' => 'link'
+        ],
         'middleName' => (object) [
           'type' => 'varchar',
           'maxLength' => 100,
@@ -25239,6 +25260,13 @@ return (object) [
           'entity' => 'Document',
           'foreign' => 'leads',
           'audited' => true
+        ],
+        'cAccount' => (object) [
+          'type' => 'belongsTo',
+          'foreign' => 'cLeads',
+          'entity' => 'Account',
+          'audited' => false,
+          'isCustom' => true
         ]
       ],
       'convertEntityList' => [

@@ -4,5 +4,11 @@
         "detail": "custom:views/account/record/detail",
         "edit": "custom:views/account/record/edit",
         "list": "custom:views/account/record/list"
+    },
+    "relationshipPanels": {
+        "leads": {
+            "layout": null,
+            "selectPrimaryFilterName": null
+        }
     }
 }

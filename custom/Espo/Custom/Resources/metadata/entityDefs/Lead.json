@@ -1,0 +1,16 @@
+{
+    "fields": {
+        "cAccount": {
+            "type": "link"
+        }
+    },
+    "links": {
+        "cAccount": {
+            "type": "belongsTo",
+            "foreign": "cLeads",
+            "entity": "Account",
+            "audited": false,
+            "isCustom": true
+        }
+    }
+}

@@ -1,5 +1,9 @@
 {
     "fields": {
-        "accountName": "Account"
+        "accountName": "Account",
+        "cAccount": "Account"
+    },
+    "links": {
+        "cAccount": "Account"
     }
 }

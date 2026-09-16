@@ -8190,6 +8190,10 @@ return [
         ],
         'cases' => [
           'layout' => 'listForAccount'
+        ],
+        'leads' => [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'filterList' => [
@@ -9116,6 +9120,10 @@ return [
         ],
         'calls' => [
           'createHandler' => 'handlers/create-related/set-parent'
+        ],
+        'account' => [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'filterList' => [
@@ -21359,6 +21367,9 @@ return [
           'readOnly' => true,
           'utility' => true
         ],
+        'cLeads' => [
+          'type' => 'linkMultiple'
+        ],
         'emailAddressIsOptedOut' => [
           'type' => 'bool',
           'notStorable' => true,
@@ -21565,6 +21576,13 @@ return [
           'type' => 'hasOne',
           'entity' => 'Lead',
           'foreign' => 'createdAccount'
+        ],
+        'cLeads' => [
+          'type' => 'hasMany',
+          'foreign' => 'cAccount',
+          'entity' => 'Lead',
+          'audited' => false,
+          'isCustom' => true
         ]
       ],
       'collection' => [
@@ -25033,6 +25051,9 @@ return [
           'layoutAvailabilityList' => [],
           'directAccessDisabled' => true
         ],
+        'cAccount' => [
+          'type' => 'link'
+        ],
         'middleName' => [
           'type' => 'varchar',
           'maxLength' => 100,
@@ -25239,6 +25260,13 @@ return [
           'entity' => 'Document',
           'foreign' => 'leads',
           'audited' => true
+        ],
+        'cAccount' => [
+          'type' => 'belongsTo',
+          'foreign' => 'cLeads',
+          'entity' => 'Account',
+          'audited' => false,
+          'isCustom' => true
         ]
       ],
       'convertEntityList' => [

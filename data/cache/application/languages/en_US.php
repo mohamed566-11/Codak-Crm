@@ -4655,7 +4655,8 @@ Leave the field empty if you need to apply the exception only for specific users
       'campaign' => 'Campaign',
       'targetLists' => 'Target Lists',
       'targetList' => 'Target List',
-      'originalLead' => 'Original Lead'
+      'originalLead' => 'Original Lead',
+      'cLeads' => 'Leads'
     ],
     'links' => [
       'contacts' => 'Contacts',
@@ -4671,7 +4672,8 @@ Leave the field empty if you need to apply the exception only for specific users
       'campaignLogRecords' => 'Campaign Log',
       'campaign' => 'Campaign',
       'portalUsers' => 'Portal Users',
-      'originalLead' => 'Original Lead'
+      'originalLead' => 'Original Lead',
+      'cLeads' => 'Leads'
     ],
     'options' => [
       'type' => [
@@ -5283,7 +5285,8 @@ Leave the field empty if you need to apply the exception only for specific users
       'acceptanceStatusMeetings' => 'Acceptance Status (Meetings)',
       'acceptanceStatusCalls' => 'Acceptance Status (Calls)',
       'originalEmail' => 'Original Email',
-      'pipeline' => 'Pipeline'
+      'pipeline' => 'Pipeline',
+      'cAccount' => 'Account'
     ],
     'links' => [
       'targetLists' => 'Target Lists',
@@ -5294,7 +5297,8 @@ Leave the field empty if you need to apply the exception only for specific users
       'createdOpportunity' => 'Opportunity',
       'cases' => 'Cases',
       'documents' => 'Documents',
-      'pipeline' => 'Pipeline'
+      'pipeline' => 'Pipeline',
+      'cAccount' => 'Account'
     ],
     'options' => [
       'status' => [

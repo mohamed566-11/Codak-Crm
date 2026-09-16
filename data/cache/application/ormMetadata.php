@@ -17908,6 +17908,24 @@ return [
         'foreign' => 'name',
         'foreignType' => 'varchar'
       ],
+      'cLeadsIds' => [
+        'type' => 'jsonArray',
+        'notStorable' => true,
+        'isLinkMultipleIdList' => true,
+        'relation' => 'cLeads',
+        'isUnordered' => true,
+        'attributeRole' => 'idList',
+        'fieldType' => 'linkMultiple',
+        'isLinkStub' => false
+      ],
+      'cLeadsNames' => [
+        'type' => 'jsonObject',
+        'notStorable' => true,
+        'isLinkMultipleNameMap' => true,
+        'attributeRole' => 'nameMap',
+        'fieldType' => 'linkMultiple',
+        'isLinkStub' => false
+      ],
       'isFollowed' => [
         'type' => 'bool',
         'notStorable' => true,
@@ -18178,6 +18196,12 @@ return [
             'key' => 'UNIQ_ENTITY_ID_PHONE_NUMBER_ID_ENTITY_TYPE'
           ]
         ]
+      ],
+      'cLeads' => [
+        'type' => 'hasMany',
+        'entity' => 'Lead',
+        'foreignKey' => 'cAccountId',
+        'foreign' => 'cAccount'
       ],
       'originalLead' => [
         'type' => 'hasOne',
@@ -27067,6 +27091,24 @@ return [
         'attributeRole' => 'name',
         'fieldType' => 'link'
       ],
+      'cAccountId' => [
+        'len' => 17,
+        'dbType' => 'string',
+        'type' => 'foreignId',
+        'index' => true,
+        'attributeRole' => 'id',
+        'fieldType' => 'link',
+        'notNull' => false
+      ],
+      'cAccountName' => [
+        'type' => 'foreign',
+        'notStorable' => true,
+        'attributeRole' => 'name',
+        'fieldType' => 'link',
+        'relation' => 'cAccount',
+        'foreign' => 'name',
+        'foreignType' => 'varchar'
+      ],
       'isFollowed' => [
         'type' => 'bool',
         'notStorable' => true,
@@ -27264,6 +27306,13 @@ return [
             'key' => 'UNIQ_ENTITY_ID_PHONE_NUMBER_ID_ENTITY_TYPE'
           ]
         ]
+      ],
+      'cAccount' => [
+        'type' => 'belongsTo',
+        'entity' => 'Account',
+        'key' => 'cAccountId',
+        'foreignKey' => 'id',
+        'foreign' => 'cLeads'
       ],
       'documents' => [
         'type' => 'manyMany',
@@ -27667,6 +27716,13 @@ return [
           0 => 'createdOpportunityId'
         ],
         'key' => 'IDX_CREATED_OPPORTUNITY_ID'
+      ],
+      'cAccountId' => [
+        'type' => 'index',
+        'columns' => [
+          0 => 'cAccountId'
+        ],
+        'key' => 'IDX_C_ACCOUNT_ID'
       ]
     ],
     'collection' => [
