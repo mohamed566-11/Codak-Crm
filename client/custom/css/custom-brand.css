@@ -139,16 +139,16 @@ label.required::after {
 */
 
 :root {
-    --z-content:          10;
-    --z-page-header:      20;
-    --z-panel-open:       25;
-    --z-dropdown-open:    30;
-    --z-dropdown-menu:  1000;
-    --z-navbar:         1035;
+    --z-content: 10;
+    --z-page-header: 20;
+    --z-panel-open: 25;
+    --z-dropdown-open: 30;
+    --z-dropdown-menu: 1000;
+    --z-navbar: 1035;
     --z-modal-backdrop: 1065;
-    --z-modal:          1070;
-    --z-popover:        1080;
-    --z-tooltip:        1090;
+    --z-modal: 1070;
+    --z-popover: 1080;
+    --z-tooltip: 1090;
 }
 
 /* Navbar shell — explicitly above all page content */
@@ -171,14 +171,14 @@ label.required::after {
 #navbar .navbar-body,
 #navbar .navbar-left-container,
 #navbar .tabs,
-#navbar .tabs > li.more {
+#navbar .tabs>li.more {
     overflow: visible !important;
 }
 
 /* Ensure navbar dropdown menu is displayed properly when opened */
-#navbar .tabs > li.more.open > .more-dropdown-menu,
-#navbar .tabs > li.open > .dropdown-menu,
-#navbar .tabs > li.open > .more-dropdown-menu,
+#navbar .tabs>li.more.open>.more-dropdown-menu,
+#navbar .tabs>li.open>.dropdown-menu,
+#navbar .tabs>li.open>.more-dropdown-menu,
 #navbar .more-dropdown-menu.more-expanded {
     display: block !important;
     visibility: visible !important;
@@ -195,7 +195,7 @@ label.required::after {
     padding: 6px !important;
 }
 
-body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
+body.minimized #navbar .tabs>li.more>.more-dropdown-menu {
     left: 100% !important;
     top: 0 !important;
     margin-left: 4px !important;
@@ -209,7 +209,7 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
     visibility: visible !important;
 }
 
-#navbar .more-dropdown-menu > li > a {
+#navbar .more-dropdown-menu>li>a {
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
@@ -243,6 +243,7 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
 .record .panel:focus-within {
     z-index: var(--z-panel-open) !important;
 }
+
 /* :has() progressive enhancement — Chromium 105+ / Firefox 121+ */
 .record .panel:has(.open) {
     z-index: var(--z-panel-open) !important;
@@ -274,12 +275,15 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
 .modal-backdrop.in {
     z-index: var(--z-modal-backdrop) !important;
 }
+
 .modal {
     z-index: var(--z-modal) !important;
 }
+
 .popover {
     z-index: var(--z-popover) !important;
 }
+
 .tooltip {
     z-index: var(--z-tooltip) !important;
 }
@@ -327,9 +331,9 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
 }
 
 /* Dropdown Menu Items Styling */
-.dropdown-menu > li > a,
-.search-container .dropdown-menu > li > a,
-.cell-buttons .dropdown-menu > li > a,
+.dropdown-menu>li>a,
+.search-container .dropdown-menu>li>a,
+.cell-buttons .dropdown-menu>li>a,
 .selectize-dropdown .option,
 .dropdown-item {
     border-radius: 8px !important;
@@ -342,10 +346,10 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
     transition: background-color 0.15s ease, color 0.15s ease !important;
 }
 
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus,
-.search-container .dropdown-menu > li > a:hover,
-.cell-buttons .dropdown-menu > li > a:hover,
+.dropdown-menu>li>a:hover,
+.dropdown-menu>li>a:focus,
+.search-container .dropdown-menu>li>a:hover,
+.cell-buttons .dropdown-menu>li>a:hover,
 .selectize-dropdown .option.active,
 .dropdown-item:hover {
     background-color: #f0f7f9 !important;
@@ -378,30 +382,31 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
     padding: 8px 0 !important;
     margin-bottom: 12px !important;
     width: 100% !important;
     clear: both;
     position: relative !important;
-    /* z-index intentionally omitted — see stacking ladder in section 3 */
 }
 
-/* Pagination Badge Container — NO z-index: it doesn't need its own stacking
-   context. Visual styling only. */
+/* Pagination Badge Container — Aligned to end, premium rounded capsule pill */
 .list-buttons-container .pagination,
 .btn-group.pagination {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 4px !important;
+    gap: 6px !important;
     background: #ffffff !important;
-    border: 1px solid rgba(203, 213, 225, 0.9) !important;
-    border-radius: 24px !important;
-    padding: 3px 8px !important;
-    box-shadow: 0 4px 16px -2px rgba(0, 45, 60, 0.08) !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 28px !important;
+    padding: 4px 10px !important;
+    box-shadow: 0 4px 14px -2px rgba(0, 45, 60, 0.08) !important;
     float: none !important;
-    margin: 0 !important;
+    margin-left: auto !important;
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
     position: relative !important;
-    /* z-index intentionally omitted — was causing pagination to render above dropdown */
 }
 
 /* ==========================================================================
@@ -441,14 +446,17 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
 .tooltip.top-right .tooltip-arrow {
     border-top-color: #0f172a !important;
 }
+
 .tooltip.bottom .tooltip-arrow,
 .tooltip.bottom-left .tooltip-arrow,
 .tooltip.bottom-right .tooltip-arrow {
     border-bottom-color: #0f172a !important;
 }
+
 .tooltip.left .tooltip-arrow {
     border-left-color: #0f172a !important;
 }
+
 .tooltip.right .tooltip-arrow {
     border-right-color: #0f172a !important;
 }
@@ -481,52 +489,55 @@ body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
 }
 
 .btn-group.pagination .pagination-btn-middle {
-    font-size: 12px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
-    color: #334155 !important;
+    color: #005a70 !important;
     padding: 4px 12px !important;
-    border: none !important;
-    background: transparent !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
     box-shadow: none !important;
     text-decoration: none !important;
-    border-radius: 14px !important;
+    border-radius: 16px !important;
+    transition: all 0.2s ease !important;
 }
 
 .btn-group.pagination .pagination-btn-middle:hover {
-    color: #00a4c8 !important;
-    background-color: #f1f5f9 !important;
+    color: #007c9b !important;
+    background-color: #e0f2fe !important;
+    border-color: #bae6fd !important;
 }
 
 .btn-group.pagination .pagination-btn {
-    border: none !important;
-    background: transparent !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
     color: #005a70 !important;
-    width: 28px !important;
-    height: 28px !important;
+    width: 30px !important;
+    height: 30px !important;
     padding: 0 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     border-radius: 50% !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: none !important;
+    box-shadow: 0 2px 4px rgba(0, 45, 60, 0.04) !important;
 }
 
-.btn-group.pagination .pagination-btn:hover {
+.btn-group.pagination .pagination-btn:hover:not(.disabled) {
     background-color: #005a70 !important;
     color: #ffffff !important;
-    /* transform removed — creates a stacking context on hover which can trap the
-       adjacent dropdown. Use box-shadow lift instead for same visual effect. */
-    box-shadow: 0 3px 10px rgba(0, 90, 112, 0.32) !important;
+    border-color: #005a70 !important;
+    box-shadow: 0 4px 12px rgba(0, 90, 112, 0.28) !important;
 }
 
-.btn-group.pagination .pagination-btn.disabled {
-    opacity: 0.3 !important;
+.btn-group.pagination .pagination-btn.disabled,
+.btn-group.pagination .pagination-btn[disabled] {
+    opacity: 0.35 !important;
     cursor: not-allowed !important;
     transform: none !important;
-    background: transparent !important;
-    color: #64748b !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+    border-color: #e2e8f0 !important;
     box-shadow: none !important;
 }
 
@@ -1036,8 +1047,13 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
 }
 
 @keyframes modalFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes modalSlideIn {
@@ -1045,6 +1061,7 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
         opacity: 0;
         transform: scale(0.93) translateY(-16px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1143,7 +1160,7 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
 .kanban-card:hover {
     /* No transform — kanban cards may contain dropdown menus */
     box-shadow: 0 10px 28px -4px rgba(0, 70, 90, 0.18),
-                0 3px 8px rgba(0, 164, 200, 0.1) !important;
+        0 3px 8px rgba(0, 164, 200, 0.1) !important;
     border-left-color: #005a70 !important;
 }
 
@@ -1339,6 +1356,7 @@ input[data-name="global-search"]:focus {
         opacity: 0;
         transform: translateX(50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -1431,14 +1449,14 @@ body.login-body .container-centering,
     border-radius: 16px !important;
     box-shadow: 0 6px 20px -4px rgba(0, 45, 60, 0.06) !important;
     transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
     /* overflow:hidden removed — was clipping dashlet dropdown menus */
 }
 
 .dashlet:hover {
     /* No transform — use shadow depth instead to simulate lift */
     box-shadow: 0 14px 40px -6px rgba(0, 45, 60, 0.16),
-                0 4px 12px -2px rgba(0, 164, 200, 0.12) !important;
+        0 4px 12px -2px rgba(0, 164, 200, 0.12) !important;
     border-color: rgba(0, 164, 200, 0.45) !important;
 }
 
@@ -1484,7 +1502,7 @@ body.login-body .container-centering,
     border-radius: 12px !important;
     box-shadow: 0 4px 12px rgba(0, 45, 60, 0.04) !important;
     transition: box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .table-admin-panel tr.admin-content-row:hover {
@@ -1630,11 +1648,16 @@ body.login-body .container-centering,
    pseudo-element so the element itself stays stacking-context-free.
    ========================================================================== */
 
-.detail-button-container {
-    /* z-index: var(--z-page-header) = 20 — must stay BELOW navbar (1035).
-       Previous value was 1050 which was above the navbar, causing the admin
-       dropdown to render behind this bar. */
+.detail-button-container,
+.detail-button-container.stick-sub,
+.detail-button-container.sticked,
+.detail-button-container.has-sticked-bar {
     position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
     z-index: var(--z-page-header) !important;
     background: #ffffff !important;
     border: 1px solid rgba(203, 213, 225, 0.8) !important;
@@ -1643,6 +1666,11 @@ body.login-body .container-centering,
     margin-bottom: 20px !important;
     box-shadow: 0 8px 28px -4px rgba(0, 45, 60, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
     transition: box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+/* Hide dummy spacer div inserted by JS when scroll threshold is hit */
+.detail-button-container + div[style*="height"] {
+    display: none !important;
 }
 
 .detail-button-container .action[data-action="previous"],
@@ -1748,9 +1776,17 @@ body.login-body .container-centering,
 /* FIX: opacity-only pulse — no transform to avoid creating stacking contexts
    on every badge in the list table (transform would trap cell dropdowns). */
 @keyframes statusPulse {
-    0%   { opacity: 0.35; }
-    50%  { opacity: 1;    }
-    100% { opacity: 0.35; }
+    0% {
+        opacity: 0.35;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.35;
+    }
 }
 
 /* Priority Badges */
@@ -1807,8 +1843,8 @@ body.login-body .container-centering,
     font-size: 12.5px !important;
     color: #334155 !important;
     transition: background-color 0.15s ease,
-                color 0.15s ease,
-                padding-inline-start 0.15s ease !important;
+        color 0.15s ease,
+        padding-inline-start 0.15s ease !important;
 }
 
 .cell-buttons .dropdown-menu>li>a:hover {
@@ -1819,6 +1855,6 @@ body.login-body .container-centering,
 
 /* 27. NOTIFICATION BADGE — minimal position + size tweak only */
 .number-badge {
-   
+
     margin-left: -4px !important;
 }

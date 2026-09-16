@@ -237,3 +237,12 @@ div.hidden.sticky-head {
     display: none !important;
     visibility: hidden !important;
 }
+
+/* Ensure Detail Action Toolbar (.detail-button-container) stays static and never floats on scroll */
+.detail-button-container,
+.detail-button-container.stick-sub,
+.detail-button-container.sticked,
+.detail-button-container.has-sticked-bar {
+    position: relative !important;
+    top: auto !important;
+}
