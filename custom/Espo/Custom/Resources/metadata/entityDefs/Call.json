@@ -1,0 +1,16 @@
+{
+    "fields": {
+        "cContact": {
+            "type": "link"
+        }
+    },
+    "links": {
+        "cContact": {
+            "type": "belongsTo",
+            "foreign": "cCalls1",
+            "entity": "Contact",
+            "audited": true,
+            "isCustom": true
+        }
+    }
+}

@@ -4788,9 +4788,12 @@ Leave the field empty if you need to apply the exception only for specific users
       'reminders' => 'Reminders',
       'account' => 'Account',
       'acceptanceStatus' => 'Acceptance Status',
-      'uid' => 'UID'
+      'uid' => 'UID',
+      'cContact' => 'Contact'
     ],
-    'links' => [],
+    'links' => [
+      'cContact' => 'Contact'
+    ],
     'options' => [
       'status' => [
         'Planned' => 'Planned',
@@ -5070,7 +5073,8 @@ Leave the field empty if you need to apply the exception only for specific users
       'accountIsInactive' => 'Account Inactive',
       'acceptanceStatusMeetings' => 'Acceptance Status (Meetings)',
       'acceptanceStatusCalls' => 'Acceptance Status (Calls)',
-      'originalEmail' => 'Original Email'
+      'originalEmail' => 'Original Email',
+      'cCalls1' => 'Calls'
     ],
     'links' => [
       'opportunities' => 'Opportunities',
@@ -5085,7 +5089,8 @@ Leave the field empty if you need to apply the exception only for specific users
       'opportunitiesPrimary' => 'Opportunities (Primary)',
       'portalUser' => 'Portal User',
       'originalLead' => 'Original Lead',
-      'documents' => 'Documents'
+      'documents' => 'Documents',
+      'cCalls1' => 'Calls'
     ],
     'labels' => [
       'Create Contact' => 'Create Contact'

@@ -19,20 +19,23 @@
                     }
                 });
 
-                // 2. Inject Dazzling Codak CRM Footer if not already present
-                if (!footer.querySelector('.codak-unified-footer')) {
-                    var container = footer.querySelector('.el-hany-footer-container');
-                    if (!container) {
-                        container = document.createElement('div');
-                        container.className = 'el-hany-footer-container';
-                        footer.appendChild(container);
-                    }
+                // 2. Inject Dazzling Codak CRM Footer
+                var container = footer.querySelector('.el-hany-footer-container');
+                if (!container) {
+                    container = document.createElement('div');
+                    container.className = 'el-hany-footer-container';
+                    footer.appendChild(container);
+                }
+
+                var existingLogo = container.querySelector('.codak-footer-logo-box');
+                if (existingLogo) {
+                    existingLogo.remove();
+                }
+
+                if (!container.querySelector('.codak-unified-footer')) {
                     container.innerHTML = `
                         <div class="codak-unified-footer">
                             <div class="codak-footer-left">
-                                <div class="codak-footer-logo-box">
-                                    <img src="client/custom/img/logo-39.png" class="codak-footer-brand-logo" alt="Codak Logo">
-                                </div>
                                 <a class="codak-footer-title" href="https://codak.net/" target="_blank" rel="noopener" title="Visit Codak Official Site">Codak</a>
                                 <span class="codak-footer-sep"><i class="fas fa-circle codak-dot-icon"></i></span>
                                 <span class="codak-footer-copy">&copy; 2026 All Rights Reserved</span>

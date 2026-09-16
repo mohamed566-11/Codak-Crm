@@ -8382,6 +8382,10 @@ return [
       'relationshipPanels' => [
         'contacts' => [
           'selectHandler' => 'handlers/select-related/same-account-many'
+        ],
+        'contact' => [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'additionalLayouts' => [
@@ -8734,6 +8738,10 @@ return [
         ],
         'calls' => [
           'createHandler' => 'handlers/create-related/set-parent'
+        ],
+        'calls1' => [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'boolFilterList' => [
@@ -21993,6 +22001,9 @@ return [
         'teams' => [
           'type' => 'linkMultiple',
           'view' => 'views/fields/teams'
+        ],
+        'cContact' => [
+          'type' => 'link'
         ]
       ],
       'links' => [
@@ -22066,6 +22077,13 @@ return [
         'parent' => [
           'type' => 'belongsToParent',
           'foreign' => 'calls'
+        ],
+        'cContact' => [
+          'type' => 'belongsTo',
+          'foreign' => 'cCalls1',
+          'entity' => 'Contact',
+          'audited' => true,
+          'isCustom' => true
         ]
       ],
       'collection' => [
@@ -23973,6 +23991,13 @@ return [
           'entity' => 'Task',
           'foreign' => 'contact',
           'layoutRelationshipsDisabled' => true
+        ],
+        'cCalls1' => [
+          'type' => 'hasMany',
+          'foreign' => 'cContact',
+          'entity' => 'Call',
+          'audited' => false,
+          'isCustom' => true
         ]
       ],
       'collection' => [
@@ -31508,7 +31533,6 @@ return [
       ]
     ],
     'Account' => [
-      'fields' => [],
       'panels' => []
     ],
     'Call' => [
@@ -34549,6 +34573,11 @@ return [
           1 => 'Canceled'
         ]
       ]
+    ]
+  ],
+  'formula' => [
+    'Lead' => [
+      'beforeSaveCustomScript' => ''
     ]
   ]
 ];

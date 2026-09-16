@@ -1,4 +1,10 @@
 {
     "iconClass": "fas fa-phone-volume",
-    "color": "#22c55e"
+    "color": "#22c55e",
+    "relationshipPanels": {
+        "contact": {
+            "layout": null,
+            "selectPrimaryFilterName": null
+        }
+    }
 }

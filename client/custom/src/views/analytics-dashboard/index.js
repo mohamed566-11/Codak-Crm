@@ -453,9 +453,13 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
                 var ly = String(Number(year) - 1);
                 from = ly + '-01-01'; to = ly + '-12-31';
             } else if (f === 'custom') {
-                from = this.customDateFrom;
-                to = this.customDateTo;
-                if (from && to && from > to) { from = null; to = null; }
+                if (this.customDateFrom && this.customDateTo && this.customDateFrom <= this.customDateTo) {
+                    from = this.customDateFrom;
+                    to = this.customDateTo;
+                } else {
+                    from = null;
+                    to = null;
+                }
             } else {
                 var m = f ? f.match(/^last(\d+)$/) : null;
                 if (m) {
@@ -1235,11 +1239,10 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             if (isCustom) {
                 this.customDateFrom = this.$el.find('#analytics-period-date-from').val() || null;
                 this.customDateTo   = this.$el.find('#analytics-period-date-to').val()   || null;
-                if (this.customDateFrom && this.customDateTo && this.customDateFrom > this.customDateTo) {
-                    this.customDateFrom = null;
-                    this.customDateTo = null;
+                if (this.customDateFrom && this.customDateTo && this.customDateFrom <= this.customDateTo) {
+                    this.loadMetrics();
                 }
-                if (!this.customDateFrom && !this.customDateTo) return;
+                return;
             } else {
                 this.customDateFrom = null;
                 this.customDateTo = null;
@@ -1255,16 +1258,15 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             var from = this.$el.find('#analytics-period-date-from').val() || null;
             var to   = this.$el.find('#analytics-period-date-to').val()   || null;
 
-            if (from && to && from > to) {
+            if (!from || !to || from > to) {
+                this.customDateFrom = null;
+                this.customDateTo   = null;
                 return;
             }
 
             this.customDateFrom = from;
             this.customDateTo   = to;
-
-            if (this.customDateFrom || this.customDateTo) {
-                this.loadMetrics();
-            }
+            this.loadMetrics();
         },
 
         onSearchInput: function (e) {
@@ -1716,10 +1718,10 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
                            '&where[0][value][]=' + encodeURIComponent(dateRange.from + ' 00:00:00') +
                            '&where[0][value][]=' + encodeURIComponent(dateRange.to + ' 23:59:59');
                 } else if (dateRange.from) {
-                    url += '&where[0][type]=greaterThanOrEqual&where[0][attribute]=' + encodeURIComponent(dateField) +
+                    url += '&where[0][type]=gte&where[0][attribute]=' + encodeURIComponent(dateField) +
                            '&where[0][value]=' + encodeURIComponent(dateRange.from + ' 00:00:00');
                 } else if (dateRange.to) {
-                    url += '&where[0][type]=lessThanOrEqual&where[0][attribute]=' + encodeURIComponent(dateField) +
+                    url += '&where[0][type]=lte&where[0][attribute]=' + encodeURIComponent(dateField) +
                            '&where[0][value]=' + encodeURIComponent(dateRange.to + ' 23:59:59');
                 }
             }

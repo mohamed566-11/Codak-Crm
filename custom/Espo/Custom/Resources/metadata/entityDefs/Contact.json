@@ -1,0 +1,11 @@
+{
+    "links": {
+        "cCalls1": {
+            "type": "hasMany",
+            "foreign": "cContact",
+            "entity": "Call",
+            "audited": false,
+            "isCustom": true
+        }
+    }
+}

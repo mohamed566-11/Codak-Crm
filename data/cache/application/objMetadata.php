@@ -8382,6 +8382,10 @@ return (object) [
       'relationshipPanels' => (object) [
         'contacts' => (object) [
           'selectHandler' => 'handlers/select-related/same-account-many'
+        ],
+        'contact' => (object) [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'additionalLayouts' => (object) [
@@ -8734,6 +8738,10 @@ return (object) [
         ],
         'calls' => (object) [
           'createHandler' => 'handlers/create-related/set-parent'
+        ],
+        'calls1' => (object) [
+          'layout' => NULL,
+          'selectPrimaryFilterName' => NULL
         ]
       ],
       'boolFilterList' => [
@@ -21993,6 +22001,9 @@ return (object) [
         'teams' => (object) [
           'type' => 'linkMultiple',
           'view' => 'views/fields/teams'
+        ],
+        'cContact' => (object) [
+          'type' => 'link'
         ]
       ],
       'links' => (object) [
@@ -22066,6 +22077,13 @@ return (object) [
         'parent' => (object) [
           'type' => 'belongsToParent',
           'foreign' => 'calls'
+        ],
+        'cContact' => (object) [
+          'type' => 'belongsTo',
+          'foreign' => 'cCalls1',
+          'entity' => 'Contact',
+          'audited' => true,
+          'isCustom' => true
         ]
       ],
       'collection' => (object) [
@@ -23973,6 +23991,13 @@ return (object) [
           'entity' => 'Task',
           'foreign' => 'contact',
           'layoutRelationshipsDisabled' => true
+        ],
+        'cCalls1' => (object) [
+          'type' => 'hasMany',
+          'foreign' => 'cContact',
+          'entity' => 'Call',
+          'audited' => false,
+          'isCustom' => true
         ]
       ],
       'collection' => (object) [
@@ -31508,8 +31533,7 @@ return (object) [
       ]
     ],
     'Account' => (object) [
-      'fields' => (object) [],
-      'panels' => (object) []
+      'panels' => []
     ],
     'Call' => (object) [
       'fields' => (object) [],
@@ -34549,6 +34573,11 @@ return (object) [
           1 => 'Canceled'
         ]
       ]
+    ]
+  ],
+  'formula' => (object) [
+    'Lead' => (object) [
+      'beforeSaveCustomScript' => ''
     ]
   ]
 ];

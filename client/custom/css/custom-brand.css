@@ -160,12 +160,62 @@ label.required::after {
     z-index: var(--z-navbar) !important;
 }
 
-/* FIX: navbar collapse containers must not clip the dropdown menu */
-#navbar .navbar-collapse,
-#navbar .navbar-right,
-#navbar .menu-container,
-#navbar .navbar-header {
+/* FIX: navbar containers overflow & hide navbar scrollbars */
+#navbar ::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+#navbar,
+#navbar .navbar-body,
+#navbar .navbar-left-container,
+#navbar .tabs,
+#navbar .tabs > li.more {
     overflow: visible !important;
+}
+
+/* Ensure navbar dropdown menu is displayed properly when opened */
+#navbar .tabs > li.more.open > .more-dropdown-menu,
+#navbar .tabs > li.open > .dropdown-menu,
+#navbar .tabs > li.open > .more-dropdown-menu,
+#navbar .more-dropdown-menu.more-expanded {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1050 !important;
+}
+
+#navbar .more-dropdown-menu {
+    min-width: 180px !important;
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 14px 36px -4px rgba(0, 45, 60, 0.22), 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    padding: 6px !important;
+}
+
+body.minimized #navbar .tabs > li.more > .more-dropdown-menu {
+    left: 100% !important;
+    top: 0 !important;
+    margin-left: 4px !important;
+}
+
+#navbar .more-dropdown-menu .full-label,
+#navbar .more-dropdown-menu .short-label,
+#navbar .more-dropdown-menu .short-label-text {
+    display: inline-block !important;
+    color: #1e293b !important;
+    visibility: visible !important;
+}
+
+#navbar .more-dropdown-menu > li > a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 8px 14px !important;
+    color: #1e293b !important;
+    white-space: nowrap !important;
 }
 
 /* Page-header shells — above page content (20), below navbar (1035) */
@@ -261,8 +311,7 @@ label.required::after {
 .header-buttons .dropdown-menu,
 .page-header-column-2 .dropdown-menu,
 .detail-button-container .dropdown-menu,
-.navbar-right .dropdown-menu,
-#navbar .dropdown-menu {
+.navbar-right .dropdown-menu {
     border-radius: 12px !important;
     border: 1px solid #cbd5e1 !important;
     background: #ffffff !important;
@@ -467,8 +516,9 @@ label.required::after {
 .btn-group.pagination .pagination-btn:hover {
     background-color: #005a70 !important;
     color: #ffffff !important;
-    transform: scale(1.1);
-    box-shadow: 0 2px 8px rgba(0, 90, 112, 0.25) !important;
+    /* transform removed — creates a stacking context on hover which can trap the
+       adjacent dropdown. Use box-shadow lift instead for same visual effect. */
+    box-shadow: 0 3px 10px rgba(0, 90, 112, 0.32) !important;
 }
 
 .btn-group.pagination .pagination-btn.disabled {
@@ -816,16 +866,12 @@ td.cell .label {
 
 #navbar .tabs>li.active>a,
 #navbar .tabs>li.active>a:focus,
-body:has(#analytics-content) #navbar .tabs>li:has(a[href*="AnalyticsDashboard"])>a {
+body:has(#analytics-content) #navbar .tabs>li[data-name="AnalyticsDashboard"]>a,
+body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
     border-left: 4px solid #00a4c8 !important;
     background: linear-gradient(90deg, rgba(0, 164, 200, 0.15) 0%, transparent 100%) !important;
     color: #005a70 !important;
     font-weight: 700 !important;
-}
-
-body:has(#analytics-content) #navbar .tabs>li:has(a[href*="AnalyticsDashboard"]) {
-    border-left: 4px solid #00a4c8 !important;
-    background: linear-gradient(90deg, rgba(0, 164, 200, 0.15) 0%, transparent 100%) !important;
 }
 
 #navbar .tabs li .short-label>span,
@@ -874,7 +920,6 @@ body:has(#analytics-content) #navbar .tabs>li:has(a[href*="AnalyticsDashboard"])
 /* 6. Analytics Dashboard - Vibrant Bright Cyan */
 #navbar .tabs li[data-name="AnalyticsDashboard"] .short-label>span,
 #navbar .tabs li.tab-AnalyticsDashboard .short-label>span,
-#navbar .tabs li:has(a[href*="AnalyticsDashboard"]) .short-label>span,
 #navbar .tabs li a[href*="AnalyticsDashboard"] .short-label>span,
 #navbar .tabs li a[href*="AnalyticsDashboard"] i {
     color: #00a4c8 !important;
@@ -1178,7 +1223,7 @@ body:has(#analytics-content) #navbar .tabs>li:has(a[href*="AnalyticsDashboard"])
     border-radius: 14px !important;
     box-shadow: 0 12px 32px rgba(0, 45, 60, 0.18) !important;
     border: 1px solid #cbd5e1 !important;
-    overflow: hidden !important;
+    /* overflow:hidden removed — was clipping inner popup content at the border-radius edge */
 }
 
 /* ==========================================================================
@@ -1282,18 +1327,21 @@ input[data-name="global-search"]:focus {
     font-size: 13px !important;
     color: #0f172a !important;
     animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-    backdrop-filter: blur(10px) !important;
+    /* backdrop-filter removed — combined with animation:forwards+transform it creates
+       a PERMANENT stacking context after animation ends, blocking content behind toast */
 }
 
+/* FIX: opacity+translateX only, NO scale() in the final «to» frame.
+   animation:forwards freezes the final keyframe — any transform there creates a
+   permanent stacking context. Ending at translateX(0) with no transform is safe. */
 @keyframes toastSlideIn {
     from {
         opacity: 0;
-        transform: translateX(50px) scale(0.95);
+        transform: translateX(50px);
     }
-
     to {
         opacity: 1;
-        transform: translateX(0) scale(1);
+        transform: translateX(0);
     }
 }
 
@@ -1321,7 +1369,7 @@ body.login-body .container-centering,
     border: 1.5px solid rgba(0, 164, 200, 0.3) !important;
     border-radius: 20px !important;
     box-shadow: 0 20px 50px -10px rgba(0, 45, 60, 0.18), 0 0 30px rgba(0, 164, 200, 0.2) !important;
-    overflow: hidden !important;
+    /* overflow:hidden removed — was clipping date-pickers & dropdowns inside login form */
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease !important;
 }
 
@@ -1546,7 +1594,7 @@ body.login-body .container-centering,
 .wysiwyg-container {
     border-radius: 14px !important;
     border: 1px solid #cbd5e1 !important;
-    overflow: hidden !important;
+    /* overflow:hidden removed — was clipping toolbar dropdowns (Bold/Italic/etc menus) */
     box-shadow: 0 4px 14px rgba(0, 45, 60, 0.04) !important;
 }
 
@@ -1697,21 +1745,12 @@ body.login-body .container-centering,
     animation: statusPulse 2s infinite ease-in-out !important;
 }
 
+/* FIX: opacity-only pulse — no transform to avoid creating stacking contexts
+   on every badge in the list table (transform would trap cell dropdowns). */
 @keyframes statusPulse {
-    0% {
-        opacity: 0.4;
-        transform: scale(0.85);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.25);
-    }
-
-    100% {
-        opacity: 0.4;
-        transform: scale(0.85);
-    }
+    0%   { opacity: 0.35; }
+    50%  { opacity: 1;    }
+    100% { opacity: 0.35; }
 }
 
 /* Priority Badges */
@@ -1776,4 +1815,10 @@ body.login-body .container-centering,
     background-color: #005a70 !important;
     color: #ffffff !important;
     padding-inline-start: 18px !important;
+}
+
+/* 27. NOTIFICATION BADGE — minimal position + size tweak only */
+.number-badge {
+   
+    margin-left: -4px !important;
 }

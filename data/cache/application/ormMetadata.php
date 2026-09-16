@@ -19009,9 +19009,34 @@ return [
         'isLinkMultipleNameMap' => true,
         'attributeRole' => 'nameMap',
         'fieldType' => 'linkMultiple'
+      ],
+      'cContactId' => [
+        'len' => 17,
+        'dbType' => 'string',
+        'type' => 'foreignId',
+        'index' => true,
+        'attributeRole' => 'id',
+        'fieldType' => 'link',
+        'notNull' => false
+      ],
+      'cContactName' => [
+        'type' => 'foreign',
+        'notStorable' => true,
+        'attributeRole' => 'name',
+        'fieldType' => 'link',
+        'relation' => 'cContact',
+        'foreign' => 'name',
+        'foreignType' => 'varchar'
       ]
     ],
     'relations' => [
+      'cContact' => [
+        'type' => 'belongsTo',
+        'entity' => 'Contact',
+        'key' => 'cContactId',
+        'foreignKey' => 'id',
+        'foreign' => 'cCalls1'
+      ],
       'parent' => [
         'type' => 'belongsToParent',
         'key' => 'parentId',
@@ -19297,6 +19322,13 @@ return [
           0 => 'assignedUserId'
         ],
         'key' => 'IDX_ASSIGNED_USER_ID'
+      ],
+      'cContactId' => [
+        'type' => 'index',
+        'columns' => [
+          0 => 'cContactId'
+        ],
+        'key' => 'IDX_C_CONTACT_ID'
       ]
     ],
     'collection' => [
@@ -23194,6 +23226,16 @@ return [
         'readOnly' => true,
         'default' => false
       ],
+      'cCalls1Ids' => [
+        'type' => 'jsonArray',
+        'notStorable' => true,
+        'isLinkStub' => true
+      ],
+      'cCalls1Names' => [
+        'type' => 'jsonObject',
+        'notStorable' => true,
+        'isLinkStub' => true
+      ],
       'tasksPrimaryIds' => [
         'type' => 'jsonArray',
         'notStorable' => true,
@@ -23415,6 +23457,12 @@ return [
             'key' => 'UNIQ_ENTITY_ID_PHONE_NUMBER_ID_ENTITY_TYPE'
           ]
         ]
+      ],
+      'cCalls1' => [
+        'type' => 'hasMany',
+        'entity' => 'Call',
+        'foreignKey' => 'cContactId',
+        'foreign' => 'cContact'
       ],
       'tasksPrimary' => [
         'type' => 'hasMany',

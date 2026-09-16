@@ -4,5 +4,11 @@
         "detail": "custom:views/contact/record/detail",
         "edit": "custom:views/contact/record/edit",
         "list": "custom:views/contact/record/list"
+    },
+    "relationshipPanels": {
+        "calls1": {
+            "layout": null,
+            "selectPrimaryFilterName": null
+        }
     }
 }
