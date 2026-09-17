@@ -4,9 +4,9 @@ return [
     'host' => 'localhost',
     'port' => '',
     'charset' => NULL,
-    'dbname' => 'espo',
-    'user' => 'root',
-    'password' => '',
+    'dbname' => 'codak_crm',
+    'user' => 'codak_crm',
+    'password' => '{T!aow0R63e2S]5|',
     'platform' => 'Mysql'
   ],
   'smtpPassword' => NULL,
