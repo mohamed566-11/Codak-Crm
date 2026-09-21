@@ -1,0 +1,25 @@
+{
+  "fields": {
+    "cMaxAccountsQuota": {
+      "nonAdminReadOnly": true
+    },
+    "cMaxLeadsQuota": {
+      "nonAdminReadOnly": true
+    },
+    "cMaxContactsQuota": {
+      "nonAdminReadOnly": true
+    },
+    "cMaxOpportunitiesQuota": {
+      "nonAdminReadOnly": true
+    },
+    "cMaxUsersQuota": {
+      "nonAdminReadOnly": true
+    },
+    "cEnableAdminAccess": {
+      "nonAdminReadOnly": true
+    },
+    "cAllowedAdminItems": {
+      "nonAdminReadOnly": true
+    }
+  }
+}

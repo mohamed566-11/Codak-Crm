@@ -1,0 +1,89 @@
+{
+  "fields": {
+    "cMaxAccountsQuota": {
+      "type": "int",
+      "default": 5,
+      "min": -1,
+      "tooltip": true
+    },
+    "cMaxLeadsQuota": {
+      "type": "int",
+      "default": 5,
+      "min": -1,
+      "tooltip": true
+    },
+    "cMaxContactsQuota": {
+      "type": "int",
+      "default": 5,
+      "min": -1,
+      "tooltip": true
+    },
+    "cMaxOpportunitiesQuota": {
+      "type": "int",
+      "default": 5,
+      "min": -1,
+      "tooltip": true
+    },
+    "cMaxUsersQuota": {
+      "type": "int",
+      "default": 5,
+      "min": -1,
+      "tooltip": true
+    },
+    "cEnableAdminAccess": {
+      "type": "bool",
+      "default": false,
+      "tooltip": true
+    },
+    "cAllowedAdminItems": {
+      "type": "array",
+      "default": [],
+      "options": [
+        "settings",
+        "userInterface",
+        "authentication",
+        "scheduledJob",
+        "currency",
+        "notifications",
+        "integrations",
+        "extensions",
+        "systemRequirements",
+        "jobsSettings",
+        "clearCache",
+        "rebuild",
+        "users",
+        "teams",
+        "roles",
+        "authLog",
+        "authTokens",
+        "actionHistory",
+        "apiUsers",
+        "entityManager",
+        "layoutManager",
+        "labelManager",
+        "templateManager",
+        "outboundEmails",
+        "inboundEmails",
+        "groupEmailAccounts",
+        "personalEmailAccounts",
+        "emailFilters",
+        "emailTemplates",
+        "portals",
+        "portalUsers",
+        "portalRoles",
+        "workingTimeCalendars",
+        "layoutSets",
+        "dashboardTemplates",
+        "leadCapture",
+        "pdfTemplates",
+        "webhooks",
+        "import",
+        "attachments",
+        "jobs",
+        "appLog",
+        "formulaSandbox"
+      ],
+      "tooltip": true
+    }
+  }
+}

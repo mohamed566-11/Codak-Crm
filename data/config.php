@@ -8,7 +8,7 @@ return [
   'daemonInterval' => 10,
   'daemonProcessTimeout' => 36000,
   'jobForceUtc' => false,
-  'recordsPerPage' => 20,
+  'recordsPerPage' => 35,
   'recordsPerPageSmall' => 5,
   'recordsPerPageSelect' => 10,
   'recordsPerPageKanban' => 5,
@@ -16,8 +16,8 @@ return [
   'applicationDescription' => 'Codak CRM Application.',
   'adminPanelIframeDisabled' => true,
   'logoSrc' => 'client/custom/img/logo.png',
-  'timeZone' => 'UTC',
-  'dateFormat' => 'DD.MM.YYYY',
+  'timeZone' => 'Europe/London',
+  'dateFormat' => 'DD/MM/YYYY',
   'timeFormat' => 'HH:mm',
   'weekStart' => 0,
   'thousandSeparator' => ',',
@@ -326,7 +326,7 @@ return [
     0 => 'youtube.com',
     1 => 'google.com'
   ],
-  'microtime' => 1789576679.177043,
+  'microtime' => 1789864449.986704,
   'siteUrl' => 'http://localhost/EspoCRM-10.0.3',
   'fullTextSearchMinLength' => 4
 ];

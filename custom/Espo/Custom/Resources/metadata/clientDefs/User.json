@@ -1,0 +1,6 @@
+{
+  "recordViews": {
+    "detail": "custom:views/user/record/detail",
+    "edit": "custom:views/user/record/edit"
+  }
+}

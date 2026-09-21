@@ -1,0 +1,10 @@
+{
+  "default": {
+    "Account": -1,
+    "Lead": -1,
+    "Contact": -1,
+    "Opportunity": -1,
+    "User": -1
+  },
+  "roles": {}
+}

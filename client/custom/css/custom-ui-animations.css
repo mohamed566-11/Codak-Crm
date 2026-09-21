@@ -243,11 +243,15 @@ div.hidden.sticky-head {
     visibility: hidden !important;
 }
 
-/* Ensure Detail Action Toolbar (.detail-button-container) stays static and never floats on scroll */
-.detail-button-container,
-.detail-button-container.stick-sub,
-.detail-button-container.sticked,
-.detail-button-container.has-sticked-bar {
-    position: relative !important;
-    top: auto !important;
+/* Smooth Floating & Sticky Detail Action Toolbar (.detail-button-container) */
+.detail-button-container:not(.hidden),
+.detail-button-container.stick-sub:not(.hidden),
+.detail-button-container.sticked:not(.hidden),
+.detail-button-container.has-sticked-bar:not(.hidden) {
+    position: sticky !important;
+    top: 48px !important;
+    z-index: 100 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }

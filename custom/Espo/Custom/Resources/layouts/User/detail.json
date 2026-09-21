@@ -1,0 +1,26 @@
+[
+  {
+    "label": "",
+    "rows": [
+      [{"name": "userName"}, false],
+      [{"name": "name"}, {"name": "title"}],
+      [{"name": "emailAddress"}, {"name": "phoneNumber"}],
+      [{"name": "gender"}, false]
+    ]
+  },
+  {
+    "label": "Creation Quotas & Limits",
+    "rows": [
+      [{"name": "cMaxAccountsQuota"}, {"name": "cMaxLeadsQuota"}],
+      [{"name": "cMaxContactsQuota"}, {"name": "cMaxOpportunitiesQuota"}],
+      [{"name": "cMaxUsersQuota"}, false]
+    ]
+  },
+  {
+    "label": "Administration Access Control",
+    "rows": [
+      [{"name": "cEnableAdminAccess"}, false],
+      [{"name": "cAllowedAdminItems"}, false]
+    ]
+  }
+]

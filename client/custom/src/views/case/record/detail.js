@@ -1,4 +1,4 @@
-define('custom:views/case/record/detail', ['crm:views/case/record/detail'], function (Dep) {
+define('custom:views/case/record/detail', ['views/record/detail'], function (Dep) {
     return Dep.extend({
         setup: function () {
             Dep.prototype.setup.call(this);

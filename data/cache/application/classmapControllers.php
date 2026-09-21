@@ -2,7 +2,7 @@
 return [
   'ActionHistoryRecord' => 'Espo\\Controllers\\ActionHistoryRecord',
   'AddressCountry' => 'Espo\\Controllers\\AddressCountry',
-  'Admin' => 'Espo\\Controllers\\Admin',
+  'Admin' => 'Espo\\Custom\\Controllers\\Admin',
   'ApiIndex' => 'Espo\\Controllers\\ApiIndex',
   'AppLogRecord' => 'Espo\\Controllers\\AppLogRecord',
   'AppSecret' => 'Espo\\Controllers\\AppSecret',
@@ -57,7 +57,7 @@ return [
   'Role' => 'Espo\\Controllers\\Role',
   'ScheduledJob' => 'Espo\\Controllers\\ScheduledJob',
   'ScheduledJobLogRecord' => 'Espo\\Controllers\\ScheduledJobLogRecord',
-  'Settings' => 'Espo\\Controllers\\Settings',
+  'Settings' => 'Espo\\Custom\\Controllers\\Settings',
   'Stream' => 'Espo\\Controllers\\Stream',
   'Team' => 'Espo\\Controllers\\Team',
   'Template' => 'Espo\\Controllers\\Template',

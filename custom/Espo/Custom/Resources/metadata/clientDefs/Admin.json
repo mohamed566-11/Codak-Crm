@@ -1,0 +1,6 @@
+{
+  "controller": "custom:controllers/admin",
+  "views": {
+    "index": "custom:views/admin/index"
+  }
+}

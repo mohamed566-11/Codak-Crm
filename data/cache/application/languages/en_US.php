@@ -4386,7 +4386,14 @@ Example:
       'layoutSet' => 'Layout Set',
       'acceptanceStatus' => 'Acceptance Status',
       'acceptanceStatusMeetings' => 'Acceptance Status (Meetings)',
-      'acceptanceStatusCalls' => 'Acceptance Status (Calls)'
+      'acceptanceStatusCalls' => 'Acceptance Status (Calls)',
+      'cMaxAccountsQuota' => 'Max Accounts Quota',
+      'cMaxLeadsQuota' => 'Max Leads Quota',
+      'cMaxContactsQuota' => 'Max Contacts Quota',
+      'cMaxOpportunitiesQuota' => 'Max Opportunities Quota',
+      'cMaxUsersQuota' => 'Max Users Quota',
+      'cEnableAdminAccess' => 'Enable Administration Access',
+      'cAllowedAdminItems' => 'Allowed Administration Sections'
     ],
     'links' => [
       'defaultTeam' => 'Default Team',
@@ -4431,7 +4438,9 @@ Example:
       'Code' => 'Code',
       'Secret' => 'Secret',
       'Send Code' => 'Send Code',
-      'Login Link' => 'Login Link'
+      'Login Link' => 'Login Link',
+      'Creation Quotas & Limits' => 'Creation Quotas & Limits',
+      'Administration Access Control' => 'Administration Access Control'
     ],
     'tooltips' => [
       'defaultTeam' => 'All records created by this user will be related to this team by default.',
@@ -4442,7 +4451,14 @@ Example:
       'roles' => 'Additional access roles. Use it if user doesn\'t belong to any team or you need to extend access control level exclusively for this user.',
       'portalRoles' => 'Additional portal roles. Use it to extend access control level exclusively for this user.',
       'portals' => 'Portals which this user has access to.',
-      'layoutSet' => 'Layouts from the specified layout set will be applied for the user. The default layouts will be overridden.'
+      'layoutSet' => 'Layouts from the specified layout set will be applied for the user. The default layouts will be overridden.',
+      'cMaxAccountsQuota' => 'Maximum number of active Accounts this user can create (-1 for unlimited, blank for role/system default).',
+      'cMaxLeadsQuota' => 'Maximum number of active Leads this user can create (-1 for unlimited, blank for role/system default).',
+      'cMaxContactsQuota' => 'Maximum number of active Contacts this user can create (-1 for unlimited, blank for role/system default).',
+      'cMaxOpportunitiesQuota' => 'Maximum number of active Opportunities this user can create (-1 for unlimited, blank for role/system default).',
+      'cMaxUsersQuota' => 'Maximum number of active Users this user can create (-1 for unlimited, blank for role/system default).',
+      'cEnableAdminAccess' => 'Allow this non-admin user to access the Administration menu and whitelisted tools.',
+      'cAllowedAdminItems' => 'Select specific Administration sections this user is permitted to view and open.'
     ],
     'messages' => [
       '2faMethodNotConfigured' => 'The 2FA method is not fully configured in the system.',

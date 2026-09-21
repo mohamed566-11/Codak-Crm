@@ -13753,6 +13753,48 @@ return [
         'fieldType' => 'bool',
         'default' => false
       ],
+      'cMaxAccountsQuota' => [
+        'type' => 'int',
+        'default' => 5,
+        'fieldType' => 'int',
+        'len' => 11
+      ],
+      'cMaxLeadsQuota' => [
+        'type' => 'int',
+        'default' => 5,
+        'fieldType' => 'int',
+        'len' => 11
+      ],
+      'cMaxContactsQuota' => [
+        'type' => 'int',
+        'default' => 5,
+        'fieldType' => 'int',
+        'len' => 11
+      ],
+      'cMaxOpportunitiesQuota' => [
+        'type' => 'int',
+        'default' => 5,
+        'fieldType' => 'int',
+        'len' => 11
+      ],
+      'cMaxUsersQuota' => [
+        'type' => 'int',
+        'default' => 5,
+        'fieldType' => 'int',
+        'len' => 11
+      ],
+      'cEnableAdminAccess' => [
+        'type' => 'bool',
+        'notNull' => true,
+        'default' => false,
+        'fieldType' => 'bool'
+      ],
+      'cAllowedAdminItems' => [
+        'type' => 'jsonArray',
+        'default' => [],
+        'storeArrayValues' => true,
+        'fieldType' => 'jsonArray'
+      ],
       'middleName' => [
         'type' => 'varchar',
         'len' => 100,

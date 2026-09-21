@@ -69,7 +69,7 @@ return [
       'ownershipCheckerClassName' => 'Espo\\Classes\\Acl\\Team\\OwnershipChecker'
     ],
     'User' => [
-      'accessCheckerClassName' => 'Espo\\Classes\\Acl\\User\\AccessChecker',
+      'accessCheckerClassName' => 'Espo\\Custom\\Classes\\Acl\\User\\AccessChecker',
       'ownershipCheckerClassName' => 'Espo\\Classes\\Acl\\User\\OwnershipChecker',
       'portalOwnershipCheckerClassName' => 'Espo\\Classes\\AclPortal\\User\\OwnershipChecker'
     ],
@@ -5411,6 +5411,16 @@ return [
         'portalDisabled' => true,
         'view' => 'crm:views/meeting/popup-notification'
       ]
+    ],
+    'creationQuotas' => [
+      'default' => [
+        'Account' => -1,
+        'Lead' => -1,
+        'Contact' => -1,
+        'Opportunity' => -1,
+        'User' => -1
+      ],
+      'roles' => []
     ]
   ],
   'authenticationMethods' => [
@@ -7654,7 +7664,12 @@ return [
       ],
       'views' => [
         'list' => 'views/portal-role/list'
-      ]
+      ],
+      'controller' => 'custom:controllers/portal-role',
+      'detailActionList' => [],
+      'editActionList' => [],
+      'modalDetailActionList' => [],
+      'modalEditActionList' => []
     ],
     'PortalUser' => [
       'controller' => 'controllers/portal-user',
@@ -7746,7 +7761,12 @@ return [
       ],
       'views' => [
         'list' => 'views/role/list'
-      ]
+      ],
+      'controller' => 'custom:controllers/role',
+      'detailActionList' => [],
+      'editActionList' => [],
+      'modalDetailActionList' => [],
+      'modalEditActionList' => []
     ],
     'ScheduledJob' => [
       'controller' => 'controllers/record',
@@ -7862,9 +7882,9 @@ return [
         'list' => 'views/user/list'
       ],
       'recordViews' => [
-        'detail' => 'views/user/record/detail',
+        'detail' => 'custom:views/user/record/detail',
         'detailSmall' => 'views/user/record/detail-quick',
-        'edit' => 'views/user/record/edit',
+        'edit' => 'custom:views/user/record/edit',
         'editSmall' => 'views/user/record/edit-quick',
         'list' => 'views/user/record/list'
       ],
@@ -7980,7 +8000,11 @@ return [
       'selectRecords' => [
         'orderBy' => 'userNameOwnFirst'
       ],
-      'iconClass' => 'fas fa-user-circle'
+      'iconClass' => 'fas fa-user-circle',
+      'detailActionList' => [],
+      'editActionList' => [],
+      'modalDetailActionList' => [],
+      'modalEditActionList' => []
     ],
     'Webhook' => [
       'controller' => 'controllers/record',
@@ -9665,10 +9689,27 @@ return [
       'modalEditActionList' => [],
       'color' => '#f97316'
     ],
+    'Admin' => [
+      'controller' => 'custom:controllers/admin',
+      'views' => [
+        'index' => 'custom:views/admin/index'
+      ],
+      'detailActionList' => [],
+      'editActionList' => [],
+      'modalDetailActionList' => [],
+      'modalEditActionList' => []
+    ],
     'AnalyticsDashboard' => [
       'controller' => 'custom:controllers/analytics-dashboard',
       'iconClass' => 'fas fa-chart-line',
       'color' => '#00a4c8',
+      'detailActionList' => [],
+      'editActionList' => [],
+      'modalDetailActionList' => [],
+      'modalEditActionList' => []
+    ],
+    'App' => [
+      'navbarView' => 'custom:views/site/navbar',
       'detailActionList' => [],
       'editActionList' => [],
       'modalDetailActionList' => [],
@@ -11508,6 +11549,27 @@ return [
         ],
         'deleteId' => [
           'forbidden' => true
+        ],
+        'cMaxAccountsQuota' => [
+          'nonAdminReadOnly' => true
+        ],
+        'cMaxLeadsQuota' => [
+          'nonAdminReadOnly' => true
+        ],
+        'cMaxContactsQuota' => [
+          'nonAdminReadOnly' => true
+        ],
+        'cMaxOpportunitiesQuota' => [
+          'nonAdminReadOnly' => true
+        ],
+        'cMaxUsersQuota' => [
+          'nonAdminReadOnly' => true
+        ],
+        'cEnableAdminAccess' => [
+          'nonAdminReadOnly' => true
+        ],
+        'cAllowedAdminItems' => [
+          'nonAdminReadOnly' => true
         ]
       ],
       'links' => [
@@ -20267,6 +20329,91 @@ return [
           'readOnly' => true,
           'utility' => true,
           'fieldManagerParamList' => []
+        ],
+        'cMaxAccountsQuota' => [
+          'type' => 'int',
+          'default' => 5,
+          'min' => -1,
+          'tooltip' => true
+        ],
+        'cMaxLeadsQuota' => [
+          'type' => 'int',
+          'default' => 5,
+          'min' => -1,
+          'tooltip' => true
+        ],
+        'cMaxContactsQuota' => [
+          'type' => 'int',
+          'default' => 5,
+          'min' => -1,
+          'tooltip' => true
+        ],
+        'cMaxOpportunitiesQuota' => [
+          'type' => 'int',
+          'default' => 5,
+          'min' => -1,
+          'tooltip' => true
+        ],
+        'cMaxUsersQuota' => [
+          'type' => 'int',
+          'default' => 5,
+          'min' => -1,
+          'tooltip' => true
+        ],
+        'cEnableAdminAccess' => [
+          'type' => 'bool',
+          'default' => false,
+          'tooltip' => true
+        ],
+        'cAllowedAdminItems' => [
+          'type' => 'array',
+          'default' => [],
+          'options' => [
+            0 => 'settings',
+            1 => 'userInterface',
+            2 => 'authentication',
+            3 => 'scheduledJob',
+            4 => 'currency',
+            5 => 'notifications',
+            6 => 'integrations',
+            7 => 'extensions',
+            8 => 'systemRequirements',
+            9 => 'jobsSettings',
+            10 => 'clearCache',
+            11 => 'rebuild',
+            12 => 'users',
+            13 => 'teams',
+            14 => 'roles',
+            15 => 'authLog',
+            16 => 'authTokens',
+            17 => 'actionHistory',
+            18 => 'apiUsers',
+            19 => 'entityManager',
+            20 => 'layoutManager',
+            21 => 'labelManager',
+            22 => 'templateManager',
+            23 => 'outboundEmails',
+            24 => 'inboundEmails',
+            25 => 'groupEmailAccounts',
+            26 => 'personalEmailAccounts',
+            27 => 'emailFilters',
+            28 => 'emailTemplates',
+            29 => 'portals',
+            30 => 'portalUsers',
+            31 => 'portalRoles',
+            32 => 'workingTimeCalendars',
+            33 => 'layoutSets',
+            34 => 'dashboardTemplates',
+            35 => 'leadCapture',
+            36 => 'pdfTemplates',
+            37 => 'webhooks',
+            38 => 'import',
+            39 => 'attachments',
+            40 => 'jobs',
+            41 => 'appLog',
+            42 => 'formulaSandbox'
+          ],
+          'tooltip' => true
         ],
         'middleName' => [
           'type' => 'varchar',
@@ -33294,13 +33441,33 @@ return [
       'tab' => true,
       'acl' => true,
       'aclActionList' => [
-        0 => 'read',
-        1 => 'edit'
+        0 => 'create',
+        1 => 'read',
+        2 => 'edit',
+        3 => 'delete'
       ],
       'aclActionLevelListMap' => [
         'edit' => [
-          0 => 'own',
+          0 => 'all',
+          1 => 'team',
+          2 => 'own',
+          3 => 'no'
+        ],
+        'create' => [
+          0 => 'yes',
           1 => 'no'
+        ],
+        'read' => [
+          0 => 'all',
+          1 => 'team',
+          2 => 'own',
+          3 => 'no'
+        ],
+        'delete' => [
+          0 => 'all',
+          1 => 'team',
+          2 => 'own',
+          3 => 'no'
         ]
       ],
       'customizable' => true,

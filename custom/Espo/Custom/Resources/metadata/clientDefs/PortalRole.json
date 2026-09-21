@@ -1,0 +1,12 @@
+{
+  "controller": "custom:controllers/portal-role",
+  "recordViews": {
+    "detail": "views/portal-role/record/detail",
+    "edit": "views/portal-role/record/edit",
+    "editQuick": "views/portal-role/record/edit",
+    "list": "views/portal-role/record/list"
+  },
+  "views": {
+    "list": "views/portal-role/list"
+  }
+}

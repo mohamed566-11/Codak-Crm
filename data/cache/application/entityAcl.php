@@ -1893,7 +1893,14 @@ return (object) [
         11 => 'portalRoles',
         12 => 'contact',
         13 => 'accounts',
-        14 => 'workingTimeCalendar'
+        14 => 'workingTimeCalendar',
+        15 => 'cMaxAccountsQuota',
+        16 => 'cMaxLeadsQuota',
+        17 => 'cMaxContactsQuota',
+        18 => 'cMaxOpportunitiesQuota',
+        19 => 'cMaxUsersQuota',
+        20 => 'cEnableAdminAccess',
+        21 => 'cAllowedAdminItems'
       ]
     ],
     'attributes' => (object) [
@@ -1965,7 +1972,14 @@ return (object) [
         23 => 'accountsIds',
         24 => 'accountsNames',
         25 => 'workingTimeCalendarId',
-        26 => 'workingTimeCalendarName'
+        26 => 'workingTimeCalendarName',
+        27 => 'cMaxAccountsQuota',
+        28 => 'cMaxLeadsQuota',
+        29 => 'cMaxContactsQuota',
+        30 => 'cMaxOpportunitiesQuota',
+        31 => 'cMaxUsersQuota',
+        32 => 'cEnableAdminAccess',
+        33 => 'cAllowedAdminItems'
       ]
     ],
     'links' => (object) [
