@@ -11477,7 +11477,7 @@ return [
     'User' => [
       'fields' => [
         'userName' => [
-          'nonAdminReadOnly' => true
+          'nonAdminReadOnly' => false
         ],
         'apiKey' => [
           'onlyAdmin' => true,
@@ -11509,7 +11509,7 @@ return [
           'nonAdminReadOnly' => true
         ],
         'emailAddress' => [
-          'nonAdminReadOnly' => true
+          'nonAdminReadOnly' => false
         ],
         'teams' => [
           'nonAdminReadOnly' => true

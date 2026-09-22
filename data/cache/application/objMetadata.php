@@ -11477,7 +11477,7 @@ return (object) [
     'User' => (object) [
       'fields' => (object) [
         'userName' => (object) [
-          'nonAdminReadOnly' => true
+          'nonAdminReadOnly' => false
         ],
         'apiKey' => (object) [
           'onlyAdmin' => true,
@@ -11509,7 +11509,7 @@ return (object) [
           'nonAdminReadOnly' => true
         ],
         'emailAddress' => (object) [
-          'nonAdminReadOnly' => true
+          'nonAdminReadOnly' => false
         ],
         'teams' => (object) [
           'nonAdminReadOnly' => true

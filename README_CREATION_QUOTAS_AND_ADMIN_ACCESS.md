@@ -31,6 +31,7 @@ All customizations strictly comply with **EspoCRM Tier-4 Extension Standards** (
 | **User Creation Hook** | [`custom/Espo/Custom/Hooks/User/CheckUserCreationQuota.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Hooks/User/CheckUserCreationQuota.php) | Intercepts `User` `beforeSave` events to enforce `cMaxUsersQuota` limits. |
 | **Quota Engine Service** | [`custom/Espo/Custom/Services/QuotaManager.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Services/QuotaManager.php) | 3-tier quota evaluator (User Override -> Role Quota Matrix -> Global Default). |
 | **User Entity Definitions** | [`custom/Espo/Custom/Resources/metadata/entityDefs/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/entityDefs/User.json) | Declares `cMaxUsersQuota`, `cEnableAdminAccess`, and `cAllowedAdminItems` fields. |
+| **User Entity ACL Metadata** | [`custom/Espo/Custom/Resources/metadata/entityAcl/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/entityAcl/User.json) | Overrides core ACL to set `nonAdminReadOnly: false` for `userName` and `emailAddress`, enabling non-admin user creation. |
 | **User Detail Layout** | [`custom/Espo/Custom/Resources/layouts/User/detail.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/layouts/User/detail.json) | Renders "Creation Quotas & Limits" and "Administration Access Control" panels. |
 | **Admin Controller (Backend)** | [`custom/Espo/Custom/Controllers/Admin.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Controllers/Admin.php) | Action-level backend guard for `/api/v1/Admin` endpoints based on `cAllowedAdminItems`. |
 | **Settings Controller (Backend)** | [`custom/Espo/Custom/Controllers/Settings.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Controllers/Settings.php) | Permits whitelisted non-admins to save system settings via `PUT /api/v1/Settings`. |
@@ -39,6 +40,12 @@ All customizations strictly comply with **EspoCRM Tier-4 Extension Standards** (
 | **Navbar JS View** | [`client/custom/src/views/site/navbar.js`](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/src/views/site/navbar.js) | Dynamically injects `Administration` item in top profile menu for authorized non-admins. |
 | **Admin Controller JS** | [`client/custom/src/controllers/admin.js`](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/src/controllers/admin.js) | Overrides router `checkAccessGlobal()` and instantiates `custom:views/admin/index`. |
 | **Admin Index View JS** | [`client/custom/src/views/admin/index.js`](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/src/views/admin/index.js) | Filters `#Admin` panel items to display **ONLY** sections listed in `cAllowedAdminItems`. |
+
+### 2.2 User Entity ACL Override (`entityAcl/User.json`) & Non-Admin Creation Fix
+
+- **Backend Validation Failure Resolution**: EspoCRM core's `entityAcl/User.json` marks `userName` and `emailAddress` as `"nonAdminReadOnly": true`. When a non-admin user (granted user creation quota or granular administration access) attempted to create a new user, EspoCRM's ACL engine stripped `userName` from the payload, throwing a `Backend validation failure (userName: required)` error.
+- **Fix Implemented**: Configured [`custom/Espo/Custom/Resources/metadata/entityAcl/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/entityAcl/User.json) to override `"nonAdminReadOnly": false` for `userName` and `emailAddress`.
+- **Security Scope**: Authorized non-admin creators can now populate `userName` and `emailAddress` during user creation, while sensitive governance and privilege fields (`type`, `roles`, `cMaxUsersQuota`, `cEnableAdminAccess`, `cAllowedAdminItems`) remain strictly `"nonAdminReadOnly": true`.
 
 ---
 

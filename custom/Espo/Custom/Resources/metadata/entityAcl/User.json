@@ -1,5 +1,11 @@
 {
   "fields": {
+    "userName": {
+      "nonAdminReadOnly": false
+    },
+    "emailAddress": {
+      "nonAdminReadOnly": false
+    },
     "cMaxAccountsQuota": {
       "nonAdminReadOnly": true
     },
