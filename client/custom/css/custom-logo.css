@@ -33,7 +33,6 @@
 /* Logo itself — centered with spacious top & bottom vertical breathing room */
 #login img.logo,
 .logo-container img.logo {
-    content: url('../img/logo.png') !important;
     max-height: 55px !important;
     max-width: 210px !important;
     height: auto !important;
@@ -55,7 +54,6 @@
 .navbar-brand img,
 #navbar a.navbar-brand img,
 .navbar-logo-container img.logo {
-    content: url('../img/logo.png') !important;
     max-height: 38px;
     width: auto;
     object-fit: contain;

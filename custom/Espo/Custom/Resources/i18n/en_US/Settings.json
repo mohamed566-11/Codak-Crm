@@ -7,8 +7,16 @@
     },
     "tooltips": {
         "siteUrl": "A URL of this CodakCRM instance. You need to change it if you move to another domain.",
-        "ldapCreateEspoUser": "This option allows CodakCRM to create a user from the LDAP.",
-        "ldapUserLoginFilter": "The filter which allows to restrict users who able to use CodakCRM.",
-        "b2cMode": "By default CodakCRM is adapted for B2B. You can switch it to B2C."
+        "ldapCreateEspoUser": "This option allows CodakCRM to create a user from the LDAP.",
+        "ldapUserLoginFilter": "The filter which allows to restrict users who able to use CodakCRM. E.g. \"memberOf=CN=espoGroup, OU=groups,OU=espocrm, DC=test,DC=lan\".",
+        "b2cMode": "By default CodakCRM is adapted for B2B. You can switch it to B2C.",
+        "ldapPortalUserLdapAuth": "Allow portal users to use LDAP authentication instead of Codak authentication.",
+        "oidcCreateUser": "Create a new user in Codak when no matching user found.",
+        "oidcTeams": "Codak teams mapped against groups/teams/roles of the identity provider. Teams with an empty mapping value will be always assigned to a user (when creating or syncing).",
+        "oidcLogoutUrl": "A URL the browser will redirect to after logging out from Codak. Intended for clearing the session information in the browser and doing logging out on the provider side. Usually the URL contains a redirect-URL parameter, to return back to Codak.\n\nAvailable placeholders:\n* `{siteUrl}`\n* `{clientId}`"
+    },
+    "fields": {
+        "ldapCreateEspoUser": "Create User in CodakCRM",
+        "adminNotificationsNewVersion": "Show notification when new CodakCRM version is available"
     }
 }

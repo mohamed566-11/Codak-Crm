@@ -1,6 +1,9 @@
 {
   "recordViews": {
     "detail": "custom:views/user/record/detail",
-    "edit": "custom:views/user/record/edit"
-  }
+    "edit": "custom:views/user/record/edit",
+    "editQuick": "custom:views/user/record/edit",
+    "list": "custom:views/user/record/list"
+  },
+  "rowActionsView": "custom:views/user/record/row-actions/default"
 }

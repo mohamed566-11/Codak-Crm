@@ -1,5 +1,5 @@
 <?php
 return (object) [
-  'date' => '2026-09-22',
+  'date' => '2026-09-27',
   'rates' => (object) []
 ];

@@ -142,8 +142,8 @@ label.required::after {
     --z-content: 10;
     --z-page-header: 20;
     --z-panel-open: 25;
-    --z-dropdown-open: 30;
-    --z-dropdown-menu: 1000;
+    --z-dropdown-open: 1015;
+    --z-dropdown-menu: 1020;
     --z-navbar: 1035;
     --z-modal-backdrop: 1065;
     --z-modal: 1070;
@@ -266,6 +266,15 @@ body:has(.detail-button-container) .page-header .header-title {
 .action-buttons-container {
     position: relative !important;
     z-index: 40 !important;
+}
+
+body:has(.detail-button-container) .page-header:has(.open),
+#main:has(.detail-button-container) .page-header:has(.open),
+.page-header:has(.open),
+.page-header-column-2:has(.open),
+.header-buttons:has(.open),
+.action-buttons-container:has(.open) {
+    z-index: 1010 !important;
 }
 
 /* Record panels — position:relative for stacking, NO explicit z-index.
@@ -1914,4 +1923,130 @@ body.login-body .container-centering,
 .number-badge {
 
     margin-left: -4px !important;
+}
+
+/* ==========================================================================
+   28. PASSWORD INPUT LUXURY GROUP & REVEAL TOGGLE
+   ========================================================================== */
+.pwd-input-group {
+    display: table !important;
+    width: 100% !important;
+    border-collapse: separate !important;
+    position: relative !important;
+    box-shadow: 0 2px 8px rgba(0, 45, 60, 0.04) !important;
+    border-radius: 10px !important;
+    margin-bottom: 2px !important;
+}
+
+.pwd-input-group .input-group-addon {
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-right: none !important;
+    color: #005a70 !important;
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    padding: 8px 14px !important;
+    font-size: 14px !important;
+    vertical-align: middle !important;
+    display: table-cell !important;
+    width: 1% !important;
+    white-space: nowrap !important;
+}
+
+.pwd-input-group .form-control {
+    display: table-cell !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    border: 1px solid #cbd5e1 !important;
+    font-size: 13.5px !important;
+    height: 38px !important;
+    padding: 8px 12px !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    vertical-align: middle !important;
+}
+
+.pwd-input-group .form-control:focus {
+    border-color: #00a4c8 !important;
+    box-shadow: 0 0 0 3px rgba(0, 164, 200, 0.15) !important;
+    z-index: 2 !important;
+}
+
+.pwd-input-group .input-group-btn {
+    display: table-cell !important;
+    width: 1% !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+    position: relative !important;
+}
+
+.pwd-input-group .input-group-btn .toggle-pwd-btn,
+.toggle-pwd-btn {
+    border: 1px solid #cbd5e1 !important;
+    border-left: none !important;
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    background: #f8fafc !important;
+    color: #00a4c8 !important;
+    padding: 8px 14px !important;
+    height: 38px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.pwd-input-group .input-group-btn .toggle-pwd-btn:hover,
+.toggle-pwd-btn:hover {
+    background-color: #e0f2fe !important;
+    color: #005a70 !important;
+    border-color: #7dd3fc !important;
+}
+
+.pwd-input-group .input-group-btn .toggle-pwd-btn.is-active,
+.toggle-pwd-btn.is-active {
+    background-color: #fef2f2 !important;
+    color: #dc2626 !important;
+    border-color: #fca5a5 !important;
+}
+
+/* Generate Password Button & Alignment Fix */
+.cell[data-name="generatePassword"] {
+    display: flex !important;
+    align-items: flex-end !important;
+    height: 100% !important;
+    padding-bottom: 2px !important;
+}
+
+.pwd-gen-btn {
+    background-color: #005a70 !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    padding: 8px 18px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    height: 38px !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0, 90, 112, 0.2) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+}
+
+.pwd-gen-btn:hover {
+    background-color: #00a4c8 !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 16px rgba(0, 164, 200, 0.35) !important;
+    transform: translateY(-1px);
 }

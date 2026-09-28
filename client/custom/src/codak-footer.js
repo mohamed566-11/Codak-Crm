@@ -3,33 +3,60 @@
     var isApplying = false;
     var scheduledFrame = null;
 
+    function syncCompanyLogoAndFavicon() {
+        try {
+            var app = (window.Espo && window.Espo.app) || window.app;
+            if (!app || typeof app.getConfig !== 'function') return;
+
+            var companyLogoId = app.getConfig().get('companyLogoId');
+            if (companyLogoId) {
+                var basePath = typeof app.getBasePath === 'function' ? app.getBasePath() : '';
+                var targetUrl = basePath + '?entryPoint=LogoImage&id=' + companyLogoId;
+
+                // 1. Sync Logo Images in Navbar, Header, Sidebar, and Login Page
+                var logoImgs = document.querySelectorAll(
+                    '.navbar-brand img, .navbar-logo-container img, #login img.logo, .logo-container img.logo, #header img.logo, .sidebar img.logo'
+                );
+
+                logoImgs.forEach(function (img) {
+                    if (img && img.src !== targetUrl && !img.src.includes('id=' + companyLogoId)) {
+                        img.src = targetUrl;
+                    }
+                });
+
+                // 2. Sync Favicon in Browser Tab (<head> <link rel="icon">)
+                var faviconLinks = document.querySelectorAll('link[rel*="icon"]');
+                if (faviconLinks && faviconLinks.length) {
+                    faviconLinks.forEach(function (link) {
+                        if (link && link.href !== targetUrl && !link.href.includes('id=' + companyLogoId)) {
+                            link.href = targetUrl;
+                        }
+                    });
+                } else {
+                    var newFavicon = document.createElement('link');
+                    newFavicon.rel = 'icon';
+                    newFavicon.href = targetUrl;
+                    document.head.appendChild(newFavicon);
+                }
+            }
+        } catch (e) {}
+    }
+
     function applyCodakFooter() {
         if (isApplying) return;
         isApplying = true;
         try {
+            syncCompanyLogoAndFavicon();
+
             var footers = document.querySelectorAll('footer, #footer, body > footer');
             if (!footers || !footers.length) return;
 
             footers.forEach(function (footer) {
-                // 1. Hide legacy EspoCRM credit text
-                var credits = footer.querySelectorAll('.credit, p.credit, a[href*="espocrm.com"]');
-                credits.forEach(function (el) {
-                    if (el.style.display !== 'none') {
-                        el.style.setProperty('display', 'none', 'important');
-                    }
-                });
-
-                // 2. Inject Dazzling Codak CRM Footer
                 var container = footer.querySelector('.el-hany-footer-container');
                 if (!container) {
                     container = document.createElement('div');
                     container.className = 'el-hany-footer-container';
                     footer.appendChild(container);
-                }
-
-                var existingLogo = container.querySelector('.codak-footer-logo-box');
-                if (existingLogo) {
-                    existingLogo.remove();
                 }
 
                 if (!container.querySelector('.codak-unified-footer')) {
@@ -45,7 +72,7 @@
                 }
             });
         } catch (err) {
-            console.error('[Codak Footer] Error applying dazzling footer:', err);
+            console.error('[Codak Footer] Error applying footer:', err);
         } finally {
             isApplying = false;
         }
@@ -57,37 +84,36 @@
             scheduledFrame = window.requestAnimationFrame(function () {
                 scheduledFrame = null;
                 applyCodakFooter();
+                syncCompanyLogoAndFavicon();
             });
         } else {
             scheduledFrame = setTimeout(function () {
                 scheduledFrame = null;
                 applyCodakFooter();
+                syncCompanyLogoAndFavicon();
             }, 100);
         }
     }
 
-    // Run immediately
     applyCodakFooter();
+    syncCompanyLogoAndFavicon();
 
-    // Run on DOMContentLoaded & load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', applyCodakFooter);
+        document.addEventListener('DOMContentLoaded', syncCompanyLogoAndFavicon);
     }
     window.addEventListener('load', applyCodakFooter);
+    window.addEventListener('load', syncCompanyLogoAndFavicon);
+    window.addEventListener('hashchange', scheduleApply);
+    window.addEventListener('popstate', scheduleApply);
 
-    // Observe SPA DOM mutations with frame throttling
-    try {
-        var observer = new MutationObserver(function () {
-            scheduleApply();
-        });
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: false,
-            characterData: false
-        });
-    } catch (e) {
-        setInterval(scheduleApply, 1000);
+    var targetFooter = document.querySelector('footer, #footer');
+    if (targetFooter) {
+        try {
+            var observer = new MutationObserver(scheduleApply);
+            observer.observe(targetFooter, { childList: true, subtree: false });
+        } catch (e) { }
     }
-})();
 
+    setInterval(syncCompanyLogoAndFavicon, 1000);
+})();

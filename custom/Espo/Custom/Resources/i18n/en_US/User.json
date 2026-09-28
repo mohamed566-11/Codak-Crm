@@ -1,27 +1,27 @@
 {
-  "fields": {
-    "cMaxAccountsQuota": "Max Accounts Quota",
-    "cMaxLeadsQuota": "Max Leads Quota",
-    "cMaxContactsQuota": "Max Contacts Quota",
-    "cMaxOpportunitiesQuota": "Max Opportunities Quota",
-    "cMaxUsersQuota": "Max Users Quota",
-    "cEnableAdminAccess": "Enable Administration Access",
-    "cAllowedAdminItems": "Allowed Administration Sections"
-  },
-  "tooltips": {
-    "cMaxAccountsQuota": "Maximum number of active Accounts this user can create (-1 for unlimited, blank for role/system default).",
-    "cMaxLeadsQuota": "Maximum number of active Leads this user can create (-1 for unlimited, blank for role/system default).",
-    "cMaxContactsQuota": "Maximum number of active Contacts this user can create (-1 for unlimited, blank for role/system default).",
-    "cMaxOpportunitiesQuota": "Maximum number of active Opportunities this user can create (-1 for unlimited, blank for role/system default).",
-    "cMaxUsersQuota": "Maximum number of active Users this user can create (-1 for unlimited, blank for role/system default).",
-    "cEnableAdminAccess": "Allow this non-admin user to access the Administration menu and whitelisted tools.",
-    "cAllowedAdminItems": "Select specific Administration sections this user is permitted to view and open."
-  },
-  "labels": {
-    "Creation Quotas & Limits": "Creation Quotas & Limits",
-    "Administration Access Control": "Administration Access Control"
-  },
-  "messages": {
-    "ldapUserInEspoNotFound": "User is not found in CodakCRM. Contact your administrator to create the user."
-  }
+    "fields": {
+        "cMaxAccountsQuota": "Max Accounts Quota",
+        "cMaxLeadsQuota": "Max Leads Quota",
+        "cMaxContactsQuota": "Max Contacts Quota",
+        "cMaxOpportunitiesQuota": "Max Opportunities Quota",
+        "cMaxUsersQuota": "Max Users Quota",
+        "cEnableAdminAccess": "Enable Administration Access",
+        "cAllowedAdminItems": "Allowed Administration Sections"
+    },
+    "tooltips": {
+        "cMaxAccountsQuota": "Maximum number of active Accounts this user can create (-1 for unlimited, blank for role/system default).",
+        "cMaxLeadsQuota": "Maximum number of active Leads this user can create (-1 for unlimited, blank for role/system default).",
+        "cMaxContactsQuota": "Maximum number of active Contacts this user can create (-1 for unlimited, blank for role/system default).",
+        "cMaxOpportunitiesQuota": "Maximum number of active Opportunities this user can create (-1 for unlimited, blank for role/system default).",
+        "cMaxUsersQuota": "Maximum number of active Users this user can create (-1 for unlimited, blank for role/system default).",
+        "cEnableAdminAccess": "Allow this non-admin user to access the Administration menu and whitelisted tools.",
+        "cAllowedAdminItems": "Select specific Administration sections this user is permitted to view and open."
+    },
+    "labels": {
+        "Creation Quotas & Limits": "Creation Quotas & Limits",
+        "Administration Access Control": "Administration Access Control"
+    },
+    "messages": {
+        "ldapUserInEspoNotFound": "User is not found in CodakCRM. Contact your administrator to create the user."
+    }
 }

@@ -1,0 +1,9 @@
+{
+    "options": {
+        "cronSetup": {
+            "linux": "Note: Add this line to the crontab file to run Codak Scheduled Jobs:",
+            "mac": "Note: Add this line to the crontab file to run Codak Scheduled Jobs:",
+            "windows": "Note: Create a batch file with the following commands to run Codak Scheduled Jobs using Windows Scheduled Tasks:"
+        }
+    }
+}

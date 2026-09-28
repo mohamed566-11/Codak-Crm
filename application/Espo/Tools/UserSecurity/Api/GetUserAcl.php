@@ -61,6 +61,7 @@ class GetUserAcl implements Action
 
         if (
             !$this->user->isAdmin() &&
+            !$this->user->get('cEnableAdminAccess') &&
             $this->user->getId() !== $userId
         ) {
             throw new Forbidden();

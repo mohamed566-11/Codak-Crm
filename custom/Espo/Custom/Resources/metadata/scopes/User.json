@@ -3,6 +3,7 @@
   "layouts": true,
   "tab": true,
   "acl": true,
+  "stream": true,
   "aclActionList": ["create", "read", "edit", "delete"],
   "aclActionLevelListMap": {
     "create": ["yes", "no"],

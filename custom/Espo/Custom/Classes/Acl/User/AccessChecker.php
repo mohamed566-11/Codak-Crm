@@ -69,6 +69,18 @@ class AccessChecker implements AccessEntityCREDSChecker
             return false;
         }
 
+        if (!$user->isAdmin() && $entity instanceof User && ($entity->isAdmin() || $entity->get('type') === User::TYPE_ADMIN)) {
+            return false;
+        }
+
+        if (!$user->isAdmin() && $entity instanceof User && $entity->getId() === $user->getId()) {
+            return true;
+        }
+
+        if (!$user->isAdmin() && $entity instanceof User && $entity->get('createdById') === $user->getId()) {
+            return true;
+        }
+
         return $this->defaultAccessChecker->checkEntityEdit($user, $entity, $data);
     }
 

@@ -1,0 +1,5 @@
+{
+    "tooltips": {
+        "monitoredFolders": "Select IMAP folders to import. Optionally, map them to Codak folders.\n\nYou can add the 'Sent' folder to sync emails sent from an external email client."
+    }
+}

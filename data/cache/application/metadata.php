@@ -7886,7 +7886,8 @@ return [
         'detailSmall' => 'views/user/record/detail-quick',
         'edit' => 'custom:views/user/record/edit',
         'editSmall' => 'views/user/record/edit-quick',
-        'list' => 'views/user/record/list'
+        'list' => 'custom:views/user/record/list',
+        'editQuick' => 'custom:views/user/record/edit'
       ],
       'modalViews' => [
         'selectFollowers' => 'views/user/modals/select-followers',
@@ -8001,6 +8002,7 @@ return [
         'orderBy' => 'userNameOwnFirst'
       ],
       'iconClass' => 'fas fa-user-circle',
+      'rowActionsView' => 'custom:views/user/record/row-actions/default',
       'detailActionList' => [],
       'editActionList' => [],
       'modalDetailActionList' => [],
@@ -11485,12 +11487,12 @@ return [
           'nonAdminReadOnly' => true
         ],
         'password' => [
-          'internal' => true,
-          'nonAdminReadOnly' => true
+          'internal' => false,
+          'nonAdminReadOnly' => false
         ],
         'passwordConfirm' => [
-          'internal' => true,
-          'nonAdminReadOnly' => true
+          'internal' => false,
+          'nonAdminReadOnly' => false
         ],
         'passwordVersion' => [
           'forbidden' => true
@@ -11549,6 +11551,10 @@ return [
         ],
         'deleteId' => [
           'forbidden' => true
+        ],
+        'currentPassword' => [
+          'nonAdminReadOnly' => false,
+          'internal' => false
         ],
         'cMaxAccountsQuota' => [
           'nonAdminReadOnly' => true
@@ -20330,6 +20336,10 @@ return [
           'utility' => true,
           'fieldManagerParamList' => []
         ],
+        'currentPassword' => [
+          'type' => 'password',
+          'notStorable' => true
+        ],
         'cMaxAccountsQuota' => [
           'type' => 'int',
           'default' => 5,
@@ -20399,19 +20409,18 @@ return [
             27 => 'emailFilters',
             28 => 'emailTemplates',
             29 => 'portals',
-            30 => 'portalUsers',
-            31 => 'portalRoles',
-            32 => 'workingTimeCalendars',
-            33 => 'layoutSets',
-            34 => 'dashboardTemplates',
-            35 => 'leadCapture',
-            36 => 'pdfTemplates',
-            37 => 'webhooks',
-            38 => 'import',
-            39 => 'attachments',
-            40 => 'jobs',
-            41 => 'appLog',
-            42 => 'formulaSandbox'
+            30 => 'portalRoles',
+            31 => 'workingTimeCalendars',
+            32 => 'layoutSets',
+            33 => 'dashboardTemplates',
+            34 => 'leadCapture',
+            35 => 'pdfTemplates',
+            36 => 'webhooks',
+            37 => 'import',
+            38 => 'attachments',
+            39 => 'jobs',
+            40 => 'appLog',
+            41 => 'formulaSandbox'
           ],
           'tooltip' => true
         ],
@@ -20485,6 +20494,11 @@ return [
           'default' => '0',
           'utility' => true,
           'customizationDisabled' => true
+        ],
+        'streamUpdatedAt' => [
+          'type' => 'datetime',
+          'readOnly' => true,
+          'customizationReadOnlyDisabled' => true
         ]
       ],
       'links' => [
@@ -33472,7 +33486,8 @@ return [
       ],
       'customizable' => true,
       'object' => true,
-      'preserveAuditLog' => true
+      'preserveAuditLog' => true,
+      'stream' => true
     ],
     'UserData' => [
       'entity' => true

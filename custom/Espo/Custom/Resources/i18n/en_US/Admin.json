@@ -1,11 +1,13 @@
 {
+    "descriptions": {
+        "upgrade": "Upgrade CodakCRM.",
+        "systemRequirements": "System Requirements for CodakCRM."
+    },
     "messages": {
         "upgradeVersion": "CodakCRM will be upgraded to version **{version}**. Please be patient as this may take a while.",
         "upgradeDone": "CodakCRM has been upgraded to version **{version}**.",
         "upgradeBackup": "We recommend making a backup of your CodakCRM files and data before upgrading.",
-        "newVersionIsAvailable": "New CodakCRM version {latestVersion} is available.",
-        "upgradeInfo": "Check the documentation about how to upgrade your CodakCRM instance.",
-        "upgrade": "Upgrade CodakCRM.",
-        "systemRequirements": "System Requirements for CodakCRM."
+        "newVersionIsAvailable": "New CodakCRM version {latestVersion} is available. Please follow the [instructions](https://www.espocrm.com/documentation/administration/upgrading/) to upgrade your instance.",
+        "upgradeInfo": "Check the [documentation]({url}) about how to upgrade your CodakCRM instance."
     }
 }

@@ -1,10 +1,22 @@
 {
   "fields": {
+    "currentPassword": {
+      "nonAdminReadOnly": false,
+      "internal": false
+    },
     "userName": {
       "nonAdminReadOnly": false
     },
     "emailAddress": {
       "nonAdminReadOnly": false
+    },
+    "password": {
+      "nonAdminReadOnly": false,
+      "internal": false
+    },
+    "passwordConfirm": {
+      "nonAdminReadOnly": false,
+      "internal": false
     },
     "cMaxAccountsQuota": {
       "nonAdminReadOnly": true

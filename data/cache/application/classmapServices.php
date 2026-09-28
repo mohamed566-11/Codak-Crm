@@ -6,6 +6,6 @@ return [
   'Integration' => 'Espo\\Services\\Integration',
   'Record' => 'Espo\\Services\\Record',
   'RecordTree' => 'Espo\\Services\\RecordTree',
-  'User' => 'Espo\\Services\\User',
+  'User' => 'Espo\\Custom\\Services\\User',
   'QuotaManager' => 'Espo\\Custom\\Services\\QuotaManager'
 ];

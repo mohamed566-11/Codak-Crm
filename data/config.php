@@ -191,18 +191,18 @@ return [
       'name' => 'My Espo',
       'layout' => [
         0 => (object) [
-          'id' => 'default-activities',
-          'name' => 'Activities',
-          'x' => 2,
-          'y' => 2,
-          'width' => 2,
-          'height' => 4
-        ],
-        1 => (object) [
           'id' => 'default-stream',
           'name' => 'Stream',
           'x' => 0,
           'y' => 0,
+          'width' => 2,
+          'height' => 4
+        ],
+        1 => (object) [
+          'id' => 'default-activities',
+          'name' => 'Activities',
+          'x' => 2,
+          'y' => 2,
           'width' => 2,
           'height' => 4
         ]
@@ -326,7 +326,14 @@ return [
     0 => 'youtube.com',
     1 => 'google.com'
   ],
-  'microtime' => 1789999013.804981,
+  'microtime' => 1790537737.519602,
   'siteUrl' => 'http://localhost/EspoCRM-10.0.3',
-  'fullTextSearchMinLength' => 4
+  'fullTextSearchMinLength' => 4,
+  'userThemesDisabled' => false,
+  'avatarsDisabled' => false,
+  'scopeColorsDisabled' => false,
+  'tabIconsDisabled' => false,
+  'dashletsOptions' => (object) [],
+  'companyLogoId' => '6ab97008172c65e04',
+  'companyLogoName' => 'codak web.png'
 ];

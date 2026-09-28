@@ -330,19 +330,17 @@ Are you sure?'
       'installExtension' => 'Extension {name} {version} is ready for an installation.',
       'cronIsDisabled' => 'Cron is disabled, the application is not fully functional. Enable cron in the [settings](#Admin/settings).',
       'cronIsNotConfigured' => 'Scheduled jobs are not running.  Hence inbound emails, notifications and reminders are not working. Please follow the [instructions](https://www.espocrm.com/documentation/administration/server-configuration/#user-content-setup-a-crontab) to setup cron job.',
-      'newVersionIsAvailable' => 'New CodakCRM version {latestVersion} is available.',
+      'newVersionIsAvailable' => 'New CodakCRM version {latestVersion} is available. Please follow the [instructions](https://www.espocrm.com/documentation/administration/upgrading/) to upgrade your instance.',
       'newExtensionVersionIsAvailable' => 'New {extensionName} version {latestVersion} is available.',
       'uninstallConfirmation' => 'Are you sure you want to uninstall the extension?',
-      'upgradeInfo' => 'Check the documentation about how to upgrade your CodakCRM instance.',
-      'upgradeRecommendation' => 'This way of upgrading is not recommended. It\'s better to upgrade from CLI.',
-      'upgrade' => 'Upgrade CodakCRM.',
-      'systemRequirements' => 'System Requirements for CodakCRM.'
+      'upgradeInfo' => 'Check the [documentation]({url}) about how to upgrade your CodakCRM instance.',
+      'upgradeRecommendation' => 'This way of upgrading is not recommended. It\'s better to upgrade from CLI.'
     ],
     'descriptions' => [
       'settings' => 'System settings of application.',
       'scheduledJob' => 'Jobs which are executed by cron.',
       'jobs' => 'Jobs execute tasks in the background.',
-      'upgrade' => 'Upgrade EspoCRM.',
+      'upgrade' => 'Upgrade CodakCRM.',
       'clearCache' => 'Clear all backend cache.',
       'rebuild' => 'Rebuild backend and clear cache.',
       'users' => 'Users management.',
@@ -376,7 +374,7 @@ Are you sure?'
       'appSecrets' => 'Store sensitive information like API keys, passwords, and other secrets.',
       'leadCapture' => 'Lead capture endpoints and web forms.',
       'attachments' => 'All file attachments stored in the system.',
-      'systemRequirements' => 'System Requirements for EspoCRM.',
+      'systemRequirements' => 'System Requirements for CodakCRM.',
       'apiUsers' => 'Separate users for integration purposes.',
       'webhooks' => 'Manage webhooks.',
       'authenticationProviders' => 'Additional authentication providers for portals.',
@@ -1173,7 +1171,7 @@ It will be removed for other users too.',
     'tooltips' => [
       'useSmtp' => 'The ability to send emails.',
       'emailAddress' => 'The user record (assigned user) should have the same email address to be able to use this email account for sending.',
-      'monitoredFolders' => 'Select IMAP folders to import. Optionally, map them to Espo folders.
+      'monitoredFolders' => 'Select IMAP folders to import. Optionally, map them to Codak folders.
 
 You can add the \'Sent\' folder to sync emails sent from an external email client.',
       'storeSentEmails' => 'Sent emails will be stored on the IMAP server. Email Address field should match the address emails will be sent from.'
@@ -2852,7 +2850,7 @@ Validation: `{type}`',
     'themes' => [
       'Dark' => 'Dark',
       'Light' => 'Light',
-      'Espo' => 'Espo',
+      'Espo' => 'Codak',
       'EspoRtl' => 'RTL',
       'Sakura' => 'Sakura',
       'Violet' => 'Violet',
@@ -3839,9 +3837,9 @@ Visit [Google Developers Console](https://console.developers.google.com/project)
         'ControlKnowledgeBaseArticleStatus' => 'Control Knowledge Base Article Status'
       ],
       'cronSetup' => [
-        'linux' => 'Note: Add this line to the crontab file to run Espo Scheduled Jobs:',
-        'mac' => 'Note: Add this line to the crontab file to run Espo Scheduled Jobs:',
-        'windows' => 'Note: Create a batch file with the following commands to run Espo Scheduled Jobs using Windows Scheduled Tasks:',
+        'linux' => 'Note: Add this line to the crontab file to run Codak Scheduled Jobs:',
+        'mac' => 'Note: Add this line to the crontab file to run Codak Scheduled Jobs:',
+        'windows' => 'Note: Create a batch file with the following commands to run Codak Scheduled Jobs using Windows Scheduled Tasks:',
         'default' => 'Note: Add this command to Cron Job (Scheduled Task):'
       ],
       'status' => [
@@ -3911,7 +3909,7 @@ Visit [Google Developers Console](https://console.developers.google.com/project)
       'ldapAccountDomainName' => 'Account Domain Name',
       'ldapTryUsernameSplit' => 'Try Username Split',
       'ldapPortalUserLdapAuth' => 'Use LDAP Authentication for Portal Users',
-      'ldapCreateEspoUser' => 'Create User in EspoCRM',
+      'ldapCreateEspoUser' => 'Create User in CodakCRM',
       'ldapSecurity' => 'Security',
       'ldapUserLoginFilter' => 'User Login Filter',
       'ldapAccountDomainNameShort' => 'Account Domain Name Short',
@@ -3973,7 +3971,7 @@ Visit [Google Developers Console](https://console.developers.google.com/project)
       'currencyDecimalPlaces' => 'Currency Decimal Places',
       'aclAllowDeleteCreated' => 'Allow to remove created records',
       'adminNotifications' => 'System notifications in administration panel',
-      'adminNotificationsNewVersion' => 'Show notification when new EspoCRM version is available',
+      'adminNotificationsNewVersion' => 'Show notification when new CodakCRM version is available',
       'adminNotificationsNewExtensionVersion' => 'Show notification when new versions of extensions are available',
       'textFilterUseContainsForVarchar' => 'Use \'contains\' operator when filtering varchar fields',
       'phoneNumberNumericSearch' => 'Numeric phone number search',
@@ -4139,14 +4137,14 @@ E.g. "userPrincipalName" or "sAMAccountName" for Active Directory, "uid" for Ope
       'ldapBaseDn' => 'The default base DN used for searching users. E.g. "OU=users,OU=espocrm,DC=test, DC=lan".',
       'ldapTryUsernameSplit' => 'The option to split a username with the domain.',
       'ldapOptReferrals' => 'if referrals should be followed to the LDAP client.',
-      'ldapPortalUserLdapAuth' => 'Allow portal users to use LDAP authentication instead of Espo authentication.',
-      'ldapCreateEspoUser' => 'This option allows CodakCRM to create a user from the LDAP.',
+      'ldapPortalUserLdapAuth' => 'Allow portal users to use LDAP authentication instead of Codak authentication.',
+      'ldapCreateEspoUser' => 'This option allows CodakCRM to create a user from the LDAP.',
       'ldapUserFirstNameAttribute' => 'LDAP attribute which is used to determine the user first name. E.g. "givenname".',
       'ldapUserLastNameAttribute' => 'LDAP attribute which is used to determine the user last name. E.g. "sn".',
       'ldapUserTitleAttribute' => 'LDAP attribute which is used to determine the user title. E.g. "title".',
       'ldapUserEmailAddressAttribute' => 'LDAP attribute which is used to determine the user email address. E.g. "mail".',
       'ldapUserPhoneNumberAttribute' => 'LDAP attribute which is used to determine the user phone number. E.g. "telephoneNumber".',
-      'ldapUserLoginFilter' => 'The filter which allows to restrict users who able to use CodakCRM.',
+      'ldapUserLoginFilter' => 'The filter which allows to restrict users who able to use CodakCRM. E.g. "memberOf=CN=espoGroup, OU=groups,OU=espocrm, DC=test,DC=lan".',
       'ldapAccountDomainName' => 'The domain which is used for authorization to LDAP server.',
       'ldapAccountDomainNameShort' => 'The short domain which is used for authorization to LDAP server.',
       'ldapUserTeams' => 'Teams for created user. For more, see user profile.',
@@ -4175,12 +4173,12 @@ Disabled: Access to scopes will be allowed if it\'s not specified in roles.',
       'maintenanceMode' => 'Only administrators will have access to the system.',
       'oidcGroupClaim' => 'A claim to use for team mapping.',
       'oidcFallback' => 'Allow login by username/password.',
-      'oidcCreateUser' => 'Create a new user in Espo when no matching user found.',
+      'oidcCreateUser' => 'Create a new user in Codak when no matching user found.',
       'oidcSync' => 'Sync user data (on every login).',
       'oidcSyncTeams' => 'Sync user teams (on every login).',
       'oidcUsernameClaim' => 'A claim to use for a username (for user matching and creation).',
-      'oidcTeams' => 'Espo teams mapped against groups/teams/roles of the identity provider. Teams with an empty mapping value will be always assigned to a user (when creating or syncing).',
-      'oidcLogoutUrl' => 'A URL the browser will redirect to after logging out from Espo. Intended for clearing the session information in the browser and doing logging out on the provider side. Usually the URL contains a redirect-URL parameter, to return back to Espo.
+      'oidcTeams' => 'Codak teams mapped against groups/teams/roles of the identity provider. Teams with an empty mapping value will be always assigned to a user (when creating or syncing).',
+      'oidcLogoutUrl' => 'A URL the browser will redirect to after logging out from Codak. Intended for clearing the session information in the browser and doing logging out on the provider side. Usually the URL contains a redirect-URL parameter, to return back to Codak.
 
 Available placeholders:
 * `{siteUrl}`

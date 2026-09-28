@@ -13753,6 +13753,12 @@ return [
         'fieldType' => 'bool',
         'default' => false
       ],
+      'currentPassword' => [
+        'type' => 'password',
+        'notStorable' => true,
+        'fieldType' => 'password',
+        'dbType' => 'string'
+      ],
       'cMaxAccountsQuota' => [
         'type' => 'int',
         'default' => 5,
@@ -14219,6 +14225,11 @@ return [
         'default' => '0',
         'fieldType' => 'varchar'
       ],
+      'streamUpdatedAt' => [
+        'type' => 'datetime',
+        'notNull' => false,
+        'fieldType' => 'datetime'
+      ],
       'emailAddressData' => [
         'type' => 'jsonArray',
         'notStorable' => true,
@@ -14682,6 +14693,22 @@ return [
         'relation' => 'userData',
         'foreign' => 'id',
         'foreignType' => 'id'
+      ],
+      'isFollowed' => [
+        'type' => 'bool',
+        'notStorable' => true,
+        'notExportable' => true,
+        'default' => false
+      ],
+      'followersIds' => [
+        'type' => 'jsonArray',
+        'notStorable' => true,
+        'notExportable' => true
+      ],
+      'followersNames' => [
+        'type' => 'jsonObject',
+        'notStorable' => true,
+        'notExportable' => true
       ],
       'targetListsIds' => [
         'type' => 'jsonArray',

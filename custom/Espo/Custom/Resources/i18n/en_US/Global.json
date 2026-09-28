@@ -6,5 +6,8 @@
     "scopeNamesPlural": {
         "HtmlPreview": "HTML Preview",
         "AnalyticsDashboard": "Analytics Dashboard"
+    },
+    "themes": {
+        "Espo": "Codak"
     }
 }
