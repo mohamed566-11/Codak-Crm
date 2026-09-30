@@ -1,11 +1,12 @@
-define('custom:controllers/role', ['controllers/role'], function (Dep) {
+define('custom:controllers/role', ['controllers/record'], function (Dep) {
     return Dep.extend({
         checkAccess: function (action) {
             var user = this.getUser();
-            if (user.isAdmin() || user.get('cEnableAdminAccess')) {
+            if (user.isAdmin()) {
                 return true;
             }
-            return Dep.prototype.checkAccess.call(this, action);
+            // Strict security lock: Non-admin users are strictly blocked from navigating to #Role pages
+            return false;
         }
     });
 });

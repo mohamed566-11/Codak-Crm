@@ -26,13 +26,16 @@ All customizations strictly comply with **EspoCRM Tier-4 Extension Standards** (
 | Component / Layer | Target File Path | Purpose & Functionality |
 | :--- | :--- | :--- |
 | **User Scope Metadata** | [`custom/Espo/Custom/Resources/metadata/scopes/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/scopes/User.json) | Enables `create`, `read`, `edit`, `delete` action permissions in Role ACL matrix. |
+| **Team Scope Metadata** | [`custom/Espo/Custom/Resources/metadata/scopes/Team.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/scopes/Team.json) | Enables `create`, `read`, `edit`, `delete`, `stream` action permissions in Role ACL matrix. |
 | **User ACL Definition** | [`custom/Espo/Custom/Resources/metadata/aclDefs/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/aclDefs/User.json) | Registers custom `AccessChecker` class for the `User` scope. |
 | **User ACL Class** | [`custom/Espo/Custom/Classes/Acl/User/AccessChecker.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Classes/Acl/User/AccessChecker.php) | Enforces Role ACL checks while preventing non-admins from modifying SuperAdmin/System users. |
 | **User Creation Hook** | [`custom/Espo/Custom/Hooks/User/CheckUserCreationQuota.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Hooks/User/CheckUserCreationQuota.php) | Intercepts `User` `beforeSave` events to enforce `cMaxUsersQuota` limits. |
-| **Quota Engine Service** | [`custom/Espo/Custom/Services/QuotaManager.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Services/QuotaManager.php) | 3-tier quota evaluator (User Override -> Role Quota Matrix -> Global Default). |
-| **User Entity Definitions** | [`custom/Espo/Custom/Resources/metadata/entityDefs/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/entityDefs/User.json) | Declares `cMaxUsersQuota`, `cEnableAdminAccess`, and `cAllowedAdminItems` fields. |
+| **Team Creation Hook** | [`custom/Espo/Custom/Hooks/Team/CheckTeamCreationQuota.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Hooks/Team/CheckTeamCreationQuota.php) | Intercepts `Team` `beforeSave` events to enforce `cMaxTeamsQuota` limits. |
+| **Quota Engine Service** | [`custom/Espo/Custom/Services/QuotaManager.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Services/QuotaManager.php) | 3-tier quota evaluator (User Override -> Role Quota Matrix -> Global Default) supporting Accounts, Leads, Contacts, Opportunities, Users, and Teams. |
+| **Team Entity Definitions** | [`custom/Espo/Custom/Resources/metadata/entityDefs/Team.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/entityDefs/Team.json) | Declares `createdBy` link for `Team` entity to track creator user for quota engine. |
+| **User Entity Definitions** | [`custom/Espo/Custom/Resources/metadata/entityDefs/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/entityDefs/User.json) | Declares `cMaxUsersQuota`, `cMaxTeamsQuota`, `cEnableAdminAccess`, and `cAllowedAdminItems` fields. |
 | **User Entity ACL Metadata** | [`custom/Espo/Custom/Resources/metadata/entityAcl/User.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/entityAcl/User.json) | Overrides core ACL to set `nonAdminReadOnly: false` for `userName` and `emailAddress`, enabling non-admin user creation. |
-| **User Detail Layout** | [`custom/Espo/Custom/Resources/layouts/User/detail.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/layouts/User/detail.json) | Renders "Creation Quotas & Limits" and "Administration Access Control" panels. |
+| **User Detail Layout** | [`custom/Espo/Custom/Resources/layouts/User/detail.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/layouts/User/detail.json) | Renders "Creation Quotas & Limits" (including `cMaxTeamsQuota`) and "Administration Access Control" panels. |
 | **Admin Controller (Backend)** | [`custom/Espo/Custom/Controllers/Admin.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Controllers/Admin.php) | Action-level backend guard for `/api/v1/Admin` endpoints based on `cAllowedAdminItems`. |
 | **Settings Controller (Backend)** | [`custom/Espo/Custom/Controllers/Settings.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Controllers/Settings.php) | Permits whitelisted non-admins to save system settings via `PUT /api/v1/Settings`. |
 | **Admin ClientDefs** | [`custom/Espo/Custom/Resources/metadata/clientDefs/Admin.json`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Resources/metadata/clientDefs/Admin.json) | Maps `#Admin` route to custom JS controller and index view. |
@@ -88,6 +91,7 @@ A comprehensive security audit was conducted to identify and mitigate potential 
    - `cMaxContactsQuota` (e.g. `10`)
    - `cMaxOpportunitiesQuota` (e.g. `5`)
    - `cMaxUsersQuota` (e.g. `2`)
+   - `cMaxTeamsQuota` (e.g. `5`)
    *(Note: Set `-1` for unlimited, or leave blank to inherit Role / Global default).*
 
 ### 5.2 Enabling Granular Administration Access for Non-Admins

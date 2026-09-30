@@ -66,7 +66,7 @@ return (object) [
       'accessCheckerClassName' => 'Espo\\Classes\\Acl\\ScheduledJob\\AccessChecker'
     ],
     'Team' => (object) [
-      'ownershipCheckerClassName' => 'Espo\\Classes\\Acl\\Team\\OwnershipChecker'
+      'ownershipCheckerClassName' => 'Espo\\Custom\\Classes\\Acl\\Team\\OwnershipChecker'
     ],
     'User' => (object) [
       'accessCheckerClassName' => 'Espo\\Custom\\Classes\\Acl\\User\\AccessChecker',
@@ -143,6 +143,15 @@ return (object) [
       ],
       'contactLink' => 'contacts',
       'accountLink' => 'account'
+    ],
+    'LayoutSet' => (object) [
+      'accessCheckerClassName' => 'Espo\\Custom\\Classes\\Acl\\LayoutSet\\AccessChecker'
+    ],
+    'Role' => (object) [
+      'accessCheckerClassName' => 'Espo\\Custom\\Classes\\Acl\\Role\\AccessChecker'
+    ],
+    'WorkingTimeCalendar' => (object) [
+      'accessCheckerClassName' => 'Espo\\Custom\\Classes\\Acl\\WorkingTimeCalendar\\AccessChecker'
     ]
   ],
   'app' => (object) [
@@ -266,7 +275,11 @@ return (object) [
             'edit' => 'no'
           ],
           'Team' => (object) [
-            'read' => 'team'
+            'read' => 'all',
+            'create' => 'yes',
+            'edit' => 'all',
+            'delete' => 'all',
+            'stream' => 'all'
           ],
           'Import' => false,
           'Webhook' => false
@@ -300,7 +313,8 @@ return (object) [
             'create' => 'yes',
             'read' => 'all',
             'edit' => 'all',
-            'delete' => 'all'
+            'delete' => 'all',
+            'stream' => 'all'
           ],
           'Job' => (object) [
             'create' => 'no',
@@ -847,53 +861,10 @@ return (object) [
         'label' => 'Setup',
         'itemList' => [
           0 => (object) [
-            'url' => '#Admin/workingTimeCalendar',
-            'label' => 'Working Time Calendars',
-            'iconClass' => 'far fa-calendar-alt',
-            'description' => 'workingTimeCalendars',
-            'tabQuickSearch' => true
-          ],
-          1 => (object) [
-            'url' => '#Admin/layoutSets',
-            'label' => 'Layout Sets',
-            'iconClass' => 'fas fa-table',
-            'description' => 'layoutSets'
-          ],
-          2 => (object) [
-            'url' => '#Admin/dashboardTemplates',
-            'label' => 'Dashboard Templates',
-            'iconClass' => 'fas fa-th-large',
-            'description' => 'dashboardTemplates'
-          ],
-          3 => (object) [
-            'url' => '#Admin/leadCapture',
-            'label' => 'Lead Capture',
-            'iconClass' => 'fas fa-id-card',
-            'description' => 'leadCapture'
-          ],
-          4 => (object) [
-            'url' => '#Admin/pdfTemplates',
-            'label' => 'PDF Templates',
-            'iconClass' => 'fas fa-file-pdf',
-            'description' => 'pdfTemplates'
-          ],
-          5 => (object) [
-            'url' => '#Admin/webhooks',
-            'label' => 'Webhooks',
-            'iconClass' => 'fas fa-share-alt icon-rotate-90',
-            'description' => 'webhooks'
-          ],
-          6 => (object) [
-            'url' => '#Admin/addressCountries',
-            'label' => 'Address Countries',
-            'iconClass' => 'far fa-flag',
-            'description' => 'addressCountries'
-          ],
-          7 => (object) [
-            'url' => '#Admin/authenticationProviders',
-            'label' => 'Authentication Providers',
-            'iconClass' => 'fas fa-sign-in-alt',
-            'description' => 'authenticationProviders'
+            'url' => '#Admin/analyticsDashboardSettings',
+            'label' => 'Analytics Dashboard',
+            'iconClass' => 'fas fa-chart-line',
+            'description' => 'analyticsDashboardSettings'
           ]
         ],
         'order' => 24
@@ -1276,6 +1247,12 @@ return (object) [
       'AnalyticsDashboard' => (object) [
         'params' => (object) [
           'controller' => 'custom:controllers/analytics-dashboard',
+          'action' => 'index'
+        ]
+      ],
+      'Admin/analyticsDashboardSettings' => (object) [
+        'params' => (object) [
+          'controller' => 'custom:controllers/admin-analytics-dashboard-settings',
           'action' => 'index'
         ]
       ]
@@ -7763,6 +7740,19 @@ return (object) [
         'list' => 'views/role/list'
       ],
       'controller' => 'custom:controllers/role',
+      'selectBoolFilterList' => [
+        0 => 'onlyVisible'
+      ],
+      'selectDefaultFilters' => (object) [
+        'boolFilterList' => [
+          0 => 'onlyVisible'
+        ]
+      ],
+      'selectRecords' => (object) [
+        'boolFilterList' => [
+          0 => 'onlyVisible'
+        ]
+      ],
       'detailActionList' => [],
       'editActionList' => [],
       'modalDetailActionList' => [],
@@ -7828,9 +7818,9 @@ return (object) [
       ],
       'relationshipPanels' => (object) [
         'users' => (object) [
-          'createDisabled' => true,
-          'editDisabled' => true,
-          'removeDisabled' => true,
+          'createDisabled' => false,
+          'editDisabled' => false,
+          'removeDisabled' => false,
           'layout' => 'listForTeam',
           'selectPrimaryFilterName' => 'active',
           'filterList' => [
@@ -7856,7 +7846,12 @@ return (object) [
       'boolFilterList' => [
         0 => 'onlyMy'
       ],
-      'iconClass' => 'fas fa-users'
+      'iconClass' => 'fas fa-users',
+      'controller' => 'custom:controllers/team',
+      'detailActionList' => [],
+      'editActionList' => [],
+      'modalDetailActionList' => [],
+      'modalEditActionList' => []
     ],
     'Template' => (object) [
       'controller' => 'controllers/record',
@@ -11571,10 +11566,19 @@ return (object) [
         'cMaxUsersQuota' => (object) [
           'nonAdminReadOnly' => true
         ],
+        'cMaxTeamsQuota' => (object) [
+          'nonAdminReadOnly' => true
+        ],
         'cEnableAdminAccess' => (object) [
           'nonAdminReadOnly' => true
         ],
         'cAllowedAdminItems' => (object) [
+          'nonAdminReadOnly' => true
+        ],
+        'isAdmin' => (object) [
+          'nonAdminReadOnly' => true
+        ],
+        'cAllowedDashboardSections' => (object) [
           'nonAdminReadOnly' => true
         ]
       ],
@@ -17539,6 +17543,11 @@ return (object) [
         'modifiedAt' => (object) [
           'type' => 'datetime',
           'readOnly' => true
+        ],
+        'cIsHidden' => (object) [
+          'type' => 'bool',
+          'default' => false,
+          'audited' => true
         ]
       ],
       'links' => (object) [
@@ -19043,6 +19052,27 @@ return (object) [
           'tooltip' => true,
           'view' => 'views/settings/fields/baseline-role'
         ],
+        'cAllowedDashboardSections' => (object) [
+          'type' => 'array',
+          'default' => [
+            0 => 'overview',
+            1 => 'leads',
+            2 => 'opportunities',
+            3 => 'accounts',
+            4 => 'contacts',
+            5 => 'emails',
+            6 => 'meetings'
+          ],
+          'options' => [
+            0 => 'overview',
+            1 => 'leads',
+            2 => 'opportunities',
+            3 => 'accounts',
+            4 => 'contacts',
+            5 => 'emails',
+            6 => 'meetings'
+          ]
+        ],
         'addressPreviewStreet' => (object) [
           'notStorable' => true,
           'readOnly' => true,
@@ -19362,7 +19392,10 @@ return (object) [
         'roles' => (object) [
           'type' => 'linkMultiple',
           'tooltip' => true,
-          'audited' => true
+          'audited' => true,
+          'selectBoolFilterList' => [
+            0 => 'onlyVisible'
+          ]
         ],
         'positionList' => (object) [
           'type' => 'array',
@@ -19396,6 +19429,15 @@ return (object) [
         'modifiedAt' => (object) [
           'type' => 'datetime',
           'readOnly' => true
+        ],
+        'createdBy' => (object) [
+          'type' => 'link',
+          'readOnly' => true
+        ],
+        'streamUpdatedAt' => (object) [
+          'type' => 'datetime',
+          'readOnly' => true,
+          'customizationReadOnlyDisabled' => true
         ]
       ],
       'links' => (object) [
@@ -19437,6 +19479,10 @@ return (object) [
           'type' => 'hasMany',
           'entity' => 'GroupEmailFolder',
           'foreign' => 'teams'
+        ],
+        'createdBy' => (object) [
+          'type' => 'belongsTo',
+          'entity' => 'User'
         ]
       ],
       'collection' => (object) [
@@ -20148,7 +20194,10 @@ return (object) [
           'layoutDetailDisabled' => true,
           'tooltip' => true,
           'audited' => true,
-          'dynamicLogicVisibleDisabled' => true
+          'dynamicLogicVisibleDisabled' => true,
+          'selectBoolFilterList' => [
+            0 => 'onlyVisible'
+          ]
         ],
         'portals' => (object) [
           'type' => 'linkMultiple',
@@ -20370,6 +20419,12 @@ return (object) [
           'min' => -1,
           'tooltip' => true
         ],
+        'cMaxTeamsQuota' => (object) [
+          'type' => 'int',
+          'default' => 5,
+          'min' => -1,
+          'tooltip' => true
+        ],
         'cEnableAdminAccess' => (object) [
           'type' => 'bool',
           'default' => false,
@@ -20389,38 +20444,72 @@ return (object) [
             7 => 'extensions',
             8 => 'systemRequirements',
             9 => 'jobsSettings',
-            10 => 'clearCache',
-            11 => 'rebuild',
-            12 => 'users',
-            13 => 'teams',
-            14 => 'roles',
-            15 => 'authLog',
-            16 => 'authTokens',
-            17 => 'actionHistory',
-            18 => 'apiUsers',
-            19 => 'entityManager',
-            20 => 'layoutManager',
-            21 => 'labelManager',
-            22 => 'templateManager',
-            23 => 'outboundEmails',
-            24 => 'inboundEmails',
-            25 => 'groupEmailAccounts',
-            26 => 'personalEmailAccounts',
-            27 => 'emailFilters',
-            28 => 'emailTemplates',
-            29 => 'portals',
-            30 => 'portalRoles',
-            31 => 'workingTimeCalendars',
-            32 => 'layoutSets',
-            33 => 'dashboardTemplates',
-            34 => 'leadCapture',
-            35 => 'pdfTemplates',
-            36 => 'webhooks',
-            37 => 'import',
-            38 => 'attachments',
-            39 => 'jobs',
-            40 => 'appLog',
-            41 => 'formulaSandbox'
+            10 => 'upgrade',
+            11 => 'clearCache',
+            12 => 'rebuild',
+            13 => 'users',
+            14 => 'teams',
+            15 => 'roles',
+            16 => 'authLog',
+            17 => 'authTokens',
+            18 => 'actionHistory',
+            19 => 'apiUsers',
+            20 => 'entityManager',
+            21 => 'layoutManager',
+            22 => 'labelManager',
+            23 => 'templateManager',
+            24 => 'outboundEmails',
+            25 => 'inboundEmails',
+            26 => 'groupEmailAccounts',
+            27 => 'personalEmailAccounts',
+            28 => 'emailFilters',
+            29 => 'groupEmailFolders',
+            30 => 'emailTemplates',
+            31 => 'sms',
+            32 => 'portals',
+            33 => 'portalUsers',
+            34 => 'portalRoles',
+            35 => 'workingTimeCalendars',
+            36 => 'layoutSets',
+            37 => 'dashboardTemplates',
+            38 => 'leadCapture',
+            39 => 'pdfTemplates',
+            40 => 'webhooks',
+            41 => 'addressCountries',
+            42 => 'authenticationProviders',
+            43 => 'import',
+            44 => 'attachments',
+            45 => 'jobs',
+            46 => 'emailAddresses',
+            47 => 'phoneNumbers',
+            48 => 'appSecrets',
+            49 => 'oAuthProviders',
+            50 => 'pipelines',
+            51 => 'appLog',
+            52 => 'formulaSandbox',
+            53 => 'analyticsDashboardSettings'
+          ],
+          'tooltip' => true
+        ],
+        'cAllowedDashboardSections' => (object) [
+          'type' => 'array',
+          'default' => [
+            0 => 'overview',
+            1 => 'leads',
+            2 => 'opportunities',
+            3 => 'accounts',
+            4 => 'contacts',
+            5 => 'emails',
+            6 => 'meetings'
+          ],
+          'options' => [
+            0 => 'overview',
+            1 => 'leads',
+            2 => 'opportunities',
+            3 => 'accounts',
+            4 => 'contacts',
+            5 => 'emails',
+            6 => 'meetings'
           ],
           'tooltip' => true
         ],
@@ -33248,7 +33337,18 @@ return (object) [
       'entity' => true
     ],
     'LayoutSet' => (object) [
-      'entity' => true
+      'entity' => true,
+      'layouts' => false,
+      'tab' => true,
+      'acl' => true,
+      'aclActionList' => [
+        0 => 'read'
+      ],
+      'aclLevelList' => [
+        0 => 'all',
+        1 => 'no'
+      ],
+      'customizable' => false
     ],
     'LeadCapture' => (object) [
       'entity' => true,
@@ -33402,11 +33502,15 @@ return (object) [
     ],
     'Team' => (object) [
       'entity' => true,
-      'layouts' => false,
+      'layouts' => true,
       'tab' => true,
       'acl' => true,
       'aclActionList' => [
-        0 => 'read'
+        0 => 'create',
+        1 => 'read',
+        2 => 'edit',
+        3 => 'delete',
+        4 => 'stream'
       ],
       'aclLevelList' => [
         0 => 'all',
@@ -33414,8 +33518,40 @@ return (object) [
         2 => 'no'
       ],
       'importable' => true,
-      'customizable' => false,
-      'preserveAuditLog' => true
+      'customizable' => true,
+      'preserveAuditLog' => true,
+      'stream' => true,
+      'aclActionLevelListMap' => (object) [
+        'create' => [
+          0 => 'yes',
+          1 => 'no'
+        ],
+        'read' => [
+          0 => 'all',
+          1 => 'team',
+          2 => 'own',
+          3 => 'no'
+        ],
+        'edit' => [
+          0 => 'all',
+          1 => 'team',
+          2 => 'own',
+          3 => 'no'
+        ],
+        'delete' => [
+          0 => 'all',
+          1 => 'team',
+          2 => 'own',
+          3 => 'no'
+        ],
+        'stream' => [
+          0 => 'all',
+          1 => 'team',
+          2 => 'own',
+          3 => 'no'
+        ]
+      ],
+      'object' => true
     ],
     'Template' => (object) [
       'entity' => true,
@@ -33508,11 +33644,18 @@ return (object) [
     ],
     'WorkingTimeCalendar' => (object) [
       'entity' => true,
-      'acl' => 'boolean',
+      'acl' => true,
       'aclFieldLevelDisabled' => true,
       'tab' => true,
       'layouts' => false,
-      'customizable' => false
+      'customizable' => false,
+      'aclActionList' => [
+        0 => 'read'
+      ],
+      'aclLevelList' => [
+        0 => 'all',
+        1 => 'no'
+      ]
     ],
     'WorkingTimeRange' => (object) [
       'entity' => true,
@@ -34271,7 +34414,7 @@ return (object) [
       'accessControlFilterResolverClassName' => 'Espo\\Core\\Select\\AccessControl\\FilterResolvers\\Bypass'
     ],
     'WorkingTimeCalendar' => (object) [
-      'accessControlFilterResolverClassName' => 'Espo\\Core\\Select\\AccessControl\\FilterResolvers\\Boolean'
+      'accessControlFilterResolverClassName' => 'Espo\\Core\\Select\\AccessControl\\FilterResolvers\\Bypass'
     ],
     'WorkingTimeRange' => (object) [
       'accessControlFilterResolverClassName' => 'Espo\\Core\\Select\\AccessControl\\FilterResolvers\\Boolean',
@@ -34477,6 +34620,18 @@ return (object) [
       ],
       'ordererClassNameMap' => (object) [
         'dateUpcoming' => 'Espo\\Modules\\Crm\\Classes\\Select\\Task\\Orderers\\DateUpcoming'
+      ]
+    ],
+    'LayoutSet' => (object) [
+      'accessControlFilterResolverClassName' => 'Espo\\Core\\Select\\AccessControl\\FilterResolvers\\Bypass'
+    ],
+    'Role' => (object) [
+      'accessControlFilterResolverClassName' => 'Espo\\Core\\Select\\AccessControl\\FilterResolvers\\Bypass',
+      'accessControlFilterClassNameMap' => (object) [
+        'mandatory' => 'Espo\\Custom\\Select\\Role\\AccessControlFilters\\Mandatory'
+      ],
+      'boolFilterClassNameMap' => (object) [
+        'onlyVisible' => 'Espo\\Custom\\Select\\Role\\BoolFilters\\OnlyVisible'
       ]
     ]
   ],

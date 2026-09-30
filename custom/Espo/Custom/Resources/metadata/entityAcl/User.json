@@ -33,10 +33,19 @@
     "cMaxUsersQuota": {
       "nonAdminReadOnly": true
     },
+    "cMaxTeamsQuota": {
+      "nonAdminReadOnly": true
+    },
     "cEnableAdminAccess": {
       "nonAdminReadOnly": true
     },
     "cAllowedAdminItems": {
+      "nonAdminReadOnly": true
+    },
+    "isAdmin": {
+      "nonAdminReadOnly": true
+    },
+    "cAllowedDashboardSections": {
       "nonAdminReadOnly": true
     }
   }

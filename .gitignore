@@ -1,3 +1,4 @@
 data/cache/
 data/logs/
 data/config-internal.php
+data/config.php

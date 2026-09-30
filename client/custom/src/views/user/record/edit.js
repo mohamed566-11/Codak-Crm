@@ -336,7 +336,8 @@ define('custom:views/user/record/edit', ['views/user/record/edit'], function (De
                     'cMaxOpportunitiesQuota',
                     'cMaxUsersQuota',
                     'cEnableAdminAccess',
-                    'cAllowedAdminItems'
+                    'cAllowedAdminItems',
+                    'cAllowedDashboardSections'
                 ];
 
                 fields.forEach(function (field) {
@@ -349,7 +350,8 @@ define('custom:views/user/record/edit', ['views/user/record/edit'], function (De
                         var text = $el.text();
                         if (
                             text.indexOf('Creation Quotas') !== -1 ||
-                            text.indexOf('Administration Access') !== -1
+                            text.indexOf('Administration Access') !== -1 ||
+                            text.indexOf('Analytics Dashboard Access Control') !== -1
                         ) {
                             $el.hide();
                         }

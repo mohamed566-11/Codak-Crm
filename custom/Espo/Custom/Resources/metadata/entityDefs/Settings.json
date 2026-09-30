@@ -1,0 +1,25 @@
+{
+  "fields": {
+    "cAllowedDashboardSections": {
+      "type": "array",
+      "default": [
+        "overview",
+        "leads",
+        "opportunities",
+        "accounts",
+        "contacts",
+        "emails",
+        "meetings"
+      ],
+      "options": [
+        "overview",
+        "leads",
+        "opportunities",
+        "accounts",
+        "contacts",
+        "emails",
+        "meetings"
+      ]
+    }
+  }
+}

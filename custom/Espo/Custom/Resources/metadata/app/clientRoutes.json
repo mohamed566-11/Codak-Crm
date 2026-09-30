@@ -10,5 +10,11 @@
             "controller": "custom:controllers/analytics-dashboard",
             "action": "index"
         }
+    },
+    "Admin/analyticsDashboardSettings": {
+        "params": {
+            "controller": "custom:controllers/admin-analytics-dashboard-settings",
+            "action": "index"
+        }
     }
 }

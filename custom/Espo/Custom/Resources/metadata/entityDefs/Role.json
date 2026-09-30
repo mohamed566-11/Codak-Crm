@@ -1,0 +1,9 @@
+{
+  "fields": {
+    "cIsHidden": {
+      "type": "bool",
+      "default": false,
+      "audited": true
+    }
+  }
+}

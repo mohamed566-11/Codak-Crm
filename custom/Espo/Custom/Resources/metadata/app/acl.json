@@ -1,0 +1,24 @@
+{
+  "adminMandatory": {
+    "scopeLevel": {
+      "Team": {
+        "create": "yes",
+        "read": "all",
+        "edit": "all",
+        "delete": "all",
+        "stream": "all"
+      }
+    }
+  },
+  "strictDefault": {
+    "scopeLevel": {
+      "Team": {
+        "create": "yes",
+        "read": "all",
+        "edit": "all",
+        "delete": "all",
+        "stream": "all"
+      }
+    }
+  }
+}

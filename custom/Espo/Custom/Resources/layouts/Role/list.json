@@ -1,0 +1,14 @@
+[
+    {
+        "name": "name",
+        "link": true
+    },
+    {
+        "name": "cIsHidden"
+    },
+    {
+        "name": "info",
+        "width": 30,
+        "noLabel": true
+    }
+]

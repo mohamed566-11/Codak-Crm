@@ -1,0 +1,12 @@
+{
+  "setup": {
+    "itemList": [
+      {
+        "url": "#Admin/analyticsDashboardSettings",
+        "label": "Analytics Dashboard",
+        "iconClass": "fas fa-chart-line",
+        "description": "analyticsDashboardSettings"
+      }
+    ]
+  }
+}

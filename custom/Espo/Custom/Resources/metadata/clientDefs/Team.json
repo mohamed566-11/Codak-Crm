@@ -1,0 +1,10 @@
+{
+    "controller": "custom:controllers/team",
+    "relationshipPanels": {
+        "users": {
+            "createDisabled": false,
+            "editDisabled": false,
+            "removeDisabled": false
+        }
+    }
+}

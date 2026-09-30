@@ -62,6 +62,54 @@ class Admin extends \Espo\Controllers\Admin
         }
     }
 
+    /**
+     * Choke-point guard executed by ControllerActionProcessor before any action method.
+     * Enforces granular section permissions across ALL action methods (including inherited parent actions).
+     */
+    public function beforeAction(string $actionName): void
+    {
+        if ($this->user->isAdmin()) {
+            return;
+        }
+
+        if (!$this->user->get('cEnableAdminAccess')) {
+            throw new Forbidden("Access denied to Administration.");
+        }
+
+        // Map of action methods to required cAllowedAdminItems section keys
+        $actionSectionMap = [
+            'rebuild' => 'rebuild',
+            'clearCache' => 'clearCache',
+            'jobs' => 'scheduledJob',
+            'cronMessage' => 'scheduledJob',
+            'systemRequirementList' => 'systemRequirements',
+            'adminNotificationList' => 'notifications',
+            'analyticsDashboardSettings' => 'analyticsDashboardSettings',
+        ];
+
+        // Actions strictly restricted to full super-admins
+        $adminOnlyActions = [
+            'uploadUpgradePackage',
+            'runUpgrade',
+        ];
+
+        if (in_array($actionName, $adminOnlyActions, true)) {
+            throw new Forbidden("Access denied: Action '{$actionName}' is restricted to full administrators.");
+        }
+
+        $requiredSection = $actionSectionMap[$actionName] ?? null;
+
+        if (!$requiredSection) {
+            // Default Deny for unmapped or unknown administration actions
+            throw new Forbidden("Access denied: Action '{$actionName}' is not authorized for partial administrators.");
+        }
+
+        $allowedItems = $this->user->get('cAllowedAdminItems') ?? [];
+        if (!in_array($requiredSection, $allowedItems, true)) {
+            throw new Forbidden("Access denied: You do not have permission for administration section '{$requiredSection}'.");
+        }
+    }
+
     public function getActionAdminNotificationList(): array
     {
         if ($this->user->isAdmin()) {

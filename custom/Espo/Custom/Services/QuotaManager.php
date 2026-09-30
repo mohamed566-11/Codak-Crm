@@ -16,6 +16,7 @@ class QuotaManager
         'Contact' => 'cMaxContactsQuota',
         'Opportunity' => 'cMaxOpportunitiesQuota',
         'User' => 'cMaxUsersQuota',
+        'Team' => 'cMaxTeamsQuota',
     ];
 
     public function __construct(
@@ -32,6 +33,10 @@ class QuotaManager
 
         if ($this->user->isAdmin() || $this->user->isSystem()) {
             return;
+        }
+
+        if ($this->user->getId() && !$entity->get('createdById')) {
+            $entity->set('createdById', $this->user->getId());
         }
 
         $entityType = $entity->getEntityType();

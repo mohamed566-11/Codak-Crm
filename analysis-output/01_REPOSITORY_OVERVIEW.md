@@ -6,9 +6,9 @@
 - **Local Filesystem Root**: `d:\laragon\www\EspoCRM-10.0.3`
 - **Base Framework Engine**: EspoCRM Enterprise Core v10.0.3
 - **Primary Branch**: `main` (`remotes/origin/main`)
-- **Current Head Commit**: `46cb9eef` (`feat: add custom brand theme, entity creation quota hooks, and enhanced record detail views`)
+- **Current Technical State**: Updated with Full Team Quotas, Granular 53-Section Admin Access Control, Strict Role Lock & Dynamic Field Pickers
 - **Environment Stack**: Windows 11 / Laragon Stack (Apache 2.4, PHP 8.2+, MySQL 8.0 / MariaDB 10.6)
-- **Execution Mode**: READ-ONLY ANALYSIS MODE (Zero Code Mutation / Zero Git Mutation)
+- **Execution Mode**: TIER-4 CUSTOM EXTENSION STANDARD (`custom/Espo/Custom/` & `client/custom/`)
 
 ---
 
@@ -35,9 +35,15 @@ EspoCRM Root (d:\laragon\www\EspoCRM-10.0.3)
 ├── custom/                              [Tier-4 Extension Layer — CODAK CRM CUSTOMIZATIONS]
 │   └── Espo/Custom/                      [Primary Custom Backend Namespace (`Espo\Custom\`)]
 │       ├── Classes/                     [Custom Security & ACL Classes]
-│       │   └── Acl/User/AccessChecker.php  [Custom Non-Admin User Scope Access Control]
+│       │   └── Acl/                     [Custom Scope Access & Ownership Checkers]
+│       │       ├── LayoutSet/AccessChecker.php         [LayoutSet Multi-Action Access Checker]
+│       │       ├── Role/AccessChecker.php              [Role Multi-Action Access & Delete Checker]
+│       │       ├── Team/OwnershipChecker.php           [Team Creator & Admin Ownership Checker]
+│       │       ├── User/AccessChecker.php              [Non-Admin User Scope Access Control]
+│       │       └── WorkingTimeCalendar/AccessChecker.php [Calendar Multi-Action Access Checker]
 │       ├── Controllers/                 [Custom REST Controllers]
-│       │   ├── Admin.php                [Non-Admin Admin Action Permission Guard]
+│       │   ├── Admin.php                [Granular 53-Section Admin Action Permission Guard]
+│       │   ├── LayoutSet.php            [Whitelisted LayoutSet Picker Controller]
 │       │   └── Settings.php             [Whitelisted Non-Admin Settings Controller]
 │       ├── Hooks/                       [Custom Lifecycle Hook Interceptors]
 │       │   ├── Account/CheckAccountCreationQuota.php
@@ -52,14 +58,24 @@ EspoCRM Root (d:\laragon\www\EspoCRM-10.0.3)
 │       │   ├── Opportunity/ValidateStageLastStageDependency.php
 │       │   ├── TargetList/ValidateTargetListCountVisibility.php
 │       │   ├── Task/ValidateTaskDateCompletedVisibility.php
+│       │   ├── Team/CheckTeamCreationQuota.php    [Team Creator Auto-Link & Quota Interceptor]
 │       │   └── User/CheckUserCreationQuota.php
 │       ├── Resources/                   [Custom Metadata, Layouts, i18n, & Templates]
-│       │   ├── i18n/                    [Translations (en_US, ar_AR)]
-│       │   ├── layouts/                 [Layout JSON Overrides (User, Account, Contact)]
-│       │   ├── metadata/                [Metadata Overrides (aclDefs, app, clientDefs, entityDefs, logicDefs, scopes, themes)]
+│       │   ├── i18n/                    [Translations (en_US, ar_AR with 53 Admin Section Labels)]
+│       │   ├── layouts/                 [Layout JSON Overrides (User, Account, Contact, Team)]
+│       │   ├── metadata/                [Metadata Overrides]
+│       │   │   ├── aclDefs/             [ACL Class Maps (Role, LayoutSet, Team, User, WorkingTimeCalendar)]
+│       │   │   ├── app/                 [App ACL & Route Overrides (acl.json with Stream='all')]
+│       │   │   ├── clientDefs/          [Frontend Definitions (Team.json with enabled member pickers)]
+│       │   │   ├── entityAcl/           [Entity Field Access Restrictions]
+│       │   │   ├── entityDefs/          [Entity Field Defs (User.json with 53 cAllowedAdminItems options)]
+│       │   │   ├── logicDefs/           [Dynamic UI Logic Rules]
+│       │   │   ├── scopes/              [Scope Definitions (Team, Role, LayoutSet, WorkingTimeCalendar)]
+│       │   │   ├── selectDefs/          [Filter Resolvers (Role, LayoutSet, WorkingTimeCalendar with Bypass)]
+│       │   │   └── themes/              [Codak Dark/Vibrant Theme Definitions]
 │       │   └── templates/               [Email Notification Templates]
 │       └── Services/                    [Custom Domain Services]
-│           └── QuotaManager.php         [Multi-Tier Entity Creation Quota Manager]
+│           └── QuotaManager.php         [Multi-Tier Entity Creation Quota Manager (Account, Lead, Contact, Opportunity, User, Team)]
 │
 ├── client/                              [Frontend Single Page Application Layer]
 │   ├── custom/                          [Tier-4 Custom Client Framework Assets]
@@ -72,7 +88,14 @@ EspoCRM Root (d:\laragon\www\EspoCRM-10.0.3)
 │   │   └── src/                         [Custom Client JavaScript Modules]
 │   │       ├── codak-footer.js          [Custom Footer Component]
 │   │       ├── controllers/             [Custom Router Controllers]
+│   │       │   ├── admin.js             [Granular Admin Route Access]
+│   │       │   ├── role.js              [Strict Non-Admin Navigation Lock for #Role]
+│   │       │   ├── portal-role.js       [Strict Portal Role Navigation Lock]
+│   │       │   └── team.js              [Non-Admin Team Management Controller]
 │   │       └── views/                   [Explicit Tier-4 Backbone Record Views]
+│   │           ├── admin/index.js       [Dynamic Admin Panel Filtering by cAllowedAdminItems]
+│   │           ├── site/navbar.js       [Admin Menu Visibility Guard]
+│   │           └── user/record/         [User Edit/Detail Views for Quotas & Admin Access]
 │   └── src/                             [Base Espo Client Engine (`Espo.View`, `Espo.Model`)]
 │
 ├── data/                                [System Storage, Configuration, & Cache]
@@ -81,108 +104,44 @@ EspoCRM Root (d:\laragon\www\EspoCRM-10.0.3)
 │   ├── config-internal.php              [Internal System Secrets & Installation Parameters]
 │   └── logs/                            [System Error & Runtime Activity Logs]
 │
-├── test_all_crm_functions.php           [52-Test Automated Health Diagnostics Suite]
-├── test_creation_quotas.php              [7-Test Creation Quotas Integration Suite]
-└── test_entity_manager_diagnostics.php [Metadata & ORM Diagnostic Utility]
+├── clear_cache.php                      [Backend Metadata Cache Flusher]
+├── rebuild.php                          [System Schema & Metadata Rebuilder]
+├── command.php                          [CLI App Command Dispatcher]
+├── README_CREATION_QUOTAS_AND_ADMIN_ACCESS.md [Complete Architecture Documentation]
+└── test_all_crm_functions.php           [Automated Health Diagnostics Suite]
 ```
 
 ---
 
-## 3. Exhaustive Entrypoints Code Blueprint
+## 3. Key Architecture & Feature Subsystems Summary
 
-### 3.1 Web Gateway Entrypoint (`index.php`)
-```php
-<?php
+### 3.1 Multi-Tier Creation Quotas Engine
+- **Supported Entities**: `Account`, `Lead`, `Contact`, `Opportunity`, `User`, `Team`.
+- **Field Definitions**: `cMaxAccountsQuota`, `cMaxLeadsQuota`, `cMaxContactsQuota`, `cMaxOpportunitiesQuota`, `cMaxUsersQuota`, `cMaxTeamsQuota` on `User` entity.
+- **Service Layer**: [`QuotaManager.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Services/QuotaManager.php) computes active entity counts per creator (`createdById`), validates against quotas, and throws custom localized exceptions (`Creation Limit Reached`).
 
-use Espo\Core\Application;
+### 3.2 Granular Administration Access Control (53 Sections)
+- **Controls**: `cEnableAdminAccess` (boolean) & `cAllowedAdminItems` (array of 53 options).
+- **53 Granular Options**:
+  1. **System** (13): `settings`, `userInterface`, `authentication`, `scheduledJob`, `currency`, `notifications`, `integrations`, `extensions`, `systemRequirements`, `jobsSettings`, `upgrade`, `clearCache`, `rebuild`.
+  2. **Users** (7): `users`, `teams`, `roles`, `authLog`, `authTokens`, `actionHistory`, `apiUsers`.
+  3. **Customization** (4): `entityManager`, `layoutManager`, `labelManager`, `templateManager`.
+  4. **Messaging** (8): `outboundEmails`, `inboundEmails`, `groupEmailAccounts`, `personalEmailAccounts`, `emailFilters`, `groupEmailFolders`, `emailTemplates`, `sms`.
+  5. **Portal** (3): `portals`, `portalUsers`, `portalRoles`.
+  6. **Setup** (8): `workingTimeCalendars`, `layoutSets`, `dashboardTemplates`, `leadCapture`, `pdfTemplates`, `webhooks`, `addressCountries`, `authenticationProviders`.
+  7. **Data** (9): `import`, `attachments`, `jobs`, `emailAddresses`, `phoneNumbers`, `appSecrets`, `oAuthProviders`, `pipelines`, `appLog`.
+  8. **Misc** (1): `formulaSandbox`.
+- **Backend Guard**: [`Admin.php`](file:///d:/laragon/www/EspoCRM-10.0.3/custom/Espo/Custom/Controllers/Admin.php) enforces permission checks on all `/api/v1/Admin/*` endpoints.
+- **Frontend View**: [`admin/index.js`](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/src/views/admin/index.js) dynamically filters the Admin panel cards to show only whitelisted sections.
 
-require_once 'bootstrap.php';
-
-$app = new Application();
-$app->run();
-```
-
----
-
-### 3.2 System Rebuild Execution Script (`rebuild.php`)
-```php
-<?php
-
-use Espo\Core\Application;
-
-require_once 'bootstrap.php';
-
-$app = new Application();
-$app->setupSystemUser();
-
-$container = $app->getContainer();
-$container->get('dataManager')->rebuild();
-
-echo "System Rebuild Execution Completed Successfully.\n";
-```
-
----
-
-### 3.3 CLI Command Runner (`command.php`)
-```php
-<?php
-
-use Espo\Core\Application;
-
-if (php_sapi_name() !== 'cli') {
-    exit(1);
-}
-
-require_once 'bootstrap.php';
-
-$app = new Application();
-$app->setupSystemUser();
-$app->runClientCommand();
-```
-
----
-
-### 3.4 Core Application Kernel (`application/Espo/Core/Application.php`)
-```php
-namespace Espo\Core;
-
-use Espo\Core\Utils\Config;
-use Espo\Core\Api\Request;
-use Espo\Core\Api\Response;
-
-class Application
-{
-    private Container $container;
-
-    public function __construct()
-    {
-        $this->container = new Container();
-        $this->init();
-    }
-
-    protected function init(): void
-    {
-        $this->container->set('application', $this);
-    }
-
-    public function getContainer(): Container
-    {
-        return $this->container;
-    }
-
-    public function run(): void
-    {
-        $request = $this->container->get('request');
-        $response = $this->container->get('response');
-
-        $this->container->get('router')->dispatch($request, $response);
-    }
-}
-```
+### 3.3 Strict Role Security & Picker Bypass System
+- **Strict Route Lock**: Non-admin users are strictly blocked from navigating to `#Role` module routes (`#Role`, `#Role/view/{id}`, `#Role/edit/{id}`) via [`client/custom/src/controllers/role.js`](file:///d:/laragon/www/EspoCRM-10.0.3/client/custom/src/controllers/role.js).
+- **Dynamic Pickers**: `selectDefs` for `Role`, `LayoutSet`, and `WorkingTimeCalendar` use `FilterResolvers\Bypass` to allow modal search lookups inside Team creation/edit forms without triggering restrictive `WHERE 1 = 0` clauses or `Access Denied` errors.
+- **Multi-Action Access Checkers**: Custom `AccessChecker` classes implement all action interfaces (`AccessReadChecker`, `AccessDeleteChecker`, `AccessEditChecker`, `AccessCreateChecker`, `AccessStreamChecker`), preventing 500 errors on record deletion/edits for admins while securing non-admin access.
 
 ---
 
 ## 4. Evidence Summary & Confidence Evaluation
 
-- **Evidence Gathering**: Full filesystem analysis across `application/`, `custom/`, `client/`, and `data/`.
-- **Confidence Rating**: **CONFIRMED** (Verified via direct file system code walkthroughs).
+- **Evidence Gathering**: Comprehensive code inspection across `custom/Espo/Custom/`, `client/custom/`, `application/Espo/`, and configuration files.
+- **Confidence Rating**: **CONFIRMED** (Verified via automated execution scripts and runtime checks).

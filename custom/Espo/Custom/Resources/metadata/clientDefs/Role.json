@@ -18,5 +18,12 @@
   },
   "views": {
     "list": "views/role/list"
+  },
+  "selectBoolFilterList": ["onlyVisible"],
+  "selectDefaultFilters": {
+    "boolFilterList": ["onlyVisible"]
+  },
+  "selectRecords": {
+    "boolFilterList": ["onlyVisible"]
   }
 }

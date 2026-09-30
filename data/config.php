@@ -326,7 +326,7 @@ return [
     0 => 'youtube.com',
     1 => 'google.com'
   ],
-  'microtime' => 1790537737.519602,
+  'microtime' => 1790788254.035532,
   'siteUrl' => 'http://localhost/EspoCRM-10.0.3',
   'fullTextSearchMinLength' => 4,
   'userThemesDisabled' => false,
@@ -335,5 +335,14 @@ return [
   'tabIconsDisabled' => false,
   'dashletsOptions' => (object) [],
   'companyLogoId' => '6ab97008172c65e04',
-  'companyLogoName' => 'codak web.png'
+  'companyLogoName' => 'codak web.png',
+  'cAllowedDashboardSections' => [
+    0 => 'overview',
+    1 => 'leads',
+    2 => 'opportunities',
+    3 => 'accounts',
+    4 => 'contacts',
+    5 => 'emails',
+    6 => 'meetings'
+  ]
 ];

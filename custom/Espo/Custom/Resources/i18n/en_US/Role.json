@@ -1,0 +1,11 @@
+{
+  "fields": {
+    "cIsHidden": "Hidden from Selection Pickers"
+  },
+  "labels": {
+    "cIsHidden": "Hidden from Selection Pickers"
+  },
+  "tooltips": {
+    "cIsHidden": "When checked, this role will be hidden from Role pickers when creating or editing Users or Teams."
+  }
+}

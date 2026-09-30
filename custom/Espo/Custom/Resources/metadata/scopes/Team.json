@@ -1,0 +1,18 @@
+{
+  "entity": true,
+  "layouts": true,
+  "tab": true,
+  "acl": true,
+  "stream": true,
+  "aclActionList": ["create", "read", "edit", "delete", "stream"],
+  "aclActionLevelListMap": {
+    "create": ["yes", "no"],
+    "read": ["all", "team", "own", "no"],
+    "edit": ["all", "team", "own", "no"],
+    "delete": ["all", "team", "own", "no"],
+    "stream": ["all", "team", "own", "no"]
+  },
+  "customizable": true,
+  "object": true,
+  "preserveAuditLog": true
+}

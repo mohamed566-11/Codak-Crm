@@ -1,0 +1,9 @@
+{
+  "accessControlFilterResolverClassName": "Espo\\Core\\Select\\AccessControl\\FilterResolvers\\Bypass",
+  "accessControlFilterClassNameMap": {
+    "mandatory": "Espo\\Custom\\Select\\Role\\AccessControlFilters\\Mandatory"
+  },
+  "boolFilterClassNameMap": {
+    "onlyVisible": "Espo\\Custom\\Select\\Role\\BoolFilters\\OnlyVisible"
+  }
+}

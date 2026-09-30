@@ -40,6 +40,9 @@ class CheckUserCreationQuota implements BeforeSave
             if ($entity->get('cMaxUsersQuota') === null) {
                 $entity->set('cMaxUsersQuota', 5);
             }
+            if ($entity->get('cMaxTeamsQuota') === null) {
+                $entity->set('cMaxTeamsQuota', 5);
+            }
             if ($entity->get('cEnableAdminAccess') === null) {
                 $entity->set('cEnableAdminAccess', false);
             }

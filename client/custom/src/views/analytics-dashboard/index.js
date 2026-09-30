@@ -31,6 +31,100 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             this.onPeriodDateChange = this._debounce(this.onPeriodDateChange.bind(this), 400);
         },
 
+        getAllowedDashboardSections: function () {
+            var allSections = ['overview', 'leads', 'opportunities', 'accounts', 'contacts', 'emails', 'meetings'];
+            
+            var globalAllowed = (this.getConfig && typeof this.getConfig === 'function' && this.getConfig())
+                ? this.getConfig().get('cAllowedDashboardSections') : null;
+            if (!Array.isArray(globalAllowed)) {
+                globalAllowed = allSections;
+            }
+
+            var userAllowed = (this.getUser && typeof this.getUser === 'function' && this.getUser())
+                ? this.getUser().get('cAllowedDashboardSections') : null;
+            if (!Array.isArray(userAllowed)) {
+                userAllowed = allSections;
+            }
+
+            return allSections.filter(function (sec) {
+                return globalAllowed.indexOf(sec) !== -1 && userAllowed.indexOf(sec) !== -1;
+            });
+        },
+
+        isSectionAllowed: function (secOrTab) {
+            if (!secOrTab) return true;
+            var secKey = (secOrTab === 'all') ? 'overview' : (
+                secOrTab === 'Lead' ? 'leads' : (
+                secOrTab === 'Opportunity' ? 'opportunities' : (
+                secOrTab === 'Account' ? 'accounts' : (
+                secOrTab === 'Contact' ? 'contacts' : (
+                secOrTab === 'Email' ? 'emails' : (
+                secOrTab === 'Meeting' ? 'meetings' : secOrTab))))));
+            
+            var allowed = this.getAllowedDashboardSections();
+            return allowed.indexOf(secKey) !== -1;
+        },
+
+        getFirstAllowedTab: function () {
+            var allowed = this.getAllowedDashboardSections();
+            var tabMap = {
+                'overview': 'all',
+                'leads': 'Lead',
+                'opportunities': 'Opportunity',
+                'accounts': 'Account',
+                'contacts': 'Contact',
+                'emails': 'Email',
+                'meetings': 'Meeting'
+            };
+            for (var i = 0; i < allowed.length; i++) {
+                var sec = allowed[i];
+                if (tabMap[sec]) return tabMap[sec];
+            }
+            return '';
+        },
+
+        renderTabVisibility: function () {
+            var self = this;
+            var tabMap = {
+                'overview': 'all',
+                'leads': 'Lead',
+                'opportunities': 'Opportunity',
+                'accounts': 'Account',
+                'contacts': 'Contact',
+                'emails': 'Email',
+                'meetings': 'Meeting'
+            };
+
+            var allowedSections = this.getAllowedDashboardSections();
+
+            if (!this.isSectionAllowed(this.activeTab)) {
+                this.activeTab = this.getFirstAllowedTab();
+            }
+
+            Object.keys(tabMap).forEach(function (sec) {
+                var tabVal = tabMap[sec];
+                var isAllowed = allowedSections.indexOf(sec) !== -1;
+
+                var $pill = self.$el.find('.entity-tab-pill[data-tab="' + tabVal + '"]');
+                if (isAllowed) {
+                    $pill.css('display', 'inline-flex');
+                } else {
+                    $pill.hide().removeClass('active');
+                }
+
+                var $opt = self.$el.find('#analytics-entity-select option[value="' + tabVal + '"]');
+                if (isAllowed) {
+                    $opt.show().prop('disabled', false);
+                } else {
+                    $opt.hide().prop('disabled', true);
+                }
+            });
+
+            this.$el.find('.entity-tab-pill').removeClass('active');
+            this.$el.find('.entity-tab-pill[data-tab="' + this.activeTab + '"]').addClass('active');
+            this.$el.find('#analytics-entity-select').val(this.activeTab);
+        },
+
         _debounce: function (fn, delay) {
             var timer = null;
             return function () {
@@ -365,6 +459,7 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
         },
 
         fetchTodayLeadsCount: function () {
+            if (!this.isSectionAllowed('leads')) return Promise.resolve('N/A');
             var todayStr = this.getLocalDateStr();
             var url = 'api/v1/Lead?maxSize=1&select=id,createdAt' +
                       '&where[0][type]=between&where[0][attribute]=createdAt' +
@@ -389,6 +484,7 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
         },
 
         fetchMonthAccountsCount: function () {
+            if (!this.isSectionAllowed('accounts')) return Promise.resolve('N/A');
             var todayStr = this.getLocalDateStr();
             var monthStartStr = todayStr.substring(0, 7) + '-01';
             var url = 'api/v1/Account?maxSize=1&select=id,createdAt' +
@@ -1173,6 +1269,7 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
                 $styles.slice(1).remove();
             }
 
+            this.renderTabVisibility();
             this.loadMetrics();
             try {
                 var $tabs = $('#navbar .tabs > li, .navbar-nav > li');
@@ -1212,6 +1309,9 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
         },
 
         setEntityTab: function (tab) {
+            if (!this.isSectionAllowed(tab)) {
+                tab = this.getFirstAllowedTab();
+            }
             this.activeTab = tab;
             this.$el.find('.entity-tab-pill').removeClass('active');
             this.$el.find('.entity-tab-pill[data-tab="' + tab + '"]').addClass('active');
@@ -1668,6 +1768,9 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
 
         fetchAllPages: function (entity, fields, dateField, dateRange) {
             var self = this;
+            if (!this.isSectionAllowed(entity)) {
+                return Promise.resolve({ list: [], total: 0, error: false, entity: entity });
+            }
             var allList = [];
             var maxSize = 200;
             var totalCount = -1;
@@ -1743,6 +1846,21 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
 
         processAndRender: function () {
             var self = this;
+            var allowedSections = this.getAllowedDashboardSections();
+
+            if (allowedSections.length === 0) {
+                this.$el.find('#analytics-kpi-row').html(
+                    '<div class="col-xs-12" style="margin: 30px 0; text-align: center;">' +
+                    '<div class="alert alert-info" style="border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">' +
+                    '<i class="fas fa-lock fa-3x" style="color: #00a4c8; margin-bottom: 15px; display: block;"></i>' +
+                    '<h4 style="font-weight: 700; margin-bottom: 8px;">No Analytics Dashboard Sections Allowed</h4>' +
+                    '<p style="color: #64748b; margin: 0;">All dashboard sections are currently hidden for your account by administrator configuration.</p>' +
+                    '</div></div>'
+                );
+                this.$el.find('#analytics-charts-row, #analytics-tables-row').empty();
+                return;
+            }
+
             var leads = this.rawLeads;
             var opps = this.rawOpps;
             var accounts = this.rawAccounts;
@@ -1896,14 +2014,17 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             var kpis = [];
 
             if (tab === 'all') {
-                kpis = [
-                    { title: 'Total Leads', val: fmtKpi(lm.totalLeads), color: 'var(--color-primary)', badge: 'Leads' },
-                    { title: 'Total Revenue', val: fmtKpi(om.totalRevenue, 'currency'), color: 'var(--color-success)', badge: 'Won Opps' },
-                    { title: 'Total Accounts', val: fmtKpi(am.totalAccounts), color: 'var(--color-primary-light)', badge: 'Accounts' },
-                    { title: 'Total Contacts', val: fmtKpi(cm.totalContacts), color: 'var(--color-info)', badge: 'Contacts' },
-                    { title: 'Total Emails', val: fmtKpi(em.totalEmails), color: 'var(--color-purple)', badge: 'Emails' },
-                    { title: 'Total Meetings', val: fmtKpi(mm.totalMeetings), color: 'var(--color-warning)', badge: 'Meetings' }
+                var candidateKpis = [
+                    { sec: 'leads', title: 'Total Leads', val: fmtKpi(lm.totalLeads), color: 'var(--color-primary)', badge: 'Leads' },
+                    { sec: 'opportunities', title: 'Total Revenue', val: fmtKpi(om.totalRevenue, 'currency'), color: 'var(--color-success)', badge: 'Won Opps' },
+                    { sec: 'accounts', title: 'Total Accounts', val: fmtKpi(am.totalAccounts), color: 'var(--color-primary-light)', badge: 'Accounts' },
+                    { sec: 'contacts', title: 'Total Contacts', val: fmtKpi(cm.totalContacts), color: 'var(--color-info)', badge: 'Contacts' },
+                    { sec: 'emails', title: 'Total Emails', val: fmtKpi(em.totalEmails), color: 'var(--color-purple)', badge: 'Emails' },
+                    { sec: 'meetings', title: 'Total Meetings', val: fmtKpi(mm.totalMeetings), color: 'var(--color-warning)', badge: 'Meetings' }
                 ];
+                kpis = candidateKpis.filter(function (k) {
+                    return self.isSectionAllowed(k.sec);
+                });
             } else if (tab === 'Lead') {
                 kpis = [
                     { title: 'Total Leads', val: fmtKpi(lm.totalLeads), color: 'var(--color-primary)', badge: 'Active' },
@@ -2006,25 +2127,40 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             var meetingStatusOptions = ['Planned', 'Held', 'Not Held'];
 
             if (tab === 'all') {
-                html = `
-                    <div class="chart-box" style="grid-column: 1 / -1;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <div>
-                                <h4 class="chart-title"><i class="fas fa-chart-area" style="margin-right: 6px;"></i> Revenue Growth & Monthly Trend</h4>
-                                <p class="chart-subtitle">Actual Closed Won revenue aggregated across recent months</p>
+                var chartBoxes = '';
+                if (self.isSectionAllowed('opportunities')) {
+                    chartBoxes += `
+                        <div class="chart-box" style="grid-column: 1 / -1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <div>
+                                    <h4 class="chart-title"><i class="fas fa-chart-area" style="margin-right: 6px;"></i> Revenue Growth & Monthly Trend</h4>
+                                    <p class="chart-subtitle">Actual Closed Won revenue aggregated across recent months</p>
+                                </div>
+                                <span class="badge badge-info">Real Monthly Data</span>
                             </div>
-                            <span class="badge badge-info">Real Monthly Data</span>
+                            <div id="chart-revenue-trend-container" style="width: 100%; min-height: 200px;"></div>
                         </div>
-                        <div id="chart-revenue-trend-container" style="width: 100%; min-height: 200px;"></div>
-                    </div>
-
-                    <div class="chart-box"><h4 class="chart-title"><i class="fas fa-filter" style="margin-right: 6px;"></i> Leads by Status</h4><div id="chart-leads-status"></div></div>
-                    <div class="chart-box"><h4 class="chart-title"><i class="fas fa-funnel-dollar" style="margin-right: 6px;"></i> Opportunities Stage Funnel</h4><div id="chart-opps-stage"></div></div>
-                    <div class="chart-box"><h4 class="chart-title"><i class="fas fa-building" style="margin-right: 6px;"></i> Accounts by Type</h4><div id="chart-accounts-type"></div></div>
-                    <div class="chart-box"><h4 class="chart-title"><i class="fas fa-users" style="margin-right: 6px;"></i> Contacts by Account</h4><div id="chart-contacts-account"></div></div>
-                    <div class="chart-box"><h4 class="chart-title"><i class="fas fa-paper-plane" style="margin-right: 6px;"></i> Emails by Status</h4><div id="chart-emails-status"></div></div>
-                    <div class="chart-box"><h4 class="chart-title"><i class="fas fa-calendar-check" style="margin-right: 6px;"></i> Meetings by Status</h4><div id="chart-meetings-status"></div></div>
-                `;
+                    `;
+                }
+                if (self.isSectionAllowed('leads')) {
+                    chartBoxes += '<div class="chart-box"><h4 class="chart-title"><i class="fas fa-filter" style="margin-right: 6px;"></i> Leads by Status</h4><div id="chart-leads-status"></div></div>';
+                }
+                if (self.isSectionAllowed('opportunities')) {
+                    chartBoxes += '<div class="chart-box"><h4 class="chart-title"><i class="fas fa-funnel-dollar" style="margin-right: 6px;"></i> Opportunities Stage Funnel</h4><div id="chart-opps-stage"></div></div>';
+                }
+                if (self.isSectionAllowed('accounts')) {
+                    chartBoxes += '<div class="chart-box"><h4 class="chart-title"><i class="fas fa-building" style="margin-right: 6px;"></i> Accounts by Type</h4><div id="chart-accounts-type"></div></div>';
+                }
+                if (self.isSectionAllowed('contacts')) {
+                    chartBoxes += '<div class="chart-box"><h4 class="chart-title"><i class="fas fa-users" style="margin-right: 6px;"></i> Contacts by Account</h4><div id="chart-contacts-account"></div></div>';
+                }
+                if (self.isSectionAllowed('emails')) {
+                    chartBoxes += '<div class="chart-box"><h4 class="chart-title"><i class="fas fa-paper-plane" style="margin-right: 6px;"></i> Emails by Status</h4><div id="chart-emails-status"></div></div>';
+                }
+                if (self.isSectionAllowed('meetings')) {
+                    chartBoxes += '<div class="chart-box"><h4 class="chart-title"><i class="fas fa-calendar-check" style="margin-right: 6px;"></i> Meetings by Status</h4><div id="chart-meetings-status"></div></div>';
+                }
+                html = chartBoxes;
             } else if (tab === 'Lead') {
                 html = `
                     <div class="chart-box"><h4 class="chart-title">Leads by Status</h4><div id="chart-leads-status"></div></div>
@@ -2077,12 +2213,24 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             }
 
             if (tab === 'all') {
-                this.renderBarChart('#chart-leads-status', leads, 'status', 'status', 'var(--color-primary-light)', leadStatusOptions, 'Lead');
-                this.renderBarChart('#chart-opps-stage', opps, 'stage', 'stage', 'var(--color-primary)', oppStageOptions, 'Opportunity');
-                this.renderBarChart('#chart-accounts-type', accounts, 'type', 'type', 'var(--color-info)', accountTypeOptions, 'Account');
-                this.renderBarChart('#chart-contacts-account', contacts, 'accountName', 'accountName', 'var(--color-primary)', null, 'Contact');
-                this.renderBarChart('#chart-emails-status', emails, 'status', 'status', 'var(--color-purple)', emailStatusOptions, 'Email');
-                this.renderBarChart('#chart-meetings-status', meetings, 'status', 'status', 'var(--color-warning)', meetingStatusOptions, 'Meeting');
+                if (self.isSectionAllowed('leads') && self.$el.find('#chart-leads-status').length) {
+                    this.renderBarChart('#chart-leads-status', leads, 'status', 'status', 'var(--color-primary-light)', leadStatusOptions, 'Lead');
+                }
+                if (self.isSectionAllowed('opportunities') && self.$el.find('#chart-opps-stage').length) {
+                    this.renderBarChart('#chart-opps-stage', opps, 'stage', 'stage', 'var(--color-primary)', oppStageOptions, 'Opportunity');
+                }
+                if (self.isSectionAllowed('accounts') && self.$el.find('#chart-accounts-type').length) {
+                    this.renderBarChart('#chart-accounts-type', accounts, 'type', 'type', 'var(--color-info)', accountTypeOptions, 'Account');
+                }
+                if (self.isSectionAllowed('contacts') && self.$el.find('#chart-contacts-account').length) {
+                    this.renderBarChart('#chart-contacts-account', contacts, 'accountName', 'accountName', 'var(--color-primary)', null, 'Contact');
+                }
+                if (self.isSectionAllowed('emails') && self.$el.find('#chart-emails-status').length) {
+                    this.renderBarChart('#chart-emails-status', emails, 'status', 'status', 'var(--color-purple)', emailStatusOptions, 'Email');
+                }
+                if (self.isSectionAllowed('meetings') && self.$el.find('#chart-meetings-status').length) {
+                    this.renderBarChart('#chart-meetings-status', meetings, 'status', 'status', 'var(--color-warning)', meetingStatusOptions, 'Meeting');
+                }
             } else if (tab === 'Lead') {
                 this.renderBarChart('#chart-leads-status', leads, 'status', 'status', 'var(--color-primary-light)', leadStatusOptions);
                 this.renderBarChart('#chart-leads-source', leads, 'source', 'source', 'var(--color-info)');
@@ -2355,8 +2503,26 @@ define('custom:views/analytics-dashboard/index', ['view'], function (Dep) {
             if (!meetings.length) meetingsRows = renderEmptyRow(8, 'No scheduled meeting records found.');
 
             if (tab === 'all') {
-                html += renderTableBox('Recent Leads', 'Showing top 10 of ' + leads.length + ' matching lead records', '<th class="data-th">Name</th><th class="data-th">Status</th><th class="data-th">Source</th><th class="data-th">Opp Amount</th><th class="data-th data-td-right">Action</th>', leadsRows);
-                html += renderTableBox('Recent Opportunities', 'Showing top 10 of ' + opps.length + ' matching deal records', '<th class="data-th">Name</th><th class="data-th">Stage</th><th class="data-th">Amount</th><th class="data-th">Close Date</th><th class="data-th data-td-right">Action</th>', oppsRows);
+                var overviewTables = '';
+                if (self.isSectionAllowed('leads')) {
+                    overviewTables += renderTableBox('Recent Leads', 'Showing top 10 of ' + leads.length + ' matching lead records', '<th class="data-th">Name</th><th class="data-th">Status</th><th class="data-th">Source</th><th class="data-th">Opp Amount</th><th class="data-th data-td-right">Action</th>', leadsRows);
+                }
+                if (self.isSectionAllowed('opportunities')) {
+                    overviewTables += renderTableBox('Recent Opportunities', 'Showing top 10 of ' + opps.length + ' matching deal records', '<th class="data-th">Name</th><th class="data-th">Stage</th><th class="data-th">Amount</th><th class="data-th">Close Date</th><th class="data-th data-td-right">Action</th>', oppsRows);
+                }
+                if (self.isSectionAllowed('accounts')) {
+                    overviewTables += renderTableBox('Key Accounts', 'Recently created customer and partner accounts', '<th class="data-th">Name</th><th class="data-th">Type</th><th class="data-th">Industry</th><th class="data-th">Email</th><th class="data-th">Phone</th><th class="data-th">City</th><th class="data-th">Country</th><th class="data-th">Assigned</th><th class="data-th data-td-right">Action</th>', accountsRows);
+                }
+                if (self.isSectionAllowed('contacts')) {
+                    overviewTables += renderTableBox('Recent Contacts', 'Key contacts linked to active accounts', '<th class="data-th">Name</th><th class="data-th">Account</th><th class="data-th">Title</th><th class="data-th">Email</th><th class="data-th">Phone</th><th class="data-th">DNC</th><th class="data-th">Country</th><th class="data-th">Assigned</th><th class="data-th data-td-right">Action</th>', contactsRows);
+                }
+                if (self.isSectionAllowed('emails')) {
+                    overviewTables += renderTableBox('Recent Emails', 'Recent email log records', '<th class="data-th">Subject</th><th class="data-th">Status</th><th class="data-th">From</th><th class="data-th">Date</th><th class="data-th">Read</th><th class="data-th">Replied</th><th class="data-th">Assigned</th><th class="data-th data-td-right">Action</th>', emailsRows);
+                }
+                if (self.isSectionAllowed('meetings')) {
+                    overviewTables += renderTableBox('Recent Meetings', 'Recent meeting schedule records', '<th class="data-th">Name</th><th class="data-th">Status</th><th class="data-th">Parent Record</th><th class="data-th">Date Start</th><th class="data-th">Date End</th><th class="data-th">Duration</th><th class="data-th">Assigned</th><th class="data-th data-td-right">Action</th>', meetingsRows);
+                }
+                html = overviewTables;
             } else if (tab === 'Lead') {
                 html += renderTableBox('Leads Directory', 'Showing top 10 of ' + leads.length + ' matching lead records', '<th class="data-th">Name</th><th class="data-th">Account</th><th class="data-th">Status</th><th class="data-th">Source</th><th class="data-th">Industry</th><th class="data-th">Opp Amount</th><th class="data-th">Assigned</th><th class="data-th data-td-right">Action</th>', leadsRows);
             } else if (tab === 'Opportunity') {

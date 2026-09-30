@@ -13,7 +13,7 @@
     "rows": [
       [{"name": "cMaxAccountsQuota"}, {"name": "cMaxLeadsQuota"}],
       [{"name": "cMaxContactsQuota"}, {"name": "cMaxOpportunitiesQuota"}],
-      [{"name": "cMaxUsersQuota"}, false]
+      [{"name": "cMaxUsersQuota"}, {"name": "cMaxTeamsQuota"}]
     ]
   },
   {
@@ -21,6 +21,12 @@
     "rows": [
       [{"name": "cEnableAdminAccess"}, false],
       [{"name": "cAllowedAdminItems"}, false]
+    ]
+  },
+  {
+    "label": "Analytics Dashboard Access Control",
+    "rows": [
+      [{"name": "cAllowedDashboardSections"}, false]
     ]
   }
 ]

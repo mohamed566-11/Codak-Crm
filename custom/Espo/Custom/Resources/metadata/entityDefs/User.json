@@ -34,6 +34,12 @@
       "min": -1,
       "tooltip": true
     },
+    "cMaxTeamsQuota": {
+      "type": "int",
+      "default": 5,
+      "min": -1,
+      "tooltip": true
+    },
     "cEnableAdminAccess": {
       "type": "bool",
       "default": false,
@@ -53,6 +59,7 @@
         "extensions",
         "systemRequirements",
         "jobsSettings",
+        "upgrade",
         "clearCache",
         "rebuild",
         "users",
@@ -71,8 +78,11 @@
         "groupEmailAccounts",
         "personalEmailAccounts",
         "emailFilters",
+        "groupEmailFolders",
         "emailTemplates",
+        "sms",
         "portals",
+        "portalUsers",
         "portalRoles",
         "workingTimeCalendars",
         "layoutSets",
@@ -80,13 +90,47 @@
         "leadCapture",
         "pdfTemplates",
         "webhooks",
+        "addressCountries",
+        "authenticationProviders",
         "import",
         "attachments",
         "jobs",
+        "emailAddresses",
+        "phoneNumbers",
+        "appSecrets",
+        "oAuthProviders",
+        "pipelines",
         "appLog",
-        "formulaSandbox"
+        "formulaSandbox",
+        "analyticsDashboardSettings"
       ],
       "tooltip": true
+    },
+    "cAllowedDashboardSections": {
+      "type": "array",
+      "default": [
+        "overview",
+        "leads",
+        "opportunities",
+        "accounts",
+        "contacts",
+        "emails",
+        "meetings"
+      ],
+      "options": [
+        "overview",
+        "leads",
+        "opportunities",
+        "accounts",
+        "contacts",
+        "emails",
+        "meetings"
+      ],
+      "tooltip": true
+    },
+    "roles": {
+      "type": "linkMultiple",
+      "selectBoolFilterList": ["onlyVisible"]
     }
   }
 }

@@ -1,0 +1,18 @@
+{
+  "fields": {
+    "createdBy": {
+      "type": "link",
+      "readOnly": true
+    },
+    "roles": {
+      "type": "linkMultiple",
+      "selectBoolFilterList": ["onlyVisible"]
+    }
+  },
+  "links": {
+    "createdBy": {
+      "type": "belongsTo",
+      "entity": "User"
+    }
+  }
+}

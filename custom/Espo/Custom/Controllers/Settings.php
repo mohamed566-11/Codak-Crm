@@ -41,13 +41,6 @@ class Settings extends \Espo\Controllers\Settings
         private DataManager $dataManager,
     ) {
         parent::__construct($service, $user);
-
-        if (!$this->user->isAdmin()) {
-            $allowedItems = $this->user->get('cAllowedAdminItems') ?? [];
-            if (!$this->user->get('cEnableAdminAccess') || !in_array('settings', $allowedItems, true)) {
-                throw new Forbidden();
-            }
-        }
     }
 
     public function putActionUpdate(Request $request): stdClass

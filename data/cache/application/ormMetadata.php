@@ -9879,6 +9879,12 @@ return [
         'notNull' => false,
         'fieldType' => 'datetime'
       ],
+      'cIsHidden' => [
+        'type' => 'bool',
+        'notNull' => true,
+        'default' => false,
+        'fieldType' => 'bool'
+      ],
       'teamsIds' => [
         'type' => 'jsonArray',
         'notStorable' => true,
@@ -11220,6 +11226,20 @@ return [
         'storeArrayValues' => true,
         'fieldType' => 'jsonArray'
       ],
+      'cAllowedDashboardSections' => [
+        'type' => 'jsonArray',
+        'default' => [
+          0 => 'overview',
+          1 => 'leads',
+          2 => 'opportunities',
+          3 => 'accounts',
+          4 => 'contacts',
+          5 => 'emails',
+          6 => 'meetings'
+        ],
+        'storeArrayValues' => true,
+        'fieldType' => 'jsonArray'
+      ],
       'addressPreviewStreet' => [
         'type' => 'text',
         'dbType' => 'varchar',
@@ -12068,6 +12088,11 @@ return [
         'notNull' => false,
         'fieldType' => 'datetime'
       ],
+      'streamUpdatedAt' => [
+        'type' => 'datetime',
+        'notNull' => false,
+        'fieldType' => 'datetime'
+      ],
       'rolesIds' => [
         'type' => 'jsonArray',
         'notStorable' => true,
@@ -12122,6 +12147,40 @@ return [
         'foreign' => 'name',
         'foreignType' => 'varchar'
       ],
+      'createdById' => [
+        'len' => 17,
+        'dbType' => 'string',
+        'type' => 'foreignId',
+        'index' => true,
+        'attributeRole' => 'id',
+        'fieldType' => 'link',
+        'notNull' => false
+      ],
+      'createdByName' => [
+        'type' => 'foreign',
+        'notStorable' => true,
+        'attributeRole' => 'name',
+        'fieldType' => 'link',
+        'relation' => 'createdBy',
+        'foreign' => 'name',
+        'foreignType' => 'varchar'
+      ],
+      'isFollowed' => [
+        'type' => 'bool',
+        'notStorable' => true,
+        'notExportable' => true,
+        'default' => false
+      ],
+      'followersIds' => [
+        'type' => 'jsonArray',
+        'notStorable' => true,
+        'notExportable' => true
+      ],
+      'followersNames' => [
+        'type' => 'jsonObject',
+        'notStorable' => true,
+        'notExportable' => true
+      ],
       'groupEmailFoldersIds' => [
         'type' => 'jsonArray',
         'notStorable' => true,
@@ -12164,6 +12223,13 @@ return [
       ]
     ],
     'relations' => [
+      'createdBy' => [
+        'type' => 'belongsTo',
+        'entity' => 'User',
+        'key' => 'createdById',
+        'foreignKey' => 'id',
+        'foreign' => NULL
+      ],
       'groupEmailFolders' => [
         'type' => 'manyMany',
         'entity' => 'GroupEmailFolder',
@@ -12372,6 +12438,13 @@ return [
           0 => 'workingTimeCalendarId'
         ],
         'key' => 'IDX_WORKING_TIME_CALENDAR_ID'
+      ],
+      'createdById' => [
+        'type' => 'index',
+        'columns' => [
+          0 => 'createdById'
+        ],
+        'key' => 'IDX_CREATED_BY_ID'
       ]
     ],
     'collection' => [
@@ -13789,6 +13862,12 @@ return [
         'fieldType' => 'int',
         'len' => 11
       ],
+      'cMaxTeamsQuota' => [
+        'type' => 'int',
+        'default' => 5,
+        'fieldType' => 'int',
+        'len' => 11
+      ],
       'cEnableAdminAccess' => [
         'type' => 'bool',
         'notNull' => true,
@@ -13798,6 +13877,20 @@ return [
       'cAllowedAdminItems' => [
         'type' => 'jsonArray',
         'default' => [],
+        'storeArrayValues' => true,
+        'fieldType' => 'jsonArray'
+      ],
+      'cAllowedDashboardSections' => [
+        'type' => 'jsonArray',
+        'default' => [
+          0 => 'overview',
+          1 => 'leads',
+          2 => 'opportunities',
+          3 => 'accounts',
+          4 => 'contacts',
+          5 => 'emails',
+          6 => 'meetings'
+        ],
         'storeArrayValues' => true,
         'fieldType' => 'jsonArray'
       ],
