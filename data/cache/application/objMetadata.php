@@ -1103,9 +1103,9 @@ return (object) [
           'crossorigin' => true
         ]
       ],
-      'favicon' => 'client/custom/img/favicon.ico',
-      'faviconAlternate' => 'client/custom/img/favicon.ico',
-      'appleTouchIcon' => 'client/custom/img/favicon-196.png',
+      'favicon' => 'client/custom/img/codak-favicon.png',
+      'faviconAlternate' => 'client/custom/img/codak-favicon.png',
+      'appleTouchIcon' => 'client/custom/img/codak-favicon.png',
       'logo33' => 'client/custom/img/logo-33.png',
       'logo37' => 'client/custom/img/logo-37.png',
       'logo39' => 'client/custom/img/logo-39.png',

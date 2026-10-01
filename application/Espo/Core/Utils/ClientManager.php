@@ -486,14 +486,10 @@ class ClientManager
      */
     private function getFaviconData(): array
     {
-        $companyLogoId = $this->config->get('companyLogoId');
-
-        if ($companyLogoId) {
-            return ["?entryPoint=LogoImage&id={$companyLogoId}", 'image/png'];
-        }
-
         $faviconSvgPath = $this->metadata->get('app.client.favicon') ?? $this->favicon;
-        $faviconType = str_ends_with($faviconSvgPath, '.svg') ? 'image/svg+xml' : 'image/png';
+        $faviconType = str_ends_with($faviconSvgPath, '.svg') 
+            ? 'image/svg+xml' 
+            : (str_ends_with($faviconSvgPath, '.ico') ? 'image/x-icon' : 'image/png');
 
         return [$faviconSvgPath, $faviconType];
     }
