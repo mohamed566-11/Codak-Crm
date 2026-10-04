@@ -1213,6 +1213,29 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
     border-left-color: #005a70 !important;
 }
 
+/* Kanban Card Dropdown Positioning & Stacking Fix */
+.list-kanban .item,
+.list-kanban .panel,
+.list-kanban .panel-body,
+.list-kanban .item-menu-container,
+.list-kanban .item-menu-container > .dropdown,
+.list-kanban .item-menu-container > .btn-group {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.list-kanban .item-menu-container .dropdown-menu,
+.list-kanban .item .dropdown-menu,
+.list-kanban .kanban-card .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    left: auto !important;
+    margin-top: 2px !important;
+    z-index: 1050 !important;
+    box-shadow: 0 10px 30px -4px rgba(0, 45, 60, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
 /* ==========================================================================
    10. STREAM & SOCIAL ACTIVITY FEED
    ========================================================================== */
