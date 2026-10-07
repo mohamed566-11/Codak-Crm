@@ -21,52 +21,34 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
             var config = this.getConfig();
             var user = this.getUser();
             var isAdmin = user && typeof user.isAdmin === 'function' ? user.isAdmin() : false;
-            var isGitUpdateAvailable = config.get('gitUpdateAvailable');
+            var isGitUpdateAvailable = Boolean(config.get('gitUpdateAvailable'));
             var currentVersion = config.get('version') || '10.0.3';
             var latestVersion = config.get('latestVersion') || currentVersion;
-            var hasNewAppVersion = Boolean(latestVersion && currentVersion && latestVersion !== currentVersion);
-            var commitHash = config.get('gitLatestCommitHash') || '';
-            var commitMsg = config.get('gitLatestCommitMsg') || '';
-            var author = config.get('gitLatestAuthor') || '';
-            var branch = config.get('gitLatestBranch') || 'main';
-            var time = config.get('gitLatestTime') || '';
+            var hasNewAppVersion = isGitUpdateAvailable && Boolean(latestVersion && currentVersion && latestVersion !== currentVersion);
 
-            // Find existing update/version notification in list or create new one
-            var targetIndex = -1;
-            for (var i = 0; i < data.notificationList.length; i++) {
-                var item = data.notificationList[i];
-                if (item && item.isGitDeploy) {
-                    targetIndex = i;
-                    break;
-                }
-                var msg = String(item && item.message ? item.message : '').toLowerCase();
+            // Filter out any native Espo version check messages so we don't get duplicate cards
+            data.notificationList = data.notificationList.filter(function (item) {
+                if (!item) return false;
+                if (item.isGitDeploy) return false;
+                var msg = String(item.message || '').toLowerCase();
                 if (msg.indexOf('version') !== -1 || msg.indexOf('codakcrm') !== -1 || msg.indexOf('espocrm') !== -1 || msg.indexOf('update') !== -1) {
-                    targetIndex = i;
-                    break;
+                    return false;
                 }
-            }
+                return true;
+            });
 
-            if (isGitUpdateAvailable || hasNewAppVersion || targetIndex !== -1) {
-                var gitDeployItem = {
-                    id: 'git-deploy-update-card',
-                    isGitDeploy: true,
-                    isAdmin: isAdmin,
-                    currentVersion: currentVersion,
-                    latestVersion: latestVersion,
-                    hasNewAppVersion: hasNewAppVersion,
-                    commitHash: commitHash,
-                    commitMsg: commitMsg,
-                    author: author,
-                    branch: branch,
-                    time: time
-                };
+            // Always insert EXACTLY ONE GitDeploy card at the top
+            var gitDeployItem = {
+                id: 'git-deploy-update-card',
+                isGitDeploy: true,
+                isAdmin: isAdmin,
+                isGitUpdateAvailable: isGitUpdateAvailable,
+                currentVersion: currentVersion,
+                latestVersion: isGitUpdateAvailable ? latestVersion : currentVersion,
+                hasNewAppVersion: hasNewAppVersion
+            };
 
-                if (targetIndex !== -1) {
-                    data.notificationList[targetIndex] = gitDeployItem;
-                } else {
-                    data.notificationList.unshift(gitDeployItem);
-                }
-            }
+            data.notificationList.unshift(gitDeployItem);
 
             return data;
         },
@@ -78,7 +60,7 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
 
             var self = this;
             this.confirm(
-                'هل أنت متأكد من رغبتك في ترقية وتحديث نظام Codak CRM الآن؟ ستتم عملية الترقية تلقائيًا عبر 4 مراحل أمان.',
+                'Are you sure you want to upgrade Codak CRM now? The update will safely execute across 4 automated steps.',
                 function () {
                     self.startUpgradeProcess();
                 }
@@ -91,8 +73,8 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
             }
 
             this.isUpgrading = true;
-            var $btn = this.$el.find('.btn-codak-upgrade');
-            var $btnContainer = this.$el.find('.codak-action-container');
+            var $btn = this.$el.find('.btn-codak-primary, .btn-codak-upgrade');
+            var $btnContainer = this.$el.find('.codak-actions-row, .codak-action-container');
             var $progressContainer = this.$el.find('#codak-deploy-progress');
             var $percentLabel = this.$el.find('#codak-progress-percent');
             var $progressFill = this.$el.find('#codak-progress-fill');
@@ -108,10 +90,10 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
             $percentLabel.text('0%');
 
             var steps = [
-                { key: 'gitPull', label: '1. جلب التحديثات من GitHub (git pull)', percent: 25 },
-                { key: 'clearCache', label: '2. تفريغ التخزين المؤقت (clear-cache)', percent: 50 },
-                { key: 'rebuild', label: '3. إعادة بناء الملفات والأصول (rebuild)', percent: 75 },
-                { key: 'updateTimestamp', label: '4. تحديث طابع النسخة (update-app-timestamp)', percent: 100 }
+                { key: 'gitPull', label: '1. Fetching latest release updates (git pull)', percent: 25 },
+                { key: 'rebuild', label: '2. Rebuilding system assets (rebuild)', percent: 50 },
+                { key: 'clearCache', label: '3. Clearing system cache (clear-cache)', percent: 75 },
+                { key: 'updateTimestamp', label: '4. Updating application timestamp', percent: 100 }
             ];
 
             for (var i = 0; i < steps.length; i++) {
@@ -122,7 +104,7 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
                 $stepEl.find('.step-icon').html('<i class="fa fa-spinner fa-spin text-info"></i>');
 
                 // XSS safe status text rendering
-                $statusText.empty().append($('<span></span>').text('جاري تنفيذ: ' + step.label));
+                $statusText.empty().append($('<span></span>').text('Executing: ' + step.label));
 
                 try {
                     var res = await Espo.Ajax.postRequest('GitDeploy/upgradeStep', { step: step.key });
@@ -133,14 +115,14 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
                         $progressFill.css('width', step.percent + '%');
                         $percentLabel.text(step.percent + '%');
                     } else {
-                        var errMsg = (res && res.message) ? res.message : 'فشلت الترقية عند خطوة ' + step.key;
+                        var errMsg = (res && res.message) ? res.message : 'Upgrade failed at step ' + step.key;
                         throw new Error(errMsg);
                     }
                 } catch (err) {
                     $stepEl.removeClass('active').addClass('error');
                     $stepEl.find('.step-icon').html('<i class="fa fa-times-circle text-danger"></i>');
 
-                    var safeMsg = (err && err.message) ? err.message : 'حدث خطأ أثناء الترقية';
+                    var safeMsg = (err && err.message) ? err.message : 'An error occurred during upgrade';
 
                     // XSS safe error message rendering into status element
                     $statusText.empty()
@@ -151,7 +133,7 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
 
                     // Re-enable retry option safely for fresh pipeline execution
                     this.isUpgrading = false;
-                    $btn.prop('disabled', false).removeClass('disabled').html('<i class="fa fa-refresh"></i> <span>إعادة محاولة الترقية</span>');
+                    $btn.prop('disabled', false).removeClass('disabled').html('<i class="fa fa-refresh"></i> <span>Retry Upgrade</span>');
                     $btnContainer.removeClass('hidden');
                     return;
                 }
@@ -161,9 +143,9 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
             this.isUpgrading = false;
             $statusText.empty()
                 .append($('<i class="fa fa-check-circle text-success margin-right-xs"></i>'))
-                .append($('<strong class="text-success"></strong>').text('🎉 تم ترقية وتحديث نظام Codak CRM بنجاح! جاري إعادة التحميل...'));
+                .append($('<strong class="text-success"></strong>').text('🎉 Codak CRM system upgraded successfully! Reloading...'));
 
-            Ui.success('تمت ترقية وتحديث النظام بنجاح إلى أحدث نسخة!', { suppress: false });
+            Ui.success('System successfully upgraded to the latest release!', { suppress: false });
 
             setTimeout(function () {
                 window.location.reload();

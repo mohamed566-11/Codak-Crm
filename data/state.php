@@ -4,7 +4,8 @@ return [
   'currencyRates' => [
     'USD' => 1.0
   ],
-  'cacheTimestamp' => 1791409340,
-  'microtimeState' => 1791409340.449511,
-  'appTimestamp' => 1791409340
+  'cacheTimestamp' => 1791410437,
+  'microtimeState' => 1791410437.57531,
+  'appTimestamp' => 1791410376,
+  'latestVersion' => '10.0.3'
 ];

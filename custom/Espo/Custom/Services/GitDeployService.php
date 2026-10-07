@@ -226,8 +226,9 @@ class GitDeployService
                 exec($cmd, $output, $exitCode);
                 
                 if ($exitCode === 0) {
-                    // Reset update notification flag only on complete success
+                    // Reset update notification flag and sync version on complete success
                     $this->configWriter->set('gitUpdateAvailable', false);
+                    $this->configWriter->set('latestVersion', $this->config->get('version'));
                     $this->configWriter->save();
                     $message = "تم تحديث طابع النسخة بنجاح واكتملت عملية الترقية!";
                 } else {

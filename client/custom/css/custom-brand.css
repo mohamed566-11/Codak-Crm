@@ -2079,227 +2079,236 @@ body.login-body .container-centering,
    ========================================================================== */
 
 .codak-notifications-wrapper {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .codak-upgrade-card {
-    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 18px !important;
-    box-shadow: 0 10px 30px -4px rgba(0, 90, 112, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
-    padding: 20px !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02) !important;
+    padding: 20px 24px !important;
     position: relative !important;
-    overflow: hidden !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.2s ease-in-out !important;
+    direction: ltr !important;
+    text-align: left !important;
 }
 
-.codak-upgrade-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #005a70 0%, #00a4c8 50%, #38bdf8 100%);
+.codak-upgrade-card:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08) !important;
 }
 
-.codak-upgrade-header {
+.codak-upgrade-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.codak-icon-box {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    background: #e0f2fe;
+    border-radius: 16px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    gap: 10px;
+    justify-content: center;
+    color: #0369a1;
+    font-size: 24px;
 }
 
-.codak-badge-pulse {
+.codak-upgrade-card.is-up-to-date .codak-icon-box {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.codak-content-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.codak-content-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 16px;
+}
+
+.codak-badge-status {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(0, 164, 200, 0.1);
-    border: 1px solid rgba(0, 164, 200, 0.25);
-    padding: 5px 12px;
-    border-radius: 20px;
-}
-
-.codak-badge-pulse .pulse-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #00a4c8;
-    border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(0, 164, 200, 0.7);
-    animation: codakPulse 1.8s infinite;
-}
-
-@keyframes codakPulse {
-    0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(0, 164, 200, 0.7);
-    }
-    70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 8px rgba(0, 164, 200, 0);
-    }
-    100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(0, 164, 200, 0);
-    }
-}
-
-.codak-badge-pulse .badge-text {
-    font-size: 11px;
-    font-weight: 800;
-    color: #005a70;
-    letter-spacing: 0.5px;
-}
-
-.codak-version-pills {
-    display: flex;
-    align-items: center;
     gap: 6px;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.codak-version-pills .pill-old {
-    background: #e2e8f0;
-    color: #475569;
-    padding: 3px 8px;
-    border-radius: 12px;
-}
-
-.codak-version-pills .pill-arrow {
-    color: #94a3b8;
-}
-
-.codak-version-pills .pill-new {
-    background: #dbeafe;
-    color: #1d4ed8;
     padding: 3px 10px;
-    border-radius: 12px;
-    border: 1px solid #bfdbfe;
-}
-
-.codak-upgrade-body .codak-update-info {
-    margin-bottom: 18px;
-}
-
-.codak-update-info .update-title {
-    font-size: 13.5px;
+    border-radius: 20px;
+    font-size: 11px;
     font-weight: 700;
-    color: #0f172a;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    letter-spacing: 0.4px;
     margin-bottom: 6px;
 }
 
-.codak-update-info .update-title i {
-    font-size: 16px;
-    color: #005a70;
+.codak-badge-status.update-available {
+    background: #dcfce7;
+    color: #15803d;
 }
 
-.codak-update-info .update-commit-desc {
-    font-size: 12.5px;
+.codak-badge-status.update-available .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #16a34a;
+    border-radius: 50%;
+}
+
+.codak-badge-status.up-to-date {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.codak-badge-status.up-to-date .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #64748b;
+    border-radius: 50%;
+}
+
+.codak-card-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+}
+
+.codak-card-subtitle {
+    font-size: 13.5px;
     color: #64748b;
+    margin: 0;
+    font-weight: 400;
+}
+
+.codak-version-group {
     display: flex;
     align-items: center;
-    gap: 6px;
-    direction: ltr;
-    text-align: left;
+    gap: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin-top: 4px;
 }
 
-.codak-update-info .update-commit-desc code {
+.pill-version {
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.pill-version.old {
     background: #f1f5f9;
-    color: #005a70;
-    padding: 2px 6px;
-    border-radius: 6px;
-    font-family: monospace;
-    font-size: 11.5px;
+    color: #64748b;
 }
 
-.btn-codak-upgrade {
-    width: 100% !important;
-    background: linear-gradient(135deg, #005a70 0%, #007c9b 50%, #00a4c8 100%) !important;
+.version-arrow {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.pill-version.new {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.codak-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-codak-primary {
+    background: #005a70 !important;
     color: #ffffff !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
     font-size: 14px !important;
-    padding: 12px 24px !important;
-    border-radius: 12px !important;
+    padding: 11px 22px !important;
+    border-radius: 10px !important;
     border: none !important;
-    box-shadow: 0 6px 20px rgba(0, 90, 112, 0.28) !important;
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
     gap: 10px !important;
     cursor: pointer !important;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.15s ease !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06) !important;
 }
 
-.btn-codak-upgrade:hover {
-    background: linear-gradient(135deg, #007c9b 0%, #00a4c8 100%) !important;
+.btn-codak-primary:hover {
+    background: #004556 !important;
     color: #ffffff !important;
-    box-shadow: 0 10px 28px rgba(0, 164, 200, 0.4) !important;
-    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 90, 112, 0.25) !important;
+}
+
+.btn-codak-primary .icon-arrow {
+    font-size: 15px;
+    margin-left: 2px;
 }
 
 .codak-progress-container {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 16px;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 14px;
 }
 
 .codak-progress-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 12.5px;
+    font-weight: 600;
     color: #0f172a;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .codak-progress-track {
-    height: 8px;
+    height: 6px;
     background: #e2e8f0;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .codak-progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #005a70 0%, #00a4c8 100%);
-    border-radius: 10px;
-    transition: width 0.4s ease;
+    background: #005a70;
+    border-radius: 8px;
+    transition: width 0.3s ease;
 }
 
 .codak-steps-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .codak-step-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 12.5px;
+    gap: 8px;
+    font-size: 12px;
     color: #64748b;
 }
 
 .codak-step-item.active {
-    font-weight: 700;
+    font-weight: 600;
     color: #005a70;
 }
 
 .codak-step-item.completed {
-    color: #15803d;
+    color: #16a34a;
 }
 
 .codak-step-item.error {
-    color: #b91c1c;
+    color: #dc2626;
 }
 
 /* ==========================================================================
