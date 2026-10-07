@@ -1,6 +1,6 @@
 define('custom:views/admin/panels/notifications', ['views/admin/panels/notifications', 'ui'], function (Dep, Ui) {
-    return Dep.extend({
-        template: 'admin/panels/notifications',
+    var CustomView = Dep.extend({
+        template: 'custom:admin/panels/notifications',
 
         events: {
             'click [data-action="runGitDeployUpgrade"]': function (e) {
@@ -170,4 +170,12 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
             }, 1800);
         }
     });
+
+    try {
+        define('views/admin/panels/notifications', [], function () {
+            return CustomView;
+        });
+    } catch (e) {}
+
+    return CustomView;
 });

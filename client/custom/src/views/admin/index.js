@@ -23,6 +23,15 @@ define('custom:views/admin/index', ['views/admin/index'], function (Dep) {
                 });
                 this.panelDataList = filteredPanelList;
             }
+
+            if (!this.getConfig().get('adminNotificationsDisabled')) {
+                var notificationsViewName = this.getMetadata().get('clientDefs.Admin.views.notificationsPanel') ||
+                                               this.getMetadata().get('clientDefs.Admin.notificationsPanel') ||
+                                               'custom:views/admin/panels/notifications';
+                this.createView('notificationsPanel', notificationsViewName, {
+                    selector: '.notifications-panel-container'
+                });
+            }
         }
     });
 });

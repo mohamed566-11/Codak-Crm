@@ -13,6 +13,7 @@
     ],
     "scriptList": [
         "__APPEND__",
-        "client/custom/src/codak-footer.js"
+        "client/custom/src/codak-footer.js",
+        "client/custom/src/views/admin/panels/notifications.js"
     ]
 }
