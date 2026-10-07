@@ -20,10 +20,13 @@ class GitDeploy
      */
     public function postActionWebhook(Request $request): array
     {
-        $payload = json_decode($request->getBody(), true) ?? [];
-        $signature = $request->getHeader('X-Hub-Signature-256');
+        $rawBody = $request->getBody();
+        $headers = [
+            'signature' => $request->getHeader('X-Hub-Signature-256'),
+            'event' => $request->getHeader('X-GitHub-Event'),
+        ];
 
-        return $this->gitDeployService->handleWebhook($payload, $signature);
+        return $this->gitDeployService->handleWebhook($rawBody, $headers);
     }
 
     /**
@@ -32,14 +35,14 @@ class GitDeploy
     public function postActionUpgradeStep(Request $request): array
     {
         if (!$this->user->isAdmin()) {
-            throw new Forbidden("تنبيه: الترقية مقتصرة فقط على المديرين (Administrators).");
+            throw new Forbidden("Access denied: Upgrade operations are restricted to Administrators.");
         }
 
         $data = json_decode($request->getBody(), true) ?? [];
         $step = $data['step'] ?? null;
 
-        if (empty($step)) {
-            throw new BadRequest("اسم الخطوة (step) مطلوب.");
+        if (empty($step) || !is_string($step)) {
+            throw new BadRequest("Parameter 'step' is required.");
         }
 
         return $this->gitDeployService->executeStep($step);
