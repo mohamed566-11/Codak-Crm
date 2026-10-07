@@ -78,6 +78,14 @@
         }
     }
 
+    function sanitizeDocumentTitleAndText() {
+        try {
+            if (document.title && (document.title.includes('EspoCRM') || document.title.includes('Espo'))) {
+                document.title = document.title.replace(/EspoCRM/g, 'CodakCRM').replace(/Espo/g, 'Codak');
+            }
+        } catch (e) {}
+    }
+
     function scheduleApply() {
         if (scheduledFrame) return;
         if (typeof window.requestAnimationFrame === 'function') {
@@ -85,25 +93,30 @@
                 scheduledFrame = null;
                 applyCodakFooter();
                 syncCompanyLogoAndFavicon();
+                sanitizeDocumentTitleAndText();
             });
         } else {
             scheduledFrame = setTimeout(function () {
                 scheduledFrame = null;
                 applyCodakFooter();
                 syncCompanyLogoAndFavicon();
+                sanitizeDocumentTitleAndText();
             }, 100);
         }
     }
 
     applyCodakFooter();
     syncCompanyLogoAndFavicon();
+    sanitizeDocumentTitleAndText();
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', applyCodakFooter);
         document.addEventListener('DOMContentLoaded', syncCompanyLogoAndFavicon);
+        document.addEventListener('DOMContentLoaded', sanitizeDocumentTitleAndText);
     }
     window.addEventListener('load', applyCodakFooter);
     window.addEventListener('load', syncCompanyLogoAndFavicon);
+    window.addEventListener('load', sanitizeDocumentTitleAndText);
     window.addEventListener('hashchange', scheduleApply);
     window.addEventListener('popstate', scheduleApply);
 
@@ -115,5 +128,16 @@
         } catch (e) { }
     }
 
-    setInterval(syncCompanyLogoAndFavicon, 1000);
+    try {
+        var titleEl = document.querySelector('title');
+        if (titleEl) {
+            var titleObserver = new MutationObserver(sanitizeDocumentTitleAndText);
+            titleObserver.observe(titleEl, { childList: true, characterData: true, subtree: true });
+        }
+    } catch (e) {}
+
+    setInterval(function () {
+        syncCompanyLogoAndFavicon();
+        sanitizeDocumentTitleAndText();
+    }, 1000);
 })();

@@ -9689,7 +9689,8 @@ return (object) [
     'Admin' => (object) [
       'controller' => 'custom:controllers/admin',
       'views' => (object) [
-        'index' => 'custom:views/admin/index'
+        'index' => 'custom:views/admin/index',
+        'notificationsPanel' => 'custom:views/admin/panels/notifications'
       ],
       'detailActionList' => [],
       'editActionList' => [],

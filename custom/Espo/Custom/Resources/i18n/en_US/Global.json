@@ -9,5 +9,10 @@
     },
     "themes": {
         "Espo": "Codak"
+    },
+    "labels": {
+        "My Espo": "My Codak",
+        "Espo": "Codak",
+        "EspoCRM": "CodakCRM"
     }
 }

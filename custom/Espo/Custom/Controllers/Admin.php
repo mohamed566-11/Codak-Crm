@@ -112,10 +112,44 @@ class Admin extends \Espo\Controllers\Admin
 
     public function getActionAdminNotificationList(): array
     {
-        if ($this->user->isAdmin()) {
-            return parent::getActionAdminNotificationList();
+        if (!$this->user->isAdmin()) {
+            return [];
         }
-        return [];
+
+        $list = parent::getActionAdminNotificationList();
+        $gitUpdateAvailable = $this->config->get('gitUpdateAvailable');
+        $latestVersion = $this->config->get('latestVersion');
+
+        $hasVersionNotif = false;
+        foreach ($list as &$item) {
+            if (($item['id'] ?? '') === 'newVersionIsAvailable') {
+                $hasVersionNotif = true;
+                $item['isGitDeploy'] = true;
+                $item['currentVersion'] = $this->systemConfig->getVersion();
+                $item['latestVersion'] = $latestVersion ?? '10.0.9';
+                $item['commitHash'] = $this->config->get('gitLatestCommitHash') ?? '';
+                $item['commitMsg'] = $this->config->get('gitLatestCommitMsg') ?? 'تحديثات جديدة متوفرة على المستودع';
+                $item['commitTime'] = $this->config->get('gitLatestTime') ?? '';
+                $item['author'] = $this->config->get('gitLatestAuthor') ?? '';
+            }
+        }
+
+        if (!$hasVersionNotif && $gitUpdateAvailable) {
+            $list[] = [
+                'id' => 'newVersionIsAvailable',
+                'type' => 'newVersionIsAvailable',
+                'isGitDeploy' => true,
+                'currentVersion' => $this->systemConfig->getVersion(),
+                'latestVersion' => $latestVersion ?? '10.0.9',
+                'commitHash' => $this->config->get('gitLatestCommitHash') ?? '',
+                'commitMsg' => $this->config->get('gitLatestCommitMsg') ?? 'تحديثات جديدة متوفرة على المستودع',
+                'commitTime' => $this->config->get('gitLatestTime') ?? '',
+                'author' => $this->config->get('gitLatestAuthor') ?? '',
+                'message' => 'New CodakCRM version ' . ($latestVersion ?? '10.0.9') . ' is available.'
+            ];
+        }
+
+        return $list;
     }
 
     public function postActionRebuild(): bool

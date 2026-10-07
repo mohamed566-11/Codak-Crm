@@ -9689,7 +9689,8 @@ return [
     'Admin' => [
       'controller' => 'custom:controllers/admin',
       'views' => [
-        'index' => 'custom:views/admin/index'
+        'index' => 'custom:views/admin/index',
+        'notificationsPanel' => 'custom:views/admin/panels/notifications'
       ],
       'detailActionList' => [],
       'editActionList' => [],

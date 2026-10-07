@@ -1,0 +1,27 @@
+[
+    {
+        "route": "/GitHub/webhook",
+        "method": "post",
+        "params": {
+            "controller": "GitDeploy",
+            "action": "webhook"
+        },
+        "noAuth": true
+    },
+    {
+        "route": "/GitDeploy/upgradeStep",
+        "method": "post",
+        "params": {
+            "controller": "GitDeploy",
+            "action": "upgradeStep"
+        }
+    },
+    {
+        "route": "/GitDeploy/checkForUpdates",
+        "method": "post",
+        "params": {
+            "controller": "GitDeploy",
+            "action": "checkForUpdates"
+        }
+    }
+]
