@@ -20,7 +20,7 @@ class GitDeploy
      */
     public function postActionWebhook(Request $request): array
     {
-        $rawBody = $request->getBody();
+        $rawBody = $request->getBodyContents() ?? '';
         $headers = [
             'signature' => $request->getHeader('X-Hub-Signature-256'),
             'event' => $request->getHeader('X-GitHub-Event'),
@@ -38,7 +38,8 @@ class GitDeploy
             throw new Forbidden("Access denied: Upgrade operations are restricted to Administrators.");
         }
 
-        $data = json_decode($request->getBody(), true) ?? [];
+        $rawBody = $request->getBodyContents() ?? '';
+        $data = json_decode($rawBody, true) ?? [];
         $step = $data['step'] ?? null;
 
         if (empty($step) || !is_string($step)) {
