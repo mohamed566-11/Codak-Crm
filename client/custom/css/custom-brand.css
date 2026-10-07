@@ -2312,39 +2312,66 @@ body.login-body .container-centering,
 }
 
 /* ==========================================================================
-   CODAK CRM ABOUT PAGE ELEGANT STYLING
+   CODAK CRM ABOUT PAGE ELEGANT STYLING (NO ICONS)
    ========================================================================== */
+
+.complex-text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    color: #334155 !important;
+    line-height: 1.6 !important;
+    font-size: 13.5px !important;
+}
 
 .complex-text h1 {
     color: #005a70 !important;
     font-weight: 800 !important;
-    font-size: 22px !important;
+    font-size: 24px !important;
+    letter-spacing: -0.4px !important;
     margin-top: 0 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
 }
 
 .complex-text h3 {
-    color: #007c9b !important;
+    color: #0f172a !important;
     font-weight: 700 !important;
-    font-size: 16px !important;
-    margin-top: 18px !important;
+    font-size: 15px !important;
+    letter-spacing: -0.2px !important;
+    margin-top: 20px !important;
     margin-bottom: 10px !important;
 }
 
 .complex-text hr {
+    border: none !important;
     border-top: 1px solid #e2e8f0 !important;
-    margin: 16px 0 !important;
+    margin: 18px 0 !important;
 }
 
 .complex-text ul {
-    padding-left: 20px !important;
+    padding-left: 18px !important;
+    margin-bottom: 16px !important;
 }
 
 .complex-text li {
     margin-bottom: 8px !important;
     line-height: 1.6 !important;
+    color: #475569 !important;
+}
+
+.complex-text li strong {
+    color: #0f172a !important;
+    font-weight: 600 !important;
 }
 
 .complex-text em {
     color: #64748b !important;
+    font-style: normal !important;
+}
+
+.complex-text > p:last-child em,
+.complex-text > em:last-child {
+    color: #94a3b8 !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    display: block !important;
+    margin-top: 20px !important;
 }

@@ -5,7 +5,7 @@
 ---
 
 ### About Codak CRM
-**Codak CRM** is a powerful, scalable, and highly customizable enterprise solution designed to streamline sales pipelines, elevate team productivity, and provide real-time business intelligence.
+Codak CRM is a powerful, scalable, and highly customizable enterprise solution designed to streamline sales pipelines, elevate team productivity, and provide real-time business intelligence.
 
 ---
 
@@ -13,7 +13,7 @@
 
 * **Smart Opportunity Kanban & Pipeline Management**: Dynamic drag-and-drop deal tracking with zero layout shift and localized Arabic support.
 * **Advanced Security & Granular ACL System**: Multi-level team permissions, role-based visibility, and field-level data protection.
-* **One-Click Automated Deployment (CI/CD)**: Direct GitHub Webhook integration with real-time progress indicators and live updates.
+* **One-Click Automated Deployment**: Direct GitHub Webhook integration with real-time progress indicators and live updates.
 * **Executive Analytics & Interactive Dashboards**: Customizable widgets, performance metrics, and real-time activity feeds.
 
 ---
@@ -25,4 +25,4 @@
 
 ---
 
-*Copyright © 2014-2026 **Codak CRM Technologies**. All rights reserved.*
+*Copyright © 2014-2026 Codak CRM Technologies. All rights reserved.*
