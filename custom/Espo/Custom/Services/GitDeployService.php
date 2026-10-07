@@ -27,18 +27,30 @@ class GitDeployService
     }
 
     /**
-     * Handle incoming GitHub Push Webhook with mandatory HMAC verification and event validation
+     * Handle incoming GitHub Push & Ping Webhooks with mandatory HMAC verification and event validation
      */
     public function handleWebhook(string $rawBody, array $headers): array
     {
-        $this->validateWebhookEvent($headers['event'] ?? null);
+        $event = $headers['event'] ?? null;
+        $this->validateWebhookEvent($event);
         $this->validateWebhookSignature($rawBody, $headers['signature'] ?? null);
+
+        // Handle ping event (ack without modification or deployment)
+        if ($event === 'ping') {
+            $this->log->info("GitDeploy Webhook: Accepted GitHub ping event");
+            return [
+                'status' => 'success',
+                'message' => 'GitHub ping acknowledged',
+                'event' => 'ping'
+            ];
+        }
 
         $payload = json_decode($rawBody, true);
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($payload)) {
             throw new BadRequest('Invalid JSON payload');
         }
 
+        $this->validateRepository($payload);
         $this->validateBranch($payload['ref'] ?? null);
 
         $commitInfo = $this->extractCommitInformation($payload);
@@ -50,6 +62,7 @@ class GitDeployService
         $this->configWriter->set('gitLatestAuthor', $commitInfo['authorName']);
         $this->configWriter->set('gitLatestBranch', $commitInfo['branch']);
         $this->configWriter->set('gitLatestTime', $commitInfo['commitTime']);
+        $this->configWriter->save();
 
         $this->log->info("GitDeploy Webhook: Accepted push event for commit {$commitInfo['commitHash']} on branch {$commitInfo['branch']}");
 
@@ -67,9 +80,21 @@ class GitDeployService
             throw new BadRequest('Missing X-GitHub-Event header');
         }
 
-        if ($event !== 'push') {
+        if (!in_array($event, ['push', 'ping'], true)) {
             $this->log->warning("GitDeploy Webhook: Rejected event '{$event}'");
-            throw new BadRequest("Unsupported GitHub event '{$event}'. Only 'push' events are accepted.");
+            throw new BadRequest("Unsupported GitHub event '{$event}'. Only 'push' and 'ping' events are accepted.");
+        }
+    }
+
+    private function validateRepository(array $payload): void
+    {
+        $expectedRepo = $this->config->get('gitHubRepository');
+        if (!empty($expectedRepo) && isset($payload['repository']['full_name'])) {
+            $incomingRepo = $payload['repository']['full_name'];
+            if (strcasecmp($expectedRepo, $incomingRepo) !== 0) {
+                $this->log->warning("GitDeploy Webhook: Rejected event from repository '{$incomingRepo}', expected '{$expectedRepo}'");
+                throw new BadRequest("Repository mismatch: Expected '{$expectedRepo}'");
+            }
         }
     }
 
@@ -203,6 +228,7 @@ class GitDeployService
                 if ($exitCode === 0) {
                     // Reset update notification flag only on complete success
                     $this->configWriter->set('gitUpdateAvailable', false);
+                    $this->configWriter->save();
                     $message = "تم تحديث طابع النسخة بنجاح واكتملت عملية الترقية!";
                 } else {
                     $message = "فشل تحديث طابع النسخة.";
