@@ -1,4 +1,4 @@
-# Codak CRM Edition
+# Codak CRM
 
 *The Next-Generation Intelligent Customer Relationship & Business Automation Platform.*
 
