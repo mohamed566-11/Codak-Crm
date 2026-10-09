@@ -2312,66 +2312,130 @@ body.login-body .container-centering,
 }
 
 /* ==========================================================================
-   CODAK CRM ABOUT PAGE ELEGANT STYLING (NO ICONS)
+   CODAK CRM ABOUT PAGE - CREATIVE VIBRANT BLUE THEME (NO ICONS)
    ========================================================================== */
 
 .complex-text {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     color: #334155 !important;
-    line-height: 1.6 !important;
+    line-height: 1.65 !important;
     font-size: 13.5px !important;
+    background: #ffffff !important;
 }
 
+/* Main Title - Vibrant Royal Blue */
 .complex-text h1 {
-    color: #005a70 !important;
+    color: #2563eb !important;
     font-weight: 800 !important;
-    font-size: 24px !important;
-    letter-spacing: -0.4px !important;
+    font-size: 25px !important;
+    letter-spacing: -0.5px !important;
     margin-top: 0 !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.25 !important;
 }
 
+/* Subtitle Tagline Badge */
+.complex-text > p:first-of-type em,
+.complex-text > em:first-of-type {
+    color: #1d4ed8 !important;
+    font-size: 13px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+    background: #eff6ff !important;
+    border: 1px solid #dbeafe !important;
+    padding: 4px 12px !important;
+    border-radius: 8px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Section Titles with Sleek Blue Left Pill Accent Bar */
 .complex-text h3 {
     color: #0f172a !important;
     font-weight: 700 !important;
     font-size: 15px !important;
     letter-spacing: -0.2px !important;
-    margin-top: 20px !important;
-    margin-bottom: 10px !important;
+    margin-top: 22px !important;
+    margin-bottom: 12px !important;
+    position: relative !important;
+    padding-left: 12px !important;
 }
 
+.complex-text h3::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 2px !important;
+    bottom: 2px !important;
+    width: 4px !important;
+    background: #2563eb !important;
+    border-radius: 4px !important;
+}
+
+/* Soft Gradient Section Dividers */
 .complex-text hr {
     border: none !important;
-    border-top: 1px solid #e2e8f0 !important;
-    margin: 18px 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, #e2e8f0 0%, #bfdbfe 50%, #e2e8f0 100%) !important;
+    margin: 20px 0 !important;
 }
 
+/* Creative Feature Card Items List */
 .complex-text ul {
-    padding-left: 18px !important;
-    margin-bottom: 16px !important;
+    padding-left: 0 !important;
+    list-style: none !important;
+    margin-bottom: 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
 }
 
 .complex-text li {
-    margin-bottom: 8px !important;
-    line-height: 1.6 !important;
+    background: #f8fafc !important;
+    border: 1px solid #f1f5f9 !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    margin-bottom: 0 !important;
+    line-height: 1.55 !important;
     color: #475569 !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+    padding-left: 28px !important;
+}
+
+.complex-text li::before {
+    content: '—' !important;
+    position: absolute !important;
+    left: 12px !important;
+    color: #2563eb !important;
+    font-weight: 700 !important;
+}
+
+.complex-text li:hover {
+    background: #f0f9ff !important;
+    border-color: #bae6fd !important;
 }
 
 .complex-text li strong {
-    color: #0f172a !important;
-    font-weight: 600 !important;
+    color: #1e40af !important;
+    font-weight: 700 !important;
 }
 
-.complex-text em {
-    color: #64748b !important;
-    font-style: normal !important;
+/* Specification Paragraph Styling */
+.complex-text p {
+    margin-bottom: 12px !important;
+    color: #334155 !important;
 }
 
+/* Copyright Footer */
 .complex-text > p:last-child em,
-.complex-text > em:last-child {
+.complex-text > em:last-child,
+.complex-text p:last-child {
     color: #94a3b8 !important;
     font-size: 12px !important;
     text-align: center !important;
     display: block !important;
-    margin-top: 20px !important;
+    margin-top: 24px !important;
+    border-top: 1px dashed #e2e8f0 !important;
+    padding-top: 14px !important;
 }
