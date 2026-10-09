@@ -1,4 +1,4 @@
-# Codak CRM Enterprise Edition
+# Codak CRM Edition
 
 *The Next-Generation Intelligent Customer Relationship & Business Automation Platform.*
 
@@ -25,4 +25,4 @@ Codak CRM is a powerful, scalable, and highly customizable enterprise solution d
 
 ---
 
-*Copyright © 2014-2026 Codak CRM Technologies. All rights reserved.*
+*Copyright © 2026 Codak CRM Technologies. All rights reserved.*
