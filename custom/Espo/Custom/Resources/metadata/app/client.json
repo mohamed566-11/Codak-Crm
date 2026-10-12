@@ -1,4 +1,5 @@
 {
+    "version": "10.0.5",
     "favicon": "client/custom/img/codak-favicon.png",
     "faviconAlternate": "client/custom/img/codak-favicon.png",
     "appleTouchIcon": "client/custom/img/codak-favicon.png",

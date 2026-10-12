@@ -21,10 +21,28 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
             var config = this.getConfig();
             var user = this.getUser();
             var isAdmin = user && typeof user.isAdmin === 'function' ? user.isAdmin() : false;
-            var isGitUpdateAvailable = Boolean(config.get('gitUpdateAvailable'));
-            var currentVersion = config.get('version') || '10.0.3';
-            var latestVersion = config.get('latestVersion') || currentVersion;
-            var hasNewAppVersion = isGitUpdateAvailable && Boolean(latestVersion && currentVersion && latestVersion !== currentVersion);
+            // Smart tracked version from git metadata
+            var metadataVersion = (this.getMetadata() && this.getMetadata().get) ? this.getMetadata().get('app.client.version') : null;
+            var currentVersion = metadataVersion || config.get('version') || '10.0.5';
+            var latestVersion = config.get('latestVersion');
+            var isGitUpdateAvailable = !!config.get('gitUpdateAvailable');
+
+            if (isGitUpdateAvailable) {
+                // If latestVersion is missing or same as current, compute the next release version
+                if (!latestVersion || latestVersion === currentVersion) {
+                    var vParts = currentVersion.split('.');
+                    if (vParts.length >= 3 && !isNaN(parseInt(vParts[vParts.length - 1]))) {
+                        vParts[vParts.length - 1] = parseInt(vParts[vParts.length - 1]) + 1;
+                        latestVersion = vParts.join('.');
+                    } else {
+                        latestVersion = currentVersion + '.1';
+                    }
+                }
+            } else {
+                latestVersion = currentVersion;
+            }
+
+            var hasNewAppVersion = isGitUpdateAvailable && (latestVersion !== currentVersion);
 
             // Filter out any native Espo version check messages so we don't get duplicate cards
             data.notificationList = data.notificationList.filter(function (item) {

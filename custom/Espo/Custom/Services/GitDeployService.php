@@ -55,8 +55,13 @@ class GitDeployService
 
         $commitInfo = $this->extractCommitInformation($payload);
 
+        $currentVer = $this->getCurrentVersion();
+        $nextVer = $this->extractVersionFromCommit($commitInfo['commitMessage']) 
+            ?? $this->calculateNextVersion($currentVer);
+
         // Store git update state safely in config
         $this->configWriter->set('gitUpdateAvailable', true);
+        $this->configWriter->set('latestVersion', $nextVer);
         $this->configWriter->set('gitLatestCommitHash', $commitInfo['commitHash']);
         $this->configWriter->set('gitLatestCommitMsg', $commitInfo['commitMessage']);
         $this->configWriter->set('gitLatestAuthor', $commitInfo['authorName']);
@@ -171,10 +176,15 @@ class GitDeployService
                 $commitHash = $parts[0] ?? '';
                 $commitMsg = $parts[1] ?? 'Updates available on GitHub';
 
+                $currentVer = $this->getCurrentVersion();
+                $nextVer = $this->calculateNextVersion($currentVer);
+
                 $this->configWriter->set('gitUpdateAvailable', true);
+                $this->configWriter->set('latestVersion', $nextVer);
                 $this->configWriter->set('gitLatestCommitHash', $commitHash);
                 $this->configWriter->set('gitLatestCommitMsg', $commitMsg);
                 $this->configWriter->set('gitLatestTime', date('Y-m-d H:i:s'));
+                $this->configWriter->save();
 
                 return [
                     'hasUpdates' => true,
@@ -226,11 +236,25 @@ class GitDeployService
                 exec($cmd, $output, $exitCode);
                 
                 if ($exitCode === 0) {
+                    $currentVer = $this->getCurrentVersion();
+                    $targetVer = $this->config->get('latestVersion');
+                    if (empty($targetVer) || $targetVer === $currentVer) {
+                        $targetVer = $this->calculateNextVersion($currentVer);
+                    }
+
+                    // Update client.json in git repo
+                    $clientJsonFile = $this->basePath . '/custom/Espo/Custom/Resources/metadata/app/client.json';
+                    if (file_exists($clientJsonFile)) {
+                        $clientData = json_decode(file_get_contents($clientJsonFile), true) ?: [];
+                        $clientData['version'] = $targetVer;
+                        file_put_contents($clientJsonFile, json_encode($clientData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                    }
+
                     // Reset update notification flag and sync version on complete success
                     $this->configWriter->set('gitUpdateAvailable', false);
-                    $this->configWriter->set('latestVersion', $this->config->get('version'));
+                    $this->configWriter->set('latestVersion', $targetVer);
                     $this->configWriter->save();
-                    $message = "تم تحديث طابع النسخة بنجاح واكتملت عملية الترقية!";
+                    $message = "تم تحديث طابع النسخة بنجاح وترقية النظام إلى الإصدار v{$targetVer}!";
                 } else {
                     $message = "فشل تحديث طابع النسخة.";
                 }
@@ -245,5 +269,37 @@ class GitDeployService
             'message' => $message,
             'rawOutput' => implode("\n", $output)
         ];
+    }
+
+    public function getCurrentVersion(): string
+    {
+        $clientJsonFile = $this->basePath . '/custom/Espo/Custom/Resources/metadata/app/client.json';
+        if (file_exists($clientJsonFile)) {
+            $data = json_decode(file_get_contents($clientJsonFile), true);
+            if (!empty($data['version'])) {
+                return (string) $data['version'];
+            }
+        }
+
+        return (string) ($this->config->get('version') ?? '10.0.5');
+    }
+
+    public function calculateNextVersion(?string $current = null): string
+    {
+        $version = $current ?? $this->getCurrentVersion();
+        $parts = explode('.', $version);
+        if (count($parts) >= 3 && is_numeric(end($parts))) {
+            $parts[count($parts) - 1] = (int)end($parts) + 1;
+            return implode('.', $parts);
+        }
+        return $version . '.1';
+    }
+
+    private function extractVersionFromCommit(string $message): ?string
+    {
+        if (preg_match('/v?([0-9]+\.[0-9]+\.[0-9]+)/i', $message, $matches)) {
+            return $matches[1];
+        }
+        return null;
     }
 }
