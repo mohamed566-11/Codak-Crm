@@ -1214,7 +1214,7 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
 }
 
 /* Kanban Card Dropdown Positioning & Stacking Fix */
-.list-kanban .item,
+.list-kanban .item:not(.ui-sortable-helper),
 .list-kanban .panel,
 .list-kanban .panel-body,
 .list-kanban .item-menu-container,
@@ -1222,6 +1222,19 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
 .list-kanban .item-menu-container > .btn-group {
     position: relative !important;
     overflow: visible !important;
+}
+
+/* Crucial: Dragged sortable helper MUST be position:absolute so jQuery UI tracks the cursor accurately */
+.list-kanban .item.ui-sortable-helper {
+    position: absolute !important;
+    z-index: 999999 !important;
+    opacity: 0.95 !important;
+    margin: 0 !important;
+    transition: none !important;
+    -webkit-transition: none !important;
+    transform: none !important;
+    box-shadow: 0 16px 36px rgba(0, 45, 60, 0.25) !important;
+    cursor: grabbing !important;
 }
 
 .list-kanban .item-menu-container .dropdown-menu,
@@ -2440,4 +2453,58 @@ body.login-body .container-centering,
     margin-top: 24px !important;
     border-top: 1px dashed #e2e8f0 !important;
     padding-top: 14px !important;
+}
+
+/* ==========================================================================
+   20. CODAK KANBAN & OPPORTUNITY BOARD FIX (ZERO-FLYING / DRAG-DROP STABILITY)
+   ========================================================================== */
+
+/* 1. Ensure Table Columns Align Cleanly to Top */
+div.list-kanban>div.kanban-columns-container>table,
+div.list-kanban>div.kanban-columns-container>table>tbody,
+div.list-kanban>div.kanban-columns-container>table>tbody tr.kanban-row {
+    vertical-align: top !important;
+}
+
+div.list-kanban td.group-column,
+div.list-kanban>div>table td.group-column {
+    vertical-align: top !important;
+    padding-top: 8px !important;
+}
+
+/* 2. Drag & Drop Stabilization - Kill all transitions during drag */
+div.list-kanban .item,
+div.list-kanban .item .panel,
+div.list-kanban .item.ui-sortable-helper,
+div.list-kanban .item.ui-sortable-helper *,
+div.list-kanban .ui-sortable-placeholder {
+    transition: none !important;
+    -webkit-transition: none !important;
+    animation: none !important;
+}
+
+/* 3. Drop Placeholder - Clean dashed drop area */
+div.list-kanban .ui-sortable-placeholder {
+    visibility: visible !important;
+    background: rgba(0, 164, 200, 0.08) !important;
+    border: 2px dashed #00a4c8 !important;
+    border-radius: 12px !important;
+    margin-bottom: 12px !important;
+    min-height: 80px !important;
+}
+
+/* 4. Kanban Top Bar Alignment */
+.list-kanban-container .list-buttons-container,
+div.list-kanban-container + .list-buttons-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 8px !important;
+}
+
+div.list-kanban-container {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    clear: both !important;
 }
