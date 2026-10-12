@@ -1214,7 +1214,6 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
 }
 
 /* Kanban Card Dropdown Positioning & Stacking Fix */
-.list-kanban .item:not(.ui-sortable-helper),
 .list-kanban .panel,
 .list-kanban .panel-body,
 .list-kanban .item-menu-container,
@@ -1229,12 +1228,12 @@ body:has(#analytics-content) #navbar .tabs>li.tab-AnalyticsDashboard>a {
     position: absolute !important;
     z-index: 999999 !important;
     opacity: 0.95 !important;
-    margin: 0 !important;
     transition: none !important;
     -webkit-transition: none !important;
     transform: none !important;
     box-shadow: 0 16px 36px rgba(0, 45, 60, 0.25) !important;
     cursor: grabbing !important;
+    box-sizing: border-box !important;
 }
 
 .list-kanban .item-menu-container .dropdown-menu,
@@ -2472,9 +2471,7 @@ div.list-kanban>div>table td.group-column {
     padding-top: 8px !important;
 }
 
-/* 2. Drag & Drop Stabilization - Kill all transitions during drag */
-div.list-kanban .item,
-div.list-kanban .item .panel,
+/* 2. Drag & Drop Stabilization - Kill all transitions during drag on active helper */
 div.list-kanban .item.ui-sortable-helper,
 div.list-kanban .item.ui-sortable-helper *,
 div.list-kanban .ui-sortable-placeholder {
@@ -2483,14 +2480,14 @@ div.list-kanban .ui-sortable-placeholder {
     animation: none !important;
 }
 
-/* 3. Drop Placeholder - Clean dashed drop area */
+/* 3. Drop Placeholder - Clean dashed drop area without forced min-height to prevent freezing */
 div.list-kanban .ui-sortable-placeholder {
     visibility: visible !important;
     background: rgba(0, 164, 200, 0.08) !important;
     border: 2px dashed #00a4c8 !important;
     border-radius: 12px !important;
+    box-sizing: border-box !important;
     margin-bottom: 12px !important;
-    min-height: 80px !important;
 }
 
 /* 4. Kanban Top Bar Alignment */
@@ -2503,8 +2500,9 @@ div.list-kanban-container + .list-buttons-container {
     margin-bottom: 8px !important;
 }
 
+/* 5. Kanban Container Scrolling - overflow-y: hidden matches EspoCRM core and prevents dual-axis scroll traps */
 div.list-kanban-container {
     overflow-x: auto !important;
-    overflow-y: visible !important;
+    overflow-y: hidden !important;
     clear: both !important;
 }
