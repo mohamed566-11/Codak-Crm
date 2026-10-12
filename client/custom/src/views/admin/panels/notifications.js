@@ -21,9 +21,8 @@ define('custom:views/admin/panels/notifications', ['views/admin/panels/notificat
             var config = this.getConfig();
             var user = this.getUser();
             var isAdmin = user && typeof user.isAdmin === 'function' ? user.isAdmin() : false;
-            // Smart tracked version from git metadata
-            var metadataVersion = (this.getMetadata() && this.getMetadata().get) ? this.getMetadata().get('app.client.version') : null;
-            var currentVersion = metadataVersion || config.get('version') || '10.0.5';
+            // Read Codak custom version — set by GitDeployService, NOT the EspoCRM core version
+            var currentVersion = config.get('codakVersion') || '10.0.5';
             var latestVersion = config.get('latestVersion');
             var isGitUpdateAvailable = !!config.get('gitUpdateAvailable');
 

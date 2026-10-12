@@ -61,6 +61,7 @@ class GitDeployService
 
         // Store git update state safely in config
         $this->configWriter->set('gitUpdateAvailable', true);
+        $this->configWriter->set('codakVersion', $currentVer);
         $this->configWriter->set('latestVersion', $nextVer);
         $this->configWriter->set('gitLatestCommitHash', $commitInfo['commitHash']);
         $this->configWriter->set('gitLatestCommitMsg', $commitInfo['commitMessage']);
@@ -180,6 +181,7 @@ class GitDeployService
                 $nextVer = $this->calculateNextVersion($currentVer);
 
                 $this->configWriter->set('gitUpdateAvailable', true);
+                $this->configWriter->set('codakVersion', $currentVer);
                 $this->configWriter->set('latestVersion', $nextVer);
                 $this->configWriter->set('gitLatestCommitHash', $commitHash);
                 $this->configWriter->set('gitLatestCommitMsg', $commitMsg);
@@ -252,6 +254,7 @@ class GitDeployService
 
                     // Reset update notification flag and sync version on complete success
                     $this->configWriter->set('gitUpdateAvailable', false);
+                    $this->configWriter->set('codakVersion', $targetVer);
                     $this->configWriter->set('latestVersion', $targetVer);
                     $this->configWriter->save();
                     $message = "تم تحديث طابع النسخة بنجاح وترقية النظام إلى الإصدار v{$targetVer}!";
