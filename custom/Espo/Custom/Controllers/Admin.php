@@ -85,6 +85,9 @@ class Admin extends \Espo\Controllers\Admin
             'systemRequirementList' => 'systemRequirements',
             'adminNotificationList' => 'notifications',
             'analyticsDashboardSettings' => 'analyticsDashboardSettings',
+            'realEstateSettings' => 'realEstateSettings',
+            'realEstateLocations' => 'realEstateLocations',
+            'realEstatePropertyMatching' => 'realEstatePropertyMatching',
         ];
 
         // Actions strictly restricted to full super-admins

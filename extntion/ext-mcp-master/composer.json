@@ -1,0 +1,17 @@
+{
+    "name": "espocrm/ext-mcp",
+    "require": {
+        "php": ">=8.3"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Espo\\Modules\\Mcp\\": "src/files/custom/Espo/Modules/Mcp",
+            "tests\\unit\\Espo\\Modules\\Mcp\\": "tests/unit/Espo/Modules/Mcp"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.5",
+        "phpstan/phpstan": "^2.1",
+        "humbug/php-scoper": "^0.18.18"
+    }
+}

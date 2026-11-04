@@ -7,6 +7,12 @@ define('custom:views/admin/index', ['views/admin/index'], function (Dep) {
             if (!user.isAdmin() && user.get('cEnableAdminAccess')) {
                 var allowedItems = user.get('cAllowedAdminItems') || [];
 
+                var aliasMap = {
+                    'propertyMatching': 'realEstatePropertyMatching',
+                    'realEstatePropertyMatching': 'propertyMatching',
+                    'RealEstateRequest/matchingConfiguration': 'realEstatePropertyMatching'
+                };
+
                 var filteredPanelList = [];
                 (this.panelDataList || []).forEach(function (panel) {
                     var newPanel = Espo.Utils.cloneDeep(panel);
@@ -15,7 +21,14 @@ define('custom:views/admin/index', ['views/admin/index'], function (Dep) {
                                       item.name || 
                                       (item.action ? item.action : '') || 
                                       (item.url ? item.url.replace('#Admin/', '').replace('#', '') : '');
-                        return allowedItems.includes(itemKey) || allowedItems.includes(item.name) || allowedItems.includes(item.description);
+                        var aliasKey = aliasMap[itemKey] || 
+                                       (item.description && aliasMap[item.description]) || 
+                                       (item.url && aliasMap[item.url.replace('#', '')]);
+
+                        return allowedItems.includes(itemKey) || 
+                               allowedItems.includes(item.name) || 
+                               allowedItems.includes(item.description) ||
+                               (aliasKey && allowedItems.includes(aliasKey));
                     });
                     if (newPanel.itemList.length > 0) {
                         filteredPanelList.push(newPanel);

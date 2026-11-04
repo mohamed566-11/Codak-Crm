@@ -17,6 +17,8 @@ class QuotaManager
         'Opportunity' => 'cMaxOpportunitiesQuota',
         'User' => 'cMaxUsersQuota',
         'Team' => 'cMaxTeamsQuota',
+        'RealEstateProperty' => 'cMaxRealEstatePropertiesQuota',
+        'RealEstateRequest' => 'cMaxRealEstateRequestsQuota',
     ];
 
     public function __construct(

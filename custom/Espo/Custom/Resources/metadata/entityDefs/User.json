@@ -40,6 +40,18 @@
       "min": -1,
       "tooltip": true
     },
+    "cMaxRealEstatePropertiesQuota": {
+      "type": "int",
+      "default": -1,
+      "min": -1,
+      "tooltip": true
+    },
+    "cMaxRealEstateRequestsQuota": {
+      "type": "int",
+      "default": -1,
+      "min": -1,
+      "tooltip": true
+    },
     "cEnableAdminAccess": {
       "type": "bool",
       "default": false,
@@ -102,7 +114,10 @@
         "pipelines",
         "appLog",
         "formulaSandbox",
-        "analyticsDashboardSettings"
+        "analyticsDashboardSettings",
+        "realEstateSettings",
+        "realEstateLocations",
+        "realEstatePropertyMatching"
       ],
       "tooltip": true
     },

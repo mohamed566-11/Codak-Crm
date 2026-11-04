@@ -6,6 +6,8 @@
         "cMaxOpportunitiesQuota": "Max Opportunities Quota",
         "cMaxUsersQuota": "Max Users Quota",
         "cMaxTeamsQuota": "Max Teams Quota",
+        "cMaxRealEstatePropertiesQuota": "Max Properties Quota",
+        "cMaxRealEstateRequestsQuota": "Max Requests Quota",
         "cEnableAdminAccess": "Enable Administration Access",
         "cAllowedAdminItems": "Allowed Administration Sections",
         "cAllowedDashboardSections": "Allowed Analytics Dashboard Sections"
@@ -65,7 +67,10 @@
             "pipelines": "Pipelines",
             "appLog": "App Log",
             "formulaSandbox": "Formula Sandbox",
-            "analyticsDashboardSettings": "Analytics Dashboard Settings"
+            "analyticsDashboardSettings": "Analytics Dashboard Settings",
+            "realEstateSettings": "Real Estate Settings",
+            "realEstateLocations": "Real Estate Locations",
+            "realEstatePropertyMatching": "Real Estate Property Matching"
         },
         "cAllowedDashboardSections": {
             "overview": "Overview",
@@ -84,6 +89,8 @@
         "cMaxOpportunitiesQuota": "Maximum number of active Opportunities this user can create (-1 for unlimited, blank for role/system default).",
         "cMaxUsersQuota": "Maximum number of active Users this user can create (-1 for unlimited, blank for role/system default).",
         "cMaxTeamsQuota": "Maximum number of active Teams this user can create (-1 for unlimited, blank for role/system default).",
+        "cMaxRealEstatePropertiesQuota": "Maximum number of Real Estate Properties this user can create (-1 for unlimited, blank for role/system default).",
+        "cMaxRealEstateRequestsQuota": "Maximum number of Real Estate Requests this user can create (-1 for unlimited, blank for role/system default).",
         "cEnableAdminAccess": "Allow this non-admin user to access the Administration menu and whitelisted tools.",
         "cAllowedAdminItems": "Select specific Administration sections this user is permitted to view and open.",
         "cAllowedDashboardSections": "Select specific Analytics Dashboard sections this user is permitted to view."

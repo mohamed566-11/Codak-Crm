@@ -32,6 +32,8 @@ class Settings extends \Espo\Controllers\Settings
         'currencyFormat',
         'companyLogo',
         'theme',
+        'saleMarkup',
+        'rentMarkup',
     ];
 
     public function __construct(

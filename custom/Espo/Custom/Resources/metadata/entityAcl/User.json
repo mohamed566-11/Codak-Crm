@@ -36,6 +36,12 @@
     "cMaxTeamsQuota": {
       "nonAdminReadOnly": true
     },
+    "cMaxRealEstatePropertiesQuota": {
+      "nonAdminReadOnly": true
+    },
+    "cMaxRealEstateRequestsQuota": {
+      "nonAdminReadOnly": true
+    },
     "cEnableAdminAccess": {
       "nonAdminReadOnly": true
     },

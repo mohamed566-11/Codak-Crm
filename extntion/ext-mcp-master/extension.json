@@ -1,0 +1,14 @@
+{
+    "module": "Mcp",
+    "name": "Mcp",
+    "description": "MCP server for EspoCRM.",
+    "author": "EspoCRM",
+    "bundled": true,
+    "acceptableVersions": [
+        ">=10.0.5"
+    ],
+    "php": [
+        ">=8.3"
+    ],
+    "scripts": []
+}

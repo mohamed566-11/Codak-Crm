@@ -6,6 +6,8 @@
     "cMaxOpportunitiesQuota": "الحد الأقصى لإنشاء الفرص (Opportunities)",
     "cMaxUsersQuota": "الحد الأقصى لإنشاء المستخدمين (Users)",
     "cMaxTeamsQuota": "الحد الأقصى لإنشاء فرق العمل (Teams)",
+    "cMaxRealEstatePropertiesQuota": "الحد الأقصى لإنشاء العقارات (Properties)",
+    "cMaxRealEstateRequestsQuota": "الحد الأقصى لإنشاء طلبات العقارات (Requests)",
     "cEnableAdminAccess": "تفعيل الوصول لوحة الإدارة (Administration)",
     "cAllowedAdminItems": "الأقسام والأدوات المسموحة داخل الإدارة",
     "cAllowedDashboardSections": "أقسام لوحة التحليلات المسموحة (Analytics Dashboard)"
@@ -65,7 +67,10 @@
       "pipelines": "مسارات العمل (Pipelines)",
       "appLog": "سجل النظام (App Log)",
       "formulaSandbox": "بيئة اختبار المعادلات (Formula Sandbox)",
-      "analyticsDashboardSettings": "إعدادات لوحة التحليلات (Analytics Dashboard Settings)"
+      "analyticsDashboardSettings": "إعدادات لوحة التحليلات (Analytics Dashboard Settings)",
+      "realEstateSettings": "إعدادات العقارات (Real Estate Settings)",
+      "realEstateLocations": "مناطق العقارات (Real Estate Locations)",
+      "realEstatePropertyMatching": "مطابقة العقارات (Property Matching)"
     },
     "cAllowedDashboardSections": {
       "overview": "النظرة العامة (Overview)",
@@ -84,6 +89,8 @@
     "cMaxOpportunitiesQuota": "الحد الأقصى للفرص التجارية التي يمكن للمستخدم إضافتها (-1 لعدد غير محدود، اتركه فارغاً لاستخدام الحد الافتراضي).",
     "cMaxUsersQuota": "الحد الأقصى للمستخدمين التي يمكن للمستخدم إضافتها (-1 لعدد غير محدود، اتركه فارغاً لاستخدام الحد الافتراضي).",
     "cMaxTeamsQuota": "الحد الأقصى لفرق العمل النشطة التي يمكن للمستخدم إضافتها (-1 لعدد غير محدود، اتركه فارغاً لاستخدام الحد الافتراضي).",
+    "cMaxRealEstatePropertiesQuota": "الحد الأقصى لعقارات العقارية التي يمكن للمستخدم إضافتها (-1 لعدد غير محدود، اتركه فارغاً للاستخدام الافتراضي).",
+    "cMaxRealEstateRequestsQuota": "الحد الأقصى لطلبات العقارية التي يمكن للمستخدم إضافتها (-1 لعدد غير محدود، اتركه فارغاً للاستخدام الافتراضي).",
     "cEnableAdminAccess": "تفعيل إمكانية ظهور زار الإدارة ودخول المستخدم غير الأدمن إلى لوحة الإدارة.",
     "cAllowedAdminItems": "اختر الأقسام والأدوات المحددة المسموح لهذا المستخدم برؤيتها ودخولها داخل لوحة الإدارة.",
     "cAllowedDashboardSections": "اختر الأقسام المحددة المسموح لهذا المستخدم برؤيتها داخل لوحة التحليلات (Analytics Dashboard)."

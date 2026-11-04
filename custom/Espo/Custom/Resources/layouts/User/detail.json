@@ -13,7 +13,8 @@
     "rows": [
       [{"name": "cMaxAccountsQuota"}, {"name": "cMaxLeadsQuota"}],
       [{"name": "cMaxContactsQuota"}, {"name": "cMaxOpportunitiesQuota"}],
-      [{"name": "cMaxUsersQuota"}, {"name": "cMaxTeamsQuota"}]
+      [{"name": "cMaxUsersQuota"}, {"name": "cMaxTeamsQuota"}],
+      [{"name": "cMaxRealEstatePropertiesQuota"}, {"name": "cMaxRealEstateRequestsQuota"}]
     ]
   },
   {

@@ -1,0 +1,12 @@
+{
+    "module": "RealEstate",
+    "name": "Real Estate",
+    "description": "Real estate properties and requests.",
+    "author": "EspoCRM",
+    "acceptableVersions": [
+        ">=8.2"
+    ],
+    "php": [
+        ">=8.2"
+    ]
+}
