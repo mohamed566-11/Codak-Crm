@@ -42,13 +42,13 @@
     },
     "cMaxRealEstatePropertiesQuota": {
       "type": "int",
-      "default": -1,
+      "default": 5,
       "min": -1,
       "tooltip": true
     },
     "cMaxRealEstateRequestsQuota": {
       "type": "int",
-      "default": -1,
+      "default": 5,
       "min": -1,
       "tooltip": true
     },
