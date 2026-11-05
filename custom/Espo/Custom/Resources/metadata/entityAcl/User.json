@@ -18,6 +18,18 @@
       "nonAdminReadOnly": false,
       "internal": false
     },
+    "isActive": {
+      "nonAdminReadOnly": false
+    },
+    "teams": {
+      "nonAdminReadOnly": false
+    },
+    "defaultTeam": {
+      "nonAdminReadOnly": false
+    },
+    "roles": {
+      "nonAdminReadOnly": false
+    },
     "cMaxAccountsQuota": {
       "nonAdminReadOnly": true
     },
@@ -53,6 +65,19 @@
     },
     "cAllowedDashboardSections": {
       "nonAdminReadOnly": true
+    }
+  },
+  "links": {
+    "teams": {
+      "nonAdminReadOnly": false
+    },
+    "roles": {
+      "onlyAdmin": false,
+      "nonAdminReadOnly": false
+    },
+    "defaultTeam": {
+      "onlyAdmin": false,
+      "nonAdminReadOnly": false
     }
   }
 }

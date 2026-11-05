@@ -1,3 +1,4 @@
 {
-  "accessCheckerClassName": "Espo\\Custom\\Classes\\Acl\\User\\AccessChecker"
+  "accessCheckerClassName": "Espo\\Custom\\Classes\\Acl\\User\\AccessChecker",
+  "assignmentCheckerClassName": "Espo\\Custom\\Classes\\Acl\\User\\AssignmentChecker"
 }
