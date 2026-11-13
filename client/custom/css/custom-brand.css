@@ -456,6 +456,51 @@ body:has(.detail-button-container) .page-header:has(.open),
     margin-top: 4px !important;
     margin-bottom: 4px !important;
     position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Pagination open state — elevate above everything when dropdown is active */
+.btn-group.pagination.open,
+.btn-group.pagination:has(.open),
+.list-buttons-container .btn-group.pagination.open,
+.list-buttons-container:has(.btn-group.pagination .open) {
+    z-index: 1050 !important;
+}
+
+/* Pagination inner btn-group open state */
+.btn-group.pagination .btn-group.open {
+    z-index: 1050 !important;
+    position: relative !important;
+}
+
+/* Pagination dropdown menu — allow opening either direction */
+.btn-group.pagination .dropdown-menu,
+.btn-group.pagination .btn-group .dropdown-menu {
+    position: absolute !important;
+    z-index: 1055 !important;
+    min-width: 120px !important;
+    /* Default: open downward */
+    top: 100% !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: 0 !important;
+    margin-top: 4px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px -4px rgba(0, 45, 60, 0.22), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    pointer-events: auto !important;
+}
+
+/* Pagination dropdown - force upward when near bottom of viewport using :has() */
+/* Fallback: always allow pointer events on the dropdown itself */
+.btn-group.pagination .dropdown-menu li,
+.btn-group.pagination .dropdown-menu li a {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* List-buttons-container: ensure no clipping or overflow restriction */
+.list-buttons-container {
+    overflow: visible !important;
 }
 
 /* ==========================================================================
