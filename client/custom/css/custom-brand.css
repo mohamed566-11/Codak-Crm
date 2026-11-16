@@ -462,40 +462,76 @@ body:has(.detail-button-container) .page-header:has(.open),
 /* Pagination open state — elevate above everything when dropdown is active */
 .btn-group.pagination.open,
 .btn-group.pagination:has(.open),
+.list-sticky-bar .btn-group.pagination,
+.list-sticky-bar .btn-group.pagination.open,
 .list-buttons-container .btn-group.pagination.open,
 .list-buttons-container:has(.btn-group.pagination .open) {
-    z-index: 1050 !important;
+    z-index: 1070 !important;
 }
 
 /* Pagination inner btn-group open state */
 .btn-group.pagination .btn-group.open {
-    z-index: 1050 !important;
+    z-index: 1070 !important;
     position: relative !important;
 }
 
-/* Pagination dropdown menu — allow opening either direction */
+/*
+ * SMART PAGINATION DROPDOWN POSITIONING
+ *
+ * The .list-sticky-bar uses position:fixed (z-index:1000) in EspoCRM core.
+ * Any absolutely-positioned child is clipped by the fixed parent's bounds.
+ *
+ * Fix: When inside a fixed/sticky bar, the dropdown needs to escape the
+ * containing block. We do this by keeping the dropdown absolute but
+ * ensuring the sticky bar itself has overflow:visible and a high enough
+ * z-index so the dropdown paints above everything.
+ *
+ * We also force the dropdown to open UPWARD (bottom:100%, top:auto) so it
+ * never gets clipped by the bottom of the sticky bar element.
+ */
+
+/* Sticky bar: must not clip its children */
+.list-sticky-bar {
+    overflow: visible !important;
+    z-index: 1060 !important;
+}
+
+/* Pagination dropdown menu — smart positioning */
 .btn-group.pagination .dropdown-menu,
 .btn-group.pagination .btn-group .dropdown-menu {
     position: absolute !important;
-    z-index: 1055 !important;
-    min-width: 120px !important;
-    /* Default: open downward */
-    top: 100% !important;
+    z-index: 1065 !important;
+    min-width: 150px !important;
+    /* Open DOWNWARD */
+    top: calc(100% + 6px) !important;
     bottom: auto !important;
     left: auto !important;
     right: 0 !important;
-    margin-top: 4px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
     border-radius: 12px !important;
-    box-shadow: 0 10px 30px -4px rgba(0, 45, 60, 0.22), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 -4px 20px -2px rgba(0, 45, 60, 0.18), 0 10px 30px -4px rgba(0, 45, 60, 0.22) !important;
     pointer-events: auto !important;
+    display: none;
 }
 
-/* Pagination dropdown - force upward when near bottom of viewport using :has() */
-/* Fallback: always allow pointer events on the dropdown itself */
+/* Show when open */
+.btn-group.pagination .btn-group.open > .dropdown-menu,
+.btn-group.pagination.open > .dropdown-menu {
+    display: block !important;
+}
+
+/* Pagination dropdown items — always clickable */
 .btn-group.pagination .dropdown-menu li,
-.btn-group.pagination .dropdown-menu li a {
+.btn-group.pagination .dropdown-menu li a,
+.btn-group.pagination .dropdown-menu .page-input-group,
+.btn-group.pagination .dropdown-menu input.page-input {
     pointer-events: auto !important;
     cursor: pointer !important;
+}
+
+.btn-group.pagination .dropdown-menu input.page-input {
+    cursor: text !important;
 }
 
 /* List-buttons-container: ensure no clipping or overflow restriction */
